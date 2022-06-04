@@ -1,15 +1,15 @@
 Anotações para desenvolvimento do TCC
-aula do professor Carlos Emílio - 01/06/2022
+aula do professor Carlos Emílio - 01/06/2022, aula do professor Gledson - 03/06/2022,
 
-* Ler arquivos 4.arquitetura.txt, e artigos listados abaixo:
+* Ver arquivos 4.arquitetura.txt, howto_password_tracker.zip e artigos listados abaixo:
 https://www.youtube.com/watch?v=P1gQ7Ppd48U
-https://discord.com/invite/electronjs/login
 https://github.com/KalleHallden/pwManager
 https://severalnines.com/database-blog/how-use-encryption-protect-your-mongodb-data#:~:text=The%20commonly%20used%20encryption%20cipher%20algorithm%20in%20MongoDB,the%20encryption%20meets%20the%20highest%20standard%20and%20compliance.
 https://cybernews.com/best-password-managers/how-do-password-managers-work/
-
-* Procurar e estudar o GitHub do vídeo https://www.youtube.com/watch?v=hkhyKJj28Ac ; do KeePassXC https://github.com/keepassxreboot/keepassxc e do Password Manager em C# em casa
+https://www.youtube.com/watch?v=hkhyKJj28Ac
+https://github.com/KalleHallden/pwManager
+https://github.com/keepassxreboot/keepassxc
 
 * Terminar as telas no Quant-UX baseando na interface do KeePass e do KeePass for Android
 
-* Adicionar função de Autotype (selecione a entrada desejada e o programa ; ou o campo destino)
+* Adicionar função de Autotype (selecione a entrada desejada e o programa ; ou o campo destino), adicionar função Clipboard erase, lock when inactive (personalizável)?
