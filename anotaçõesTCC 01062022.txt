@@ -7,9 +7,8 @@ https://github.com/KalleHallden/pwManager
 https://severalnines.com/database-blog/how-use-encryption-protect-your-mongodb-data#:~:text=The%20commonly%20used%20encryption%20cipher%20algorithm%20in%20MongoDB,the%20encryption%20meets%20the%20highest%20standard%20and%20compliance.
 https://cybernews.com/best-password-managers/how-do-password-managers-work/
 https://www.youtube.com/watch?v=hkhyKJj28Ac
-https://github.com/KalleHallden/pwManager
 https://github.com/keepassxreboot/keepassxc
 
 * Terminar as telas no Quant-UX baseando na interface do KeePass e do KeePass for Android
 
-* Adicionar função de Autotype (selecione a entrada desejada e o programa ; ou o campo destino), adicionar função Clipboard erase, lock when inactive (personalizável)?
+* Adicionar função de Autotype (selecione a entrada desejada e o programa ; ou o campo destino), adicionar função Clipboard erase, lock when inactive (personalizável)? ; importação de senhas de outros programas? ; entry history, file attachments ; user manual, pesquisar recursos e fontes para segurança da informação ( a título de ensinar o usuário a se comportar na internet -> também para o Carousel)
