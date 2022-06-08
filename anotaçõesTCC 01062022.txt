@@ -1,7 +1,7 @@
 Anotações para desenvolvimento do TCC
 aula do professor Carlos Emílio - 01/06/2022, aula do professor Gledson - 03/06/2022,
 
-* Ver arquivos 4.arquitetura.txt, howto_password_tracker.zip e artigos listados abaixo:
+* Ver arquivos howto_password_tracker.zip e artigos listados abaixo:
 https://www.youtube.com/watch?v=P1gQ7Ppd48U
 https://github.com/KalleHallden/pwManager
 https://severalnines.com/database-blog/how-use-encryption-protect-your-mongodb-data#:~:text=The%20commonly%20used%20encryption%20cipher%20algorithm%20in%20MongoDB,the%20encryption%20meets%20the%20highest%20standard%20and%20compliance.
@@ -9,6 +9,16 @@ https://cybernews.com/best-password-managers/how-do-password-managers-work/
 https://www.youtube.com/watch?v=hkhyKJj28Ac
 https://github.com/keepassxreboot/keepassxc
 
-* Terminar as telas no Quant-UX baseando na interface do KeePass e do KeePass for Android
+Quant-UX:
+database compression (GZIP) and encryption (AES-KDF 40 million iterations)
+* import, * export
+lock workspace button ; when inactive ; erase clipboard
+copy { username, password }, { add, edit, duplicate, delete (are you sure?) } entry ; entry history, file attachments
+* find, tag, * password strength
+* change language, sort by
+create new key, * delete duplicates (%count, are you sure?)
+help contents, check for updates, * about
 
-* Adicionar função de Autotype (selecione a entrada desejada e o programa ; ou o campo destino), adicionar função Clipboard erase, lock when inactive (personalizável)? ; importação de senhas de outros programas? ; entry history, file attachments ; user manual, pesquisar recursos e fontes para segurança da informação ( a título de ensinar o usuário a se comportar na internet -> também para o Carousel)
+{ new, open, save, add entry, copy username, copy password, open URL, copy URL, * autotype (selecione a entrada desejada e o programa ; ou o campo destino), search, lock workspace }
+
+github (how to install the software, pesquisar recursos e fontes para segurança da informação ( a título de ensinar o usuário a se comportar na internet -> também para o Carousel ))
