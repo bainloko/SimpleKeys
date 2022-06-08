@@ -8,6 +8,7 @@ https://severalnines.com/database-blog/how-use-encryption-protect-your-mongodb-d
 https://cybernews.com/best-password-managers/how-do-password-managers-work/
 https://www.youtube.com/watch?v=hkhyKJj28Ac
 https://github.com/keepassxreboot/keepassxc
+https://www.youtube.com/watch?v=nznujk__7sQ
 
 Quant-UX:
 database compression (GZIP) and encryption (AES-KDF 40 million iterations)

@@ -1,0 +1,30 @@
+{
+  "name": "simplekeys",
+  "version": "1.0.0",
+  "description": "Um gerenciador de senhas leve e seguro.",
+  "main": "main.js",
+  "scripts": {
+    "test": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bainloko/SimpleKeys.git"
+  },
+  "keywords": [
+    "Senhas",
+    "Gerenciador",
+    "Gerador",
+    "Passwords",
+    "Manager",
+    "Generator"
+  ],
+  "author": "Kauã Maia (bainloko)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/bainloko/SimpleKeys/issues"
+  },
+  "homepage": "https://github.com/bainloko/SimpleKeys#readme",
+  "devDependencies": {
+    "electron": "^19.0.4"
+  }
+}
