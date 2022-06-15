@@ -10,16 +10,17 @@ const path = require('path');
 
 const createWindow = () => {
     // Create the browser window
-    const window = new BrowserWindow({
+    const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        resizable: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }
     });
 
     // and load the app's index file.
-    window.loadFile('index.html');
+    mainWindow.loadFile('index.html');
 }
 
 app.whenReady().then(() => {

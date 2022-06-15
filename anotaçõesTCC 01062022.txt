@@ -10,7 +10,8 @@ https://www.youtube.com/watch?v=hkhyKJj28Ac
 https://github.com/keepassxreboot/keepassxc
 https://www.youtube.com/watch?v=nznujk__7sQ
 
-Quant-UX:
+: fazer as telas é algo relativamente fácil. o que eu preciso fazer entre hoje e sexta é achar uma maneira de descobrir como o Electron funciona, e como fazer o que eu faria com C# em Electron!!!!!
+
 database compression (GZIP) and encryption (AES-KDF 40 million iterations)
 * import, * export
 lock workspace button ; when inactive ; erase clipboard
