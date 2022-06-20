@@ -20,7 +20,7 @@ const createWindow = () => {
     });
 
     // and load the app's index file.
-    mainWindow.loadFile('index.html');
+    mainWindow.loadFile(path.join(__dirname, 'ui/index.html'));
 }
 
 app.whenReady().then(() => {
