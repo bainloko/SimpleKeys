@@ -15,12 +15,12 @@ const createWindow = () => {
         height: 600,
         resizable: false,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, './preload.js')
         }
     });
 
     // and load the app's index file.
-    mainWindow.loadFile(path.join(__dirname, 'ui/index.html'));
+    mainWindow.loadFile(path.join(__dirname, './ui/index.html'));
 }
 
 app.whenReady().then(() => {

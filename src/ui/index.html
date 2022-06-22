@@ -5,16 +5,24 @@
         <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
         <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
         <title>SimpleKeys</title>
+        <link rel="stylesheet" href="./index.css">
     </head>
     <body>
         <div>
-            <h1>SimpleKeys</h1>
-
-            <div>
-                <label>Criar um novo arquivo</label>
-                <label>Abrir um arquivo já existente</label>
-            </div>
+            <header>
+                <a href="./config.html"><label>Img Configurações</label></a>
+                <a href="./ajuda.html"><label>Img Ajuda, ambas sem text-decoration nem animações p/ loading</label></a>
+            </header>
+            <article>
+                <h1>SimpleKeys com borda, degradê, Img de fundo</h1>
+                <button><label>Criar um novo arquivo</label></button>
+                <button><label>Abrir um arquivo já existente</label></button>
+            </article>
+            <footer>
+                <label>v1.0.0</label>
+            </footer>
         </div>
-        <script src="./renderer.js"></script>
+        <script src="./index.js"></script>
+        <script src="../render.js"></script>
     </body>
 </html>
