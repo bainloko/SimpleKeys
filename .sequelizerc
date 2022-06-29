@@ -1,0 +1,8 @@
+//.sequelizerc configurações
+
+import { resolve } from "path";
+
+export default {
+    "config": resolve("src", "config", "database.json"),
+    "models-path": resolve("src", "models")
+};
