@@ -6,10 +6,11 @@
 
 // Modules to control application life and create native browser window
 import { app, BrowserWindow } from 'electron';
-import express from 'express';
 import fse from 'fs-extra';
 import Path from 'path';
-import ejs from 'ejs';
+
+// import env from "./env";
+import database from './database/Database';
 
 const createWindow = () => {
     // Create the browser window
@@ -18,6 +19,9 @@ const createWindow = () => {
         height: 600,
         resizable: false,
         webPreferences: {
+            devTools: !app.isPackaged,
+            nodeIntegration: true,
+            contextIsolation: true,
             preload: Path.join(__dirname, './preload.js')
         }
     });

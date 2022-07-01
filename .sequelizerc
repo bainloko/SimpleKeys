@@ -4,5 +4,6 @@ import { resolve } from "path";
 
 export default {
     "config": resolve("src", "config", "database.json"),
-    "models-path": resolve("src", "models")
+    "models-path": resolve("src", "models"),
+    "seeders-path": resolve("src", "models", "seeders"),
 };

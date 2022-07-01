@@ -1,0 +1,17 @@
+{
+    "development": {
+        "dialect": "sqlite",
+        "storage": "./database.db"
+    },
+    "test": {
+        "dialect": "sqlite",
+        "storage": ":memory"
+    },
+    "production": {
+        "dialect": "sqlite",
+        "storage": "process.env.SQLITE_FILENAME"
+    },
+    "define": {
+        "timestamps": true
+    }
+}

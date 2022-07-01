@@ -9,7 +9,6 @@ import Path from 'path';
 import Sequelize from 'sequelize';
 import sqlite from 'sqlite';
 import sqliteNext from 'sqlite3-offline-next';
-import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 
 // import settings from './settings.json'; criar um arquivo na pasta documentos? environment variables!
