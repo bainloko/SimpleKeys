@@ -4,8 +4,6 @@
 * 8/jun/2022
 */
 
-// import settings from './settings.json'; criar um arquivo na pasta documentos? environment variables!
-
 const caracteres = {
     upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     lowerCase: "abcdefghijklmnopqrstuvwxyz",

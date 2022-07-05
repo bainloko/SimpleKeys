@@ -2,23 +2,34 @@
 * SimpleKeys
 * Entradas.js
 * 22/jun/2022
-* modelo principal, criar outro arquivo//definição para a leitura e gerenciamento básico do programa + gerenciamento avançado e configurações 
 */
 
-import { Model, DataTypes } from "sequelize";
+import Sequelize from 'sequelize';
+import database from '../database/Database.js';
 
-class Entrada extends Model {
-    static init(sequelize){
-        super.init({
-            //o id não aparece aqui, pois é autoincremento. o mesmo vale pra outros valores automáticos
-            nome: DataTypes.STRING,
-            usuario: DataTypes.STRING,
-            senha: DataTypes.STRING,
-            site: DataTypes.STRING,
-            descricao: DataTypes.STRING,
-        }, { sequelize, freezeTableName: true }
-        );
-    }
-}
+const Entrada = database.define('entrada', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+    },
+    nome: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    descricao: Sequelize.STRING,
+    usuario: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    senha: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    site: Sequelize.STRING,
+    expira: Sequelize.ARRAY,
+    grupo: Sequelize.ARRAY
+});
 
 export default Entrada;

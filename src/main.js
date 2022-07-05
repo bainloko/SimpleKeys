@@ -8,15 +8,21 @@
 import { app, BrowserWindow } from 'electron';
 import fse from 'fs-extra';
 import Path from 'path';
+import Sequelize from 'sequelize';
+import sqlite from 'sqlite';
+import sqliteNext from 'sqlite3-offline-next';
+import bcrypt from 'bcryptjs';
 
+import settings from '../config/settings.json';
+import Entradas from '../models/Entradas.js';
+import database, { conectar } from '../database/Database.js';
 // import env from "./env";
-import database from './database/Database';
 
 const createWindow = () => {
     // Create the browser window
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1280,
+        height: 720,
         resizable: false,
         webPreferences: {
             devTools: !app.isPackaged,

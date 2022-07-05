@@ -11,13 +11,17 @@ import sqlite from 'sqlite';
 import sqliteNext from 'sqlite3-offline-next';
 import bcrypt from 'bcryptjs';
 
-// import settings from './settings.json'; criar um arquivo na pasta documentos? environment variables!
+import settings from '../config/settings.json';
+import Entradas from '../models/Entradas.js';
+import database from '../database/Database.js';
 
-async function novoArquivo(nomeArquivo: string, descArquivo: String, senhaMestra: String, configSoftware: string){
+const { or } = Sequelize.Op;
+
+async function novoArquivo(nomeArquivo: string, descArquivo: String, senhaMestra: String, configBanco: string){
     let path = Path.join(__dirname, nomeArquivo), writeSuccess = false;
 
     try {
-        //falta a lógica de entrar no arquivo SQLite e processar a criação do novo .db criptografado
+        //falta a lógica de entrar no arquivo SQLite e criar o novo .db criptografado + paramsconfigbanco
         if (writeSuccess) {
             alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
             return true;
@@ -26,32 +30,112 @@ async function novoArquivo(nomeArquivo: string, descArquivo: String, senhaMestra
             return false;
         }
     } catch (error){
-        return alert("Ocorreu um erro aqui! Talvez um arquivo com o mesmo nome já exista.");
+        console.log(error);
+        alert("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
+        return false;
     }
 }
 
 async function lerArquivo(nomeArquivo: string, senhaMestra: String, configSoftware: string){
-    //ele vai descriptografar e ler a cada vez? ou vai copiar o arquivo já descriptografado? ou vai desbloqueá-lo com a senha e deixar o terminal disponível para o PROGRAMA mexer? liberando assim a conexão e à leitura/gravação no banco
+    //vai descriptografar, abrir o arquivo no próprio disco (cópia), alterar e salvar as alterações
+
+    try {
+        const resultado = await database.sync();
+        console.log(resultado);
+    } catch (error){
+        console.log(error);
+        alert("Ocorreu um erro aqui, " + error + "! Este arquivo não existe!");
+        return false;
+    }
 }
 
-async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, gruposEntradas: string){
-    //
+async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: string, gruposEntradas: string){
+    try {
+        const resultado = await database.sync();
+        console.log(resultado);
+    
+        const resultadoCreate = await Entradas.create({
+            nome: nomeEntradas,
+            descricao: descEntradas,
+            usuario: loginEntradas,
+            senha: senhaEntradas,
+            site: siteEntradas,
+            expira: expira,
+            grupo: gruposEntradas
+        })
+
+        console.log(resultadoCreate);
+    } catch (error){
+        console.log(error);
+        alert("Ocorreu um erro aqui, " + error + "!");
+        return false;
+    }
 }
 
 async function lerEntradas(){
-    //
+    try {
+        const entradas = await Entradas.findAll();
+        console.log(entradas);
+    } catch (error){
+        console.log(error);
+        alert("Ocorreu um erro aqui, " + error + "!");
+        return false;
+    }
 }
 
 async function pesquisarEntradas(pesquisa: String){
-    //
+    try {
+        const entradas = await Entradas.findAll({
+            where: {
+                nome: pesquisa,
+                [or]: [
+                    {descricao: pesquisa},
+                    {usuario: pesquisa},
+                    {site: pesquisa},
+                    {grupo: pesquisa}
+                ]
+            }
+        });
+
+        console.log(entradas);
+        return entradas;
+    } catch (error){
+        console.log(error);
+        alert("Ocorreu um erro aqui, " + error + "!");
+        return false;
+    }
 }
 
-async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, gruposEntradas: string){
-    //
+async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: string, gruposEntradas: string){
+    try {
+        const entradas = await Entradas.findByPk(selecaoAtual).then(() => {
+            console.log(entradas);
+
+            entradas.nome = nomeEntradas;
+            entradas.descricao = descEntradas;
+            entradas.usuario = loginEntradas;
+            entradas.senha = senhaEntradas;
+            entradas.site = siteEntradas;
+            entradas.expira = expira;
+            entradas.grupo = gruposEntradas;
+            
+            const resultadoUpdate = entradas.save();
+            console.log(resultadoUpdate);
+            return true;
+        }).catch((error: string) => {
+            console.log(error);
+            alert("Ocorreu um erro aqui, " + error + "!");
+            return false;
+        });
+    } catch (error){
+        console.log(error);
+        alert("Ocorreu um erro aqui, " + error + "!");
+        return false;
+    }
 }
 
 async function apagarEntradas(selecaoAtual: Number){
-    //
+    Entradas.destroy({ where: { id: selecaoAtual }});
 }
 
 async function consultarBanco(nomeArquivo: string){
@@ -61,10 +145,12 @@ async function consultarBanco(nomeArquivo: string){
         if (fse.existsSync(path)){
             return true;
         } else {
+            alert("Este arquivo não existe!");
             return false;
         }
     } catch (error){
-        return alert("Ocorreu um erro aqui! Talvez este Banco de Dados ainda não exista.");
+        alert("Ocorreu um erro aqui! Talvez este Banco de Dados ainda não exista.");
+        return false;
     }
 }
 
