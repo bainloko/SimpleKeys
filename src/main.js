@@ -12,6 +12,7 @@ import Sequelize from 'sequelize';
 import sqlite from 'sqlite';
 import sqliteNext from 'sqlite3-offline-next';
 import bcrypt from 'bcryptjs';
+import CryptoJS from 'crypto-js';
 
 import settings from '../config/settings.json';
 import Entradas from '../models/Entradas.js';

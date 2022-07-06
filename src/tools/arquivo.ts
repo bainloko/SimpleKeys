@@ -10,6 +10,7 @@ import Sequelize from 'sequelize';
 import sqlite from 'sqlite';
 import sqliteNext from 'sqlite3-offline-next';
 import bcrypt from 'bcryptjs';
+import cryptoJs from 'crypto-js';
 
 import settings from '../config/settings.json';
 import Entradas from '../models/Entradas.js';
@@ -17,8 +18,8 @@ import database from '../database/Database.js';
 
 const { or } = Sequelize.Op;
 
-async function novoArquivo(nomeArquivo: string, descArquivo: String, senhaMestra: String, configBanco: string){
-    let path = Path.join(__dirname, nomeArquivo), writeSuccess = false;
+async function novoArquivo(nomeArquivo: String, descArquivo: String, senhaMestra: String, configBanco: String){
+    let path = Path.join(__dirname, nomeArquivo.toString()), writeSuccess = false;
 
     try {
         //falta a lógica de entrar no arquivo SQLite e criar o novo .db criptografado + paramsconfigbanco
@@ -36,7 +37,7 @@ async function novoArquivo(nomeArquivo: string, descArquivo: String, senhaMestra
     }
 }
 
-async function lerArquivo(nomeArquivo: string, senhaMestra: String, configSoftware: string){
+async function lerArquivo(nomeArquivo: String, senhaMestra: String, configSoftware: String){
     //vai descriptografar, abrir o arquivo no próprio disco (cópia), alterar e salvar as alterações
 
     try {
@@ -49,7 +50,7 @@ async function lerArquivo(nomeArquivo: string, senhaMestra: String, configSoftwa
     }
 }
 
-async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: string, gruposEntradas: string){
+async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: Boolean, expiraTempo: String, grupoImg: String, grupoLista: String){
     try {
         const resultado = await database.sync();
         console.log(resultado);
@@ -61,7 +62,9 @@ async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, log
             senha: senhaEntradas,
             site: siteEntradas,
             expira: expira,
-            grupo: gruposEntradas
+            expiraTempo: expiraTempo,
+            grupoImg: grupoImg,
+            grupoLista: grupoLista 
         })
 
         console.log(resultadoCreate);
@@ -92,7 +95,8 @@ async function pesquisarEntradas(pesquisa: String){
                     {descricao: pesquisa},
                     {usuario: pesquisa},
                     {site: pesquisa},
-                    {grupo: pesquisa}
+                    {expira: pesquisa},
+                    {grupoLista: pesquisa}
                 ]
             }
         });
@@ -106,7 +110,7 @@ async function pesquisarEntradas(pesquisa: String){
     }
 }
 
-async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: string, gruposEntradas: string){
+async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: Boolean, expiraTempo: String, grupoImg: String, grupoLista: String){
     try {
         const entradas = await Entradas.findByPk(selecaoAtual).then(() => {
             console.log(entradas);
@@ -117,7 +121,9 @@ async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, des
             entradas.senha = senhaEntradas;
             entradas.site = siteEntradas;
             entradas.expira = expira;
-            entradas.grupo = gruposEntradas;
+            entradas.expiraTempo = expiraTempo;
+            entradas.grupoImg = grupoImg;
+            entradas.grupoLista = grupoLista;
             
             const resultadoUpdate = entradas.save();
             console.log(resultadoUpdate);

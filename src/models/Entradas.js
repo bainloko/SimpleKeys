@@ -14,22 +14,28 @@ const Entrada = database.define('entrada', {
         allowNull: false,
         primaryKey: true
     },
-    nome: {
-        type: Sequelize.STRING,
+    configBanco: {
+        type: Sequelize.TEXT,
         allowNull: false
     },
-    descricao: Sequelize.STRING,
+    nome: {
+        type: Sequelize.TEXT,
+        allowNull: false
+    },
+    descricao: Sequelize.TEXT,
     usuario: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
     },
     senha: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
     },
-    site: Sequelize.STRING,
-    expira: Sequelize.ARRAY,
-    grupo: Sequelize.ARRAY
+    site: Sequelize.TEXT,
+    expira: Sequelize.BOOLEAN,
+    expiraTempo: Sequelize.TEXT,
+    grupoImg: Sequelize.BLOB,
+    grupoLista: Sequelize.TEXT
 });
 
 export default Entrada;
