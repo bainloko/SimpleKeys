@@ -13,7 +13,7 @@ import bcrypt from 'bcryptjs';
 import cryptoJs from 'crypto-js';
 
 import settings from '../config/settings.json';
-import Entradas from '../models/Entradas.js';
+import Entradas from '../model/Entradas.js';
 import database from '../database/Database.js';
 
 const { or } = Sequelize.Op;

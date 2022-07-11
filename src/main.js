@@ -5,7 +5,7 @@
 */
 
 // Modules to control application life and create native browser window
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import fse from 'fs-extra';
 import Path from 'path';
 import Sequelize from 'sequelize';
@@ -15,9 +15,18 @@ import bcrypt from 'bcryptjs';
 import CryptoJS from 'crypto-js';
 
 import settings from '../config/settings.json';
-import Entradas from '../models/Entradas.js';
+import Entradas from '../model/Entradas.js';
 import database, { conectar } from '../database/Database.js';
 // import env from "./env";
+
+const lock = app.requestSingleInstanceLock();
+(!lock) ? app.quit() : console.log("Aplicativo inicializando!"); 
+
+const menuItems = [
+    {
+
+    }
+]
 
 const createWindow = () => {
     // Create the browser window
@@ -27,7 +36,7 @@ const createWindow = () => {
         resizable: false,
         webPreferences: {
             devTools: !app.isPackaged,
-            nodeIntegration: true,
+            nodeIntegration: false,
             contextIsolation: true,
             preload: Path.join(__dirname, './preload.js')
         }
@@ -38,8 +47,13 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
+    // logInfo("Aplicativo aberto!");
     createWindow();
 });
+
+// new Notification("Senha...", {
+//     body: "Senha...",    
+// });
 
 app.on('window-all-closed', () => {
     // Close the app.

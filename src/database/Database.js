@@ -6,7 +6,7 @@
 
 import Sequelize from 'sequelize';
 import config from '../config/database.json';
-import Entradas from '../models/Entradas.js';
+import Entradas from '../model/Entradas.js';
 
 const database = new Sequelize(config);
 
