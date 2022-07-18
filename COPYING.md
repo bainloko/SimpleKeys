@@ -1,1 +1,0 @@
-lista dos arquivos que eu usei, suas licenças e outros detalhes, as per template "https://github.com/keepassxreboot/keepassxc/blob/develop/COPYING" e tirar o ".md" assim que estiver pronto pra produção

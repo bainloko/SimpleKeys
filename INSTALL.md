@@ -1,2 +1,3 @@
-# Baixar e Instalar o SimpleKeys
-add instructions and templates (PT/ENG)
+# Baixar e Instalar o SimpleKeys / Download and Install SimpleKeys
+POR: Adicionar instruções e *templates*;
+ENG: Add instructions and templates...
