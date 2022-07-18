@@ -7,7 +7,9 @@
 import fse from 'fs-extra';
 import Path from 'path';
 
-import settings from '../config/settings.json';
+import editJson from 'electron-json-storage';
+import settings from 'electron-settings';
+import log from 'electron-log';
 
 async function lerConfiguracoes(configBanco: string, configSoftware: string){
     // path? copiar para a pasta do usuário? lookup json e edição?

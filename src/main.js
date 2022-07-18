@@ -6,15 +6,17 @@
 
 // Modules to control application life and create native browser window
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
+
 import fse from 'fs-extra';
 import Path from 'path';
 import Sequelize from 'sequelize';
-import sqlite from 'sqlite';
 import sqliteNext from 'sqlite3-offline-next';
-import bcrypt from 'bcryptjs';
 import CryptoJS from 'crypto-js';
 
-import settings from '../config/settings.json';
+import editJson from 'electron-json-storage';
+import settings from 'electron-settings';
+import log from 'electron-log';
+
 import Entradas from '../model/Entradas.js';
 import database, { conectar } from '../database/Database.js';
 // import env from "./env";
@@ -38,16 +40,16 @@ const createWindow = () => {
             devTools: !app.isPackaged,
             nodeIntegration: false,
             contextIsolation: true,
-            preload: Path.join(__dirname, './preload.js')
+            preload: './preload.js'
         }
     });
 
     // and load the app's index file.
-    mainWindow.loadFile(Path.join(__dirname, './ui/index.html'));
+    mainWindow.loadFile('./ui/index.html');
 }
 
 app.whenReady().then(() => {
-    // logInfo("Aplicativo aberto!");
+    log.info("Aplicativo aberto!");
     createWindow();
 });
 

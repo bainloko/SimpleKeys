@@ -7,12 +7,13 @@
 import fse from 'fs-extra';
 import Path from 'path';
 import Sequelize from 'sequelize';
-import sqlite from 'sqlite';
 import sqliteNext from 'sqlite3-offline-next';
-import bcrypt from 'bcryptjs';
 import cryptoJs from 'crypto-js';
 
-import settings from '../config/settings.json';
+import editJson from 'electron-json-storage';
+import settings from 'electron-settings';
+import log from 'electron-log';
+
 import Entradas from '../model/Entradas.js';
 import database from '../database/Database.js';
 
@@ -24,14 +25,16 @@ async function novoArquivo(nomeArquivo: String, descArquivo: String, senhaMestra
     try {
         //falta a lógica de entrar no arquivo SQLite e criar o novo .db criptografado + paramsconfigbanco
         if (writeSuccess) {
+            log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
             alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
             return true;
         } else {
+            log.error("Houve um problema no salvamento do Banco, tente novamente!");
             alert("Houve um problema no salvamento do Banco, tente novamente!");
             return false;
         }
     } catch (error){
-        console.log(error);
+        log.error("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
         alert("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
         return false;
     }
@@ -42,9 +45,9 @@ async function lerArquivo(nomeArquivo: String, senhaMestra: String, configSoftwa
 
     try {
         const resultado = await database.sync();
-        console.log(resultado);
+        log.info(resultado);
     } catch (error){
-        console.log(error);
+        log.error("Ocorreu um erro aqui, " + error + "! Este arquivo não existe!");
         alert("Ocorreu um erro aqui, " + error + "! Este arquivo não existe!");
         return false;
     }
@@ -53,7 +56,7 @@ async function lerArquivo(nomeArquivo: String, senhaMestra: String, configSoftwa
 async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: Boolean, expiraTempo: String, grupoImg: String, grupoLista: String){
     try {
         const resultado = await database.sync();
-        console.log(resultado);
+        log.info(resultado);
     
         const resultadoCreate = await Entradas.create({
             nome: nomeEntradas,
@@ -67,9 +70,9 @@ async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, log
             grupoLista: grupoLista 
         })
 
-        console.log(resultadoCreate);
+        log.info(resultadoCreate);
     } catch (error){
-        console.log(error);
+        log.error("Ocorreu um erro aqui, " + error + "!");
         alert("Ocorreu um erro aqui, " + error + "!");
         return false;
     }
@@ -78,9 +81,9 @@ async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, log
 async function lerEntradas(){
     try {
         const entradas = await Entradas.findAll();
-        console.log(entradas);
+        log.info(entradas);
     } catch (error){
-        console.log(error);
+        log.info("Ocorreu um erro aqui, " + error + "!");
         alert("Ocorreu um erro aqui, " + error + "!");
         return false;
     }
@@ -101,10 +104,10 @@ async function pesquisarEntradas(pesquisa: String){
             }
         });
 
-        console.log(entradas);
+        log.info(entradas);
         return entradas;
     } catch (error){
-        console.log(error);
+        log.error("Ocorreu um erro aqui, " + error + "!");
         alert("Ocorreu um erro aqui, " + error + "!");
         return false;
     }
@@ -113,7 +116,7 @@ async function pesquisarEntradas(pesquisa: String){
 async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: Boolean, expiraTempo: String, grupoImg: String, grupoLista: String){
     try {
         const entradas = await Entradas.findByPk(selecaoAtual).then(() => {
-            console.log(entradas);
+            log.info(entradas);
 
             entradas.nome = nomeEntradas;
             entradas.descricao = descEntradas;
@@ -126,22 +129,27 @@ async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, des
             entradas.grupoLista = grupoLista;
             
             const resultadoUpdate = entradas.save();
-            console.log(resultadoUpdate);
+            log.info(resultadoUpdate);
             return true;
         }).catch((error: string) => {
-            console.log(error);
+            log.error("Ocorreu um erro aqui, " + error + "!");
             alert("Ocorreu um erro aqui, " + error + "!");
             return false;
         });
     } catch (error){
-        console.log(error);
+        log.error("Ocorreu um erro aqui, " + error + "!");
         alert("Ocorreu um erro aqui, " + error + "!");
         return false;
     }
 }
 
 async function apagarEntradas(selecaoAtual: Number){
-    Entradas.destroy({ where: { id: selecaoAtual }});
+    try {
+        Entradas.destroy({ where: { id: selecaoAtual }});
+    } catch (error){
+        log.error("Ocorreu um erro aqui, " + error + "!\nTalvez esta entrada não exista, ou já tenha sido apagada.");
+        alert("Ocorreu um erro aqui, " + error + "!\nTalvez esta entrada não exista, ou já tenha sido apagada."); 
+    }
 }
 
 async function consultarBanco(nomeArquivo: string){
@@ -151,10 +159,12 @@ async function consultarBanco(nomeArquivo: string){
         if (fse.existsSync(path)){
             return true;
         } else {
+            log.error("Este arquivo não existe!");
             alert("Este arquivo não existe!");
             return false;
         }
     } catch (error){
+        log.error("Ocorreu um erro aqui! Talvez este Banco de Dados ainda não exista.");
         alert("Ocorreu um erro aqui! Talvez este Banco de Dados ainda não exista.");
         return false;
     }

@@ -4,6 +4,13 @@
 * 8/jun/2022
 */
 
+import fse from 'fs-extra';
+import Path from 'path';
+
+import editJson from 'electron-json-storage';
+import settings from 'electron-settings';
+import log from 'electron-log';
+
 const caracteres = {
     upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     lowerCase: "abcdefghijklmnopqrstuvwxyz",
@@ -51,7 +58,8 @@ async function gerarSenhas(comprimentoSenha: Number, qtdSenhas: Number, upperCas
             return Senhas;
         }
     } catch (error){
-        return alert("Ocorreu um erro inesperado na geração das senhas!");
+        log.error("Ocorreu um erro inesperado na geração das senhas!");
+        alert("Ocorreu um erro inesperado na geração das senhas!");
     }
 }
 
