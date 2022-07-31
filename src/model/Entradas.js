@@ -14,10 +14,6 @@ const Entrada = database.define('entrada', {
         allowNull: false,
         primaryKey: true
     },
-    configBanco: {
-        type: Sequelize.TEXT,
-        allowNull: false
-    },
     nome: {
         type: Sequelize.TEXT,
         allowNull: false
@@ -32,8 +28,7 @@ const Entrada = database.define('entrada', {
         allowNull: false,
     },
     site: Sequelize.TEXT,
-    expira: Sequelize.BOOLEAN,
-    expiraTempo: Sequelize.TEXT,
+    expira: Sequelize.TEXT,
     grupoImg: Sequelize.BLOB,
     grupoLista: Sequelize.TEXT
 });

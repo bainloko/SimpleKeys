@@ -11,12 +11,18 @@ import editJson from 'electron-json-storage';
 import settings from 'electron-settings';
 import log from 'electron-log';
 
-async function lerConfiguracoes(configBanco: string, configSoftware: string){
+import config from '../config/settings.json';
+
+async function lerConfiguracoes(configBanco: string){
     // path? copiar para a pasta do usuário? lookup json e edição?
 }
 
-async function alterarConfiguracoes(configBanco: string, configSoftware: string){
+async function alterarConfiguracoes(configBanco: string){
     // path? copiar para a pasta do usuário? lookup json e edição?
 }
 
-export default { lerConfiguracoes, alterarConfiguracoes };
+async function restaurarPadrao(){
+    // path? copiar para a pasta do usuário? lookup json e edição?
+}
+
+export default { lerConfiguracoes, alterarConfiguracoes, restaurarPadrao };

@@ -12,6 +12,8 @@ import cryptoJs from 'crypto-js';
 
 import log from 'electron-log';
 
+import config from '../config/settings.json';
+
 function realizarBackup(nomeArquivo: string, senhaMestra: String, configBanco: string, imprimir: boolean){
     //screen5 tirar o nome, a descrição e o registro de data e hora do backup (handle automatically) e criar o novo .db criptografado + paramsconfigbanco
 }

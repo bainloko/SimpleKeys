@@ -17,6 +17,8 @@ import log from 'electron-log';
 import Entradas from '../model/Entradas.js';
 import database from '../database/Database.js';
 
+import config from '../config/settings.json';
+
 const { or } = Sequelize.Op;
 
 async function novoArquivo(nomeArquivo: String, descArquivo: String, senhaMestra: String, configBanco: String){
@@ -40,7 +42,7 @@ async function novoArquivo(nomeArquivo: String, descArquivo: String, senhaMestra
     }
 }
 
-async function lerArquivo(nomeArquivo: String, senhaMestra: String, configSoftware: String){
+async function lerArquivo(nomeArquivo: String, senhaMestra: String, configBanco: String){
     //vai descriptografar, abrir o arquivo no próprio disco (cópia), alterar e salvar as alterações
 
     try {
@@ -53,7 +55,7 @@ async function lerArquivo(nomeArquivo: String, senhaMestra: String, configSoftwa
     }
 }
 
-async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: Boolean, expiraTempo: String, grupoImg: String, grupoLista: String){
+async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: string, grupoImg: String, grupoLista: String){
     try {
         const resultado = await database.sync();
         log.info(resultado);
@@ -65,7 +67,6 @@ async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, log
             senha: senhaEntradas,
             site: siteEntradas,
             expira: expira,
-            expiraTempo: expiraTempo,
             grupoImg: grupoImg,
             grupoLista: grupoLista 
         })
@@ -113,7 +114,7 @@ async function pesquisarEntradas(pesquisa: String){
     }
 }
 
-async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: Boolean, expiraTempo: String, grupoImg: String, grupoLista: String){
+async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: string, grupoImg: String, grupoLista: String){
     try {
         const entradas = await Entradas.findByPk(selecaoAtual).then(() => {
             log.info(entradas);
@@ -124,7 +125,6 @@ async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, des
             entradas.senha = senhaEntradas;
             entradas.site = siteEntradas;
             entradas.expira = expira;
-            entradas.expiraTempo = expiraTempo;
             entradas.grupoImg = grupoImg;
             entradas.grupoLista = grupoLista;
             

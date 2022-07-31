@@ -7,8 +7,6 @@
 import fse from 'fs-extra';
 import Path from 'path';
 
-import editJson from 'electron-json-storage';
-import settings from 'electron-settings';
 import log from 'electron-log';
 
 const caracteres = {

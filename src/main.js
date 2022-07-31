@@ -13,13 +13,15 @@ import Sequelize from 'sequelize';
 import sqliteNext from 'sqlite3-offline-next';
 import CryptoJS from 'crypto-js';
 
+import Entradas from '../model/Entradas.js';
+import database, { conectar } from '../database/Database.js';
+
 import editJson from 'electron-json-storage';
 import settings from 'electron-settings';
 import log from 'electron-log';
 
-import Entradas from '../model/Entradas.js';
-import database, { conectar } from '../database/Database.js';
-// import env from "./env";
+import config from './config/settings.json';
+// import env from './env';
 
 const lock = app.requestSingleInstanceLock();
 (!lock) ? app.quit() : console.log("Aplicativo inicializando!"); 
@@ -40,7 +42,8 @@ const createWindow = () => {
             devTools: !app.isPackaged,
             nodeIntegration: false,
             contextIsolation: true,
-            preload: './preload.js'
+            preload: './preload.js',
+            render: './render.js'
         }
     });
 

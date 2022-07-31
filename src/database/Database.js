@@ -5,11 +5,11 @@
 */
 
 import Sequelize from 'sequelize';
-import config from '../config/database.json';
+import dbConfig from '../config/database.json';
 import Entradas from '../model/Entradas.js';
 import log from 'electron-log';
 
-const database = new Sequelize(config);
+const database = new Sequelize(dbConfig);
 
 export async function conectar(){
     try {
@@ -18,12 +18,12 @@ export async function conectar(){
             return 0;
         } else {
             log.error("Erro ao conectar ao Banco de Dados: " + error + "!");
-            database.close(config);
+            database.close(dbConfig);
             return 1;
         }
     } catch (error){
         log.error("Erro ao conectar ao Banco de Dados: " + error + "!");
-        database.close(config);
+        database.close(dbConfig);
         return 1;
     }
 }
