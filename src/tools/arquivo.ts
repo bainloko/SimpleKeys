@@ -7,7 +7,7 @@
 import fse from 'fs-extra';
 import Path from 'path';
 import Sequelize from 'sequelize';
-import sqliteNext from 'sqlite3-offline-next';
+import sqlite from 'better-sqlite3-multiple-ciphers';
 import cryptoJs from 'crypto-js';
 
 import editJson from 'electron-json-storage';

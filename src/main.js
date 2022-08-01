@@ -10,7 +10,7 @@ import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import fse from 'fs-extra';
 import Path from 'path';
 import Sequelize from 'sequelize';
-import sqliteNext from 'sqlite3-offline-next';
+import sqlite from 'better-sqlite3-multiple-ciphers';
 import CryptoJS from 'crypto-js';
 
 import Entradas from '../model/Entradas.js';

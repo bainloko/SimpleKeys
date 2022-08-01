@@ -1,6 +1,6 @@
 /*
 * SimpleKeys
-* render.js
+* renderer.js
 * 20/jun/2022
 */
 
