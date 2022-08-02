@@ -1,6 +1,6 @@
 /*
 * SimpleKeys
-* arquivo.ts
+* arquivo.js
 * 22/jun/2022
 */
 
@@ -21,7 +21,7 @@ import config from '../config/settings.json';
 
 const { or } = Sequelize.Op;
 
-async function novoArquivo(nomeArquivo: String, descArquivo: String, senhaMestra: String, configBanco: String){
+async function novoArquivo(nomeArquivo, descArquivo, senhaMestra, configBanco){
     let path = Path.join(__dirname, nomeArquivo.toString()), writeSuccess = false;
 
     try {
@@ -42,7 +42,7 @@ async function novoArquivo(nomeArquivo: String, descArquivo: String, senhaMestra
     }
 }
 
-async function lerArquivo(nomeArquivo: String, senhaMestra: String, configBanco: String){
+async function lerArquivo(nomeArquivo, senhaMestra, configBanco){
     //vai descriptografar, abrir o arquivo no próprio disco (cópia), alterar e salvar as alterações
 
     try {
@@ -55,7 +55,7 @@ async function lerArquivo(nomeArquivo: String, senhaMestra: String, configBanco:
     }
 }
 
-async function cadastrarEntradas(nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: string, grupoImg: String, grupoLista: String){
+async function cadastrarEntradas(nomeEntradas, descEntradas, loginEntradas, senhaEntradas, siteEntradas, expira, grupoImg, grupoLista){
     try {
         const resultado = await database.sync();
         log.info(resultado);
@@ -90,7 +90,7 @@ async function lerEntradas(){
     }
 }
 
-async function pesquisarEntradas(pesquisa: String){
+async function pesquisarEntradas(pesquisa){
     try {
         const entradas = await Entradas.findAll({
             where: {
@@ -114,7 +114,7 @@ async function pesquisarEntradas(pesquisa: String){
     }
 }
 
-async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, descEntradas: String, loginEntradas: String, senhaEntradas: String, siteEntradas: String, expira: string, grupoImg: String, grupoLista: String){
+async function atualizarEntradas(selecaoAtual, nomeEntradas, descEntradas, loginEntradas, senhaEntradas, siteEntradas, expira, grupoImg, grupoLista){
     try {
         const entradas = await Entradas.findByPk(selecaoAtual).then(() => {
             log.info(entradas);
@@ -131,7 +131,7 @@ async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, des
             const resultadoUpdate = entradas.save();
             log.info(resultadoUpdate);
             return true;
-        }).catch((error: string) => {
+        }).catch((error) => {
             log.error("Ocorreu um erro aqui, " + error + "!");
             alert("Ocorreu um erro aqui, " + error + "!");
             return false;
@@ -143,7 +143,7 @@ async function atualizarEntradas(selecaoAtual: Number, nomeEntradas: String, des
     }
 }
 
-async function apagarEntradas(selecaoAtual: Number){
+async function apagarEntradas(selecaoAtual){
     try {
         Entradas.destroy({ where: { id: selecaoAtual }});
     } catch (error){
@@ -152,7 +152,7 @@ async function apagarEntradas(selecaoAtual: Number){
     }
 }
 
-async function consultarBanco(nomeArquivo: string){
+async function consultarBanco(nomeArquivo){
     let path = Path.join(__dirname, nomeArquivo);
     
     try {

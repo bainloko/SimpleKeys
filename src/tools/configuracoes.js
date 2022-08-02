@@ -1,6 +1,6 @@
 /*
 * SimpleKeys
-* configuracoes.ts
+* configuracoes.js
 * 29/jun/2022
 */
 
@@ -13,11 +13,11 @@ import log from 'electron-log';
 
 import config from '../config/settings.json';
 
-async function lerConfiguracoes(configBanco: string){
+async function lerConfiguracoes(configBanco){
     // path? copiar para a pasta do usuário? lookup json e edição?
 }
 
-async function alterarConfiguracoes(configBanco: string){
+async function alterarConfiguracoes(configBanco){
     // path? copiar para a pasta do usuário? lookup json e edição?
 }
 

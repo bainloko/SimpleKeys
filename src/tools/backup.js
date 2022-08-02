@@ -1,6 +1,6 @@
 /*
 * SimpleKeys
-* backup.ts
+* backup.js
 * 22/jun/2022
 */
 
@@ -14,7 +14,7 @@ import log from 'electron-log';
 
 import config from '../config/settings.json';
 
-function realizarBackup(nomeArquivo: string, senhaMestra: String, configBanco: string, imprimir: boolean){
+function realizarBackup(nomeArquivo, senhaMestra, configBanco, imprimir){
     //screen5 tirar o nome, a descrição e o registro de data e hora do backup (handle automatically) e criar o novo .db criptografado + paramsconfigbanco
 }
 

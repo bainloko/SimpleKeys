@@ -1,6 +1,6 @@
 /*
 * SimpleKeys
-* gerador.ts
+* gerador.js
 * 8/jun/2022
 */
 
@@ -35,7 +35,7 @@ const getChar = [
 ];
 
 // comprimento mínimo de 3 caracteres, quantidade mínima de 1. limitar entradas inválidas
-async function gerarSenhas(comprimentoSenha: Number, qtdSenhas: Number, upperCase: boolean, lowerCase: boolean, numbers: boolean, symbols: boolean){
+async function gerarSenhas(comprimentoSenha, qtdSenhas, upperCase, lowerCase, numbers, symbols){
     try {
         if ((upperCase && lowerCase && numbers && symbols) === false){
             return alert("Por favor, selecione algum tipo de caractere para a geração da(s) senha(s)!");
