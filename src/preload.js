@@ -5,6 +5,7 @@
 */
 
 import { contextBridge, ipcRenderer } from 'electron';
+
 import log from 'electron-log';
 
 window.log = log.functions;

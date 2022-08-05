@@ -1,3 +1,3 @@
 # SimpleKeys
-POR: descrição, quick start, recursos, link, contribuições, disclaimers, ajuda
+POR: descrição, quick start, copying, link, contribuições, disclaimers, ajuda
 ENG:
