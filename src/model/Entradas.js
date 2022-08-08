@@ -16,21 +16,35 @@ const Entrada = database.define('entrada', {
     },
     nome: {
         type: Sequelize.TEXT,
+        defaultValue: "Google",
         allowNull: false
     },
-    descricao: Sequelize.TEXT,
+    descricao: {
+        type: Sequelize.TEXT,
+        defaultValue: "Exemplo",
+    },
     usuario: {
         type: Sequelize.TEXT,
+        defaultValue: "fulanodetal@gmail.com",
         allowNull: false
     },
     senha: {
         type: Sequelize.TEXT,
+        defaultValue: "fulanodetal",
         allowNull: false,
     },
-    site: Sequelize.TEXT,
-    expira: Sequelize.TEXT,
+    site: { 
+        type: Sequelize.TEXT,
+        defaultValue: "https://google.com",
+    },
+    expira: {
+        type: Sequelize.TEXT,
+        defaultValue: "S;2025/08/08",
+    },
     grupoImg: Sequelize.BLOB,
-    grupoLista: Sequelize.TEXT
+    grupoLista: Sequelize.TEXT,
+}, {
+    timestamps: true
 });
 
 export default Entrada;

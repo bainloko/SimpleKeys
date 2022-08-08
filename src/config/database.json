@@ -1,17 +1,16 @@
 {
     "development": {
         "dialect": "sqlite",
-        "storage": "./database.db"
+        "storage": "../database.db",
+        "logging": true
     },
     "test": {
         "dialect": "sqlite",
-        "storage": ":memory"
+        "storage": ":memory",
+        "logging": true
     },
     "production": {
         "dialect": "sqlite",
-        "storage": "process.env.SQLITE_FILENAME"
-    },
-    "define": {
-        "timestamps": true
+        "logging": true
     }
 }

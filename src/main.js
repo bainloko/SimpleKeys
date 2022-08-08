@@ -21,15 +21,15 @@ import log from 'electron-log';
 const lock = app.requestSingleInstanceLock();
 (!lock) ? app.quit() : console.log("Aplicativo inicializando!"); 
 
-let telaInicial
-let novoArquivo
-let outroArquivo
-let listaEntradas
-let novaEntrada
-let gerador
-let backup
-let configuracoes
-let sobre
+let telaInicial = null
+let novoArquivo = null
+let outroArquivo = null
+let listaEntradas = null
+let novaEntrada = null
+let gerador = null
+let backup = null
+let configuracoes = null
+let sobre = null
 
 const opcoesMenu = [
     // Cada objeto é um dropdown
@@ -301,7 +301,7 @@ function criarOutroArquivo(){
     outroArquivo.loadFile('./views/outroArquivo.html');
     outroArquivo.setBounds({ x: 320, y: 360 });
 
-    outroArquivo.on('close', () => {
+    outroArquivo.on('closed', () => {
         outroArquivo = null;
         //se senha OK, criarListaEntradas();
     });
@@ -364,7 +364,7 @@ function criarSobre(){
     sobre.loadFile('./views/sobre.html');
     sobre.setBounds({ x: 320, y: 360 });
 
-    sobre.on('close', () => {
+    sobre.on('closed', () => {
         sobre = null;
     });
 }

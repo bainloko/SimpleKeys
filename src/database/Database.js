@@ -5,27 +5,45 @@
 */
 
 import Sequelize from 'sequelize';
-import dbConfig from '../config/database.json';
-import Entradas from '../model/Entradas.js';
+
+import editJson from 'electron-json-storage';
 import log from 'electron-log';
 
-const database = new Sequelize(dbConfig);
+import Entradas from '../model/Entradas.js';
 
-export async function conectar(){
+import dbConfig from '../config/database.json';
+
+async function database(nomeArquivo){
+    try {
+        let database = new Sequelize(nomeArquivo, null, senhaMestra, dbConfig);
+        //JSON
+    } catch (error){
+
+    }
+}
+
+async function conectar(senhaMestra){
+    let database = new Sequelize(process.env.SQLITE_FILENAME, null, senhaMestra, dbConfig);
+    
     try {
         if (Entradas.init(database)){
-            log.info("A conexão ao Banco de Dados foi estabelecida com sucesso!");
-            return 0;
+            await database.authenticate("key='" + senhaMestra + "'").then(() => {
+                log.info("A conexão ao Banco de Dados foi estabelecida com sucesso!");
+            });
+
+            return true;
         } else {
             log.error("Erro ao conectar ao Banco de Dados: " + error + "!");
             database.close(dbConfig);
-            return 1;
+            
+            return false;
         }
     } catch (error){
         log.error("Erro ao conectar ao Banco de Dados: " + error + "!");
         database.close(dbConfig);
-        return 1;
+        
+        return false;
     }
 }
 
-export default database;
+export default { database, conectar };

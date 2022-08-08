@@ -8,7 +8,7 @@ import fse from 'fs-extra';
 import Path from 'path';
 import Sequelize from 'sequelize';
 import sqlite from 'better-sqlite3-multiple-ciphers';
-import cryptoJs from 'crypto-js';
+import bcrypt from 'bcrypt';
 
 import editJson from 'electron-json-storage';
 import settings from 'electron-settings';
@@ -21,25 +21,41 @@ import config from '../config/settings.json';
 
 const { or } = Sequelize.Op;
 
-async function novoArquivo(nomeArquivo, descArquivo, senhaMestra, configBanco){
+async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra){
+    nomeArquivo = document.getElementById("inputNomeArq").innerText; //open Windows dialog box - where?
+    descArquivo = document.getElementById("inputDescArq").innerText;
+    expira = document.getElementById("inputExpArq").innerText;
+    chaveReserva = document.getElementById("inputChaveArq").innerHTML;
+    senhaMestra = document.getElementById("inputSenhaArq").innerText;
+
     let path = Path.join(__dirname, nomeArquivo.toString()), writeSuccess = false;
 
     try {
-        //falta a lógica de entrar no arquivo SQLite e criar o novo .db criptografado + paramsconfigbanco
-        if (writeSuccess) {
-            log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
-            alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
-            return true;
-        } else {
-            log.error("Houve um problema no salvamento do Banco, tente novamente!");
-            alert("Houve um problema no salvamento do Banco, tente novamente!");
+        if (consultarBanco(path)) {
+            log.info("Este arquivo " + nomeArquivo + " já existe! Feche esta janela e acesse-o por lá.");
+            alert("Este arquivo " + nomeArquivo + " já existe! Feche esta janela e acesse-o por lá.");
             return false;
+        } else {
+            //ACESSAR o arquivo, crypt...
+            if (writeSuccess) {
+                log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
+                alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
+                return true;
+            } else {
+                log.error("Houve um problema no salvamento do Banco, tente novamente!");
+                alert("Houve um problema no salvamento do Banco, tente novamente!");
+                return false;
+            }
         }
     } catch (error){
         log.error("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
         alert("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
         return false;
     }
+}
+
+async function outroArquivo(nomeArquivo, senhaMestra){
+    //acessar outro arquivo
 }
 
 async function lerArquivo(nomeArquivo, senhaMestra, configBanco){

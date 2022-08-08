@@ -4,9 +4,6 @@
 * 8/jun/2022
 */
 
-import fse from 'fs-extra';
-import Path from 'path';
-
 import log from 'electron-log';
 
 const caracteres = {
