@@ -298,8 +298,8 @@ function criarOutroArquivo(){
         }
     });
 
-    outroArquivo.loadFile('./views/outroArquivo.html');
     outroArquivo.setBounds({ x: 320, y: 360 });
+    outroArquivo.loadFile('./views/outroArquivo.html');
 
     outroArquivo.on('closed', () => {
         outroArquivo = null;
@@ -361,8 +361,8 @@ function criarSobre(){
         }
     });
 
-    sobre.loadFile('./views/sobre.html');
     sobre.setBounds({ x: 320, y: 360 });
+    sobre.loadFile('./views/sobre.html');
 
     sobre.on('closed', () => {
         sobre = null;
