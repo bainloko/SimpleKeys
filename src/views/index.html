@@ -11,12 +11,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="theme-color" content="#ffffff">
-        <link rel="icon" type="image/png" sizes="16x16" href="file:/../favicon/favicon-16x16.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="file:/../favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+        <link rel="stylesheet" href="./index.css">
         <title>SimpleKeys</title>
-        <!--<style>
-             
-        </style>-->
     </head>
     <body>
         <noscript>
@@ -33,16 +31,16 @@
         </noscript>
         <div class="container">
             <header>
-                <a><label>Img Configurações button on click redirect</label></a>
-                <a><label>Img Ajuda, ambas sem text-decoration nem animações p/ loading</label></a>
+                <button><img src="./icons/settings.png" alt="Img Configurações"></button>
+                <button><img src="./icons/help.png" alt="Img Ajuda"></button>
             </header>
             <article>
-                <h1>SimpleKeys com borda, degradê, Img de fundo</h1>
-                <button id="btnCriar"><label>Criar um novo arquivo</label></button>
-                <button id="btnAbrir"><label>Abrir um arquivo já existente</label></button>
+                <div class="menu"><h1><i>SimpleKeys</i>&ensp;&ensp;&ensp;<img src="./icons/icons8-lock-96.png" height="68px" width="68px" alt="Img Cadeado" id="cadeado"></h1></div>
+                <button class="menu" id="btnNovo"><label>Criar um novo arquivo</label></button>
+                <button class="menu" id="btnOutro"><label>Abrir um arquivo já existente</label></button>
             </article>
             <footer>
-                <label><i>Closed Alpha</i> v0.1.0</label>
+                <label id="footer"><i>Closed Alpha</i> v0.1.0</label>
             </footer>
         </div>
     </body>

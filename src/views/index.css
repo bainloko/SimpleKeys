@@ -1,0 +1,44 @@
+/*
+* SimpleKeys
+* index.css
+* 12/08/2022
+*/
+
+body {
+    background-image: url("./icons/background.jpg");
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header, footer {
+    float: right;
+}
+
+article {
+    width: fit-content;
+    margin: auto;
+    padding: 5px;
+}
+
+p {
+    font-size: 28px;
+    text-align: center;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+label {
+    font-size: 14px;
+    text-align: center;
+    padding: 2px;
+}
+
+.menu {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
