@@ -21,9 +21,14 @@
     <body>
         <noscript>
             <h1>SimpleKeys</h1>
-            <p>
-                SimpleKeys é um gerenciador de senhas desenvolvido em JavaScript e TypeScript.
+            <p lang="pt-BR">
+                SimpleKeys é um gerenciador de senhas desenvolvido em JavaScript.
                 Por favor, instale ou ative o JavaScript para usar o programa.
+            </p>
+
+            <p lang="en">
+                SimpleKeys is a password manager coded in JavaScript.
+                Please, install or enable JavaScript to run this software.
             </p>
         </noscript>
         <div class="container">
@@ -33,6 +38,12 @@
             </header>
             <article>
                 <h1>SimpleKeys com borda, degradê, Img de fundo</h1>
+                <form>
+                    <div>
+                        <input type="file" accept="db|kdbx">
+                    </div>
+                    <button type="submit">OK</button>
+                </form>
             </article>
             <footer>
                 <label><i>Closed Alpha</i> v0.1.0</label>
@@ -40,5 +51,10 @@
         </div>
     </body>
     <!--<script> COMUNICAÇÃO IPC COM O RENDERER, PRELOAD E MAIN
+        document.querySelector('form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            debugger
+        });
     </script>-->
 </html>

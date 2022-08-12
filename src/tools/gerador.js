@@ -4,7 +4,7 @@
 * 8/jun/2022
 */
 
-import log from 'electron-log';
+const log = require('electron-log');
 
 const caracteres = {
     upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",

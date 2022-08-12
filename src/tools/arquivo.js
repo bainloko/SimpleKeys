@@ -4,20 +4,20 @@
 * 22/jun/2022
 */
 
-import fse from 'fs-extra';
-import Path from 'path';
-import Sequelize from 'sequelize';
-import sqlite from 'better-sqlite3-multiple-ciphers';
-import bcrypt from 'bcrypt';
+const fse = require('fs-extra');
+const Path = require('path');
+const Sequelize = require('sequelize');
+const sqlite = require('better-sqlite3-multiple-ciphers');
+const bcrypt = require('bcrypt');
 
-import editJson from 'electron-json-storage';
-import settings from 'electron-settings';
-import log from 'electron-log';
+const editJson = require('electron-json-storage');
+const settings = require('electron-settings');
+const log = require('electron-log');
 
-import Entradas from '../model/Entradas.js';
-import database from '../database/Database.js';
+const Entradas = require('../model/Entradas.js');
+const database = require('../database/Database.js');
 
-import config from '../config/settings.json';
+const config = require('../config/settings.json');
 
 const { or } = Sequelize.Op;
 

@@ -4,14 +4,14 @@
 * 29/jun/2022
 */
 
-import fse from 'fs-extra';
-import Path from 'path';
+const fse = require('fs-extra');
+const Path = require('path');
 
-import editJson from 'electron-json-storage';
-import settings from 'electron-settings';
-import log from 'electron-log';
+const editJson = require('electron-json-storage');
+const settings = require('electron-settings');
+const log = require('electron-log');
 
-import config from '../config/settings.json';
+const config = require('../config/settings.json');
 
 async function lerConfiguracoes(configBanco){
     // path? copiar para a pasta do usuário? lookup json e edição?

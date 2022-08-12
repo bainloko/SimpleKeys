@@ -4,12 +4,12 @@
 * 20/jun/2022
 */
 
-import { contextBridge, ipcRenderer } from 'electron';
+const { contextBridge, ipcRenderer } = require('electron');
 
-import log from 'electron-log';
+const log = require('electron-log');
 
 window.log = log.functions;
 
-contextBridge.exposeInMainWorld('primeiraAPI', {
+contextBridge.exposeInMainWorld('', {
     // setTitle: (title) => ipcRenderer.send('set-title', title)  
 });

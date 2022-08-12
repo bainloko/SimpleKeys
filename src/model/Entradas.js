@@ -4,8 +4,8 @@
 * 22/jun/2022
 */
 
-import Sequelize from 'sequelize';
-import database from '../database/Database.js';
+const Sequelize = require('sequelize');
+const database = require('../database/Database.js');
 
 const Entrada = database.define('entrada', {
     id: {

@@ -4,14 +4,14 @@
 * 29/jun/2022
 */
 
-import Sequelize from 'sequelize';
+const Sequelize = require('sequelize');
 
-import editJson from 'electron-json-storage';
-import log from 'electron-log';
+const editJson = require('electron-json-storage');
+const log = require('electron-log');
 
-import Entradas from '../model/Entradas.js';
+const Entradas = require('../model/Entradas.js');
 
-import dbConfig from '../config/database.json';
+const dbConfig = require('../config/database.json');
 
 async function database(nomeArquivo){
     try {

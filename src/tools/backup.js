@@ -4,15 +4,15 @@
 * 22/jun/2022
 */
 
-import fse from 'fs-extra';
-import Path from 'path';
-import Sequelize from 'sequelize';
-import sqlite from 'better-sqlite3-multiple-ciphers';
-import bcrypt from 'bcrypt';
+const fse = require('fs-extra');
+const Path = require('path');
+const Sequelize = require('sequelize');
+const sqlite = require('better-sqlite3-multiple-ciphers');
+const bcrypt = require('bcrypt');
 
-import log from 'electron-log';
+const log = require('electron-log');
 
-import config from '../config/settings.json';
+const config = require('../config/settings.json');
 
 function realizarBackup(nomeArquivo, senhaMestra, configBanco, imprimir){
     //screen5 tirar o nome, a descrição e o registro de data e hora do backup (handle automatically) e criar o novo .db criptografado + paramsconfigbanco
