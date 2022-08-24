@@ -4,7 +4,7 @@
 * 29/jun/2022
 */
 
-const Sequelize = require('sequelize');
+const sqlite = require("better-sqlite3-multiple-ciphers");
 
 const editJson = require('electron-json-storage');
 const log = require('electron-log');

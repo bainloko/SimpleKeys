@@ -1,3 +1,3 @@
 # Baixar e Instalar o SimpleKeys / Download and Install SimpleKeys
-POR: Adicionar instruções e *templates*;
-ENG: Add instructions and templates...
+POR: Baixe o SimpleKeys *aqui* e siga os passos do instalador. Para qualquer dúvida, consulte a seção SOBRE.
+ENG: Download SimpleKeys *here* and follow the steps displayed on the wizard. If you have any questions, go to the ABOUT section.

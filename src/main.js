@@ -137,10 +137,10 @@ const opcoesMenu = [
     {
         label: 'Ver',
         submenu: [
-            {
-                label: 'Alterar Idioma', //Abre nova janelinha idiomas.html
-                click(){  },
-            },
+            // { FUNCIONALIDADE FUTURA
+            //     label: 'Alterar Idioma', //Abre nova janelinha idiomas.html
+            //     click(){  },
+            // },
             {
                 label: 'Configurar Colunas',
                 click(){  },
@@ -199,7 +199,7 @@ const criarTelaInicial = () => {
             nodeIntegration: false,
             contextIsolation: true,
             preload: './preload.js',
-            render: './renderer.js'
+            renderer: './renderer.js'
         }
     });
 

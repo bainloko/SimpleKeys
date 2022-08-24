@@ -4,4 +4,4 @@
 * 20/jun/2022
 */
 
-//controlar a transição entre as telas?
+//códigos que o navegador vai ver

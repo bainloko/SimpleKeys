@@ -25,7 +25,7 @@ async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senha
     nomeArquivo = document.getElementById("inputNomeArq").innerText; //open Windows dialog box - where?
     descArquivo = document.getElementById("inputDescArq").innerText;
     expira = document.getElementById("inputExpArq").innerText;
-    chaveReserva = document.getElementById("inputChaveArq").innerHTML;
+    chaveReserva = document.getElementById("inputChaveArq").innerText;
     senhaMestra = document.getElementById("inputSenhaArq").innerText;
 
     let path = Path.join(__dirname, nomeArquivo.toString()), writeSuccess = false;
@@ -89,8 +89,8 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, loginEntradas, senh
 
         log.info(resultadoCreate);
     } catch (error){
-        log.error("Ocorreu um erro aqui, " + error + "!");
-        alert("Ocorreu um erro aqui, " + error + "!");
+        log.error("Ocorreu um erro no cadastramento de novas entradas, " + error + "!");
+        alert("Ocorreu um erro no cadastramento de novas entradas, " + error + "!");
         return false;
     }
 }
@@ -100,8 +100,8 @@ async function lerEntradas(){
         const entradas = await Entradas.findAll();
         log.info(entradas);
     } catch (error){
-        log.info("Ocorreu um erro aqui, " + error + "!");
-        alert("Ocorreu um erro aqui, " + error + "!");
+        log.info("Ocorreu um erro na leitura das entradas, " + error + "!");
+        alert("Ocorreu um erro na leitura das entradas, " + error + "!");
         return false;
     }
 }
@@ -124,8 +124,8 @@ async function pesquisarEntradas(pesquisa){
         log.info(entradas);
         return entradas;
     } catch (error){
-        log.error("Ocorreu um erro aqui, " + error + "!");
-        alert("Ocorreu um erro aqui, " + error + "!");
+        log.error("Ocorreu um erro na pesquisa das entradas, " + error + "!");
+        alert("Ocorreu um erro na pesquisa das entradas, " + error + "!");
         return false;
     }
 }
@@ -148,13 +148,13 @@ async function atualizarEntradas(selecaoAtual, nomeEntradas, descEntradas, login
             log.info(resultadoUpdate);
             return true;
         }).catch((error) => {
-            log.error("Ocorreu um erro aqui, " + error + "!");
-            alert("Ocorreu um erro aqui, " + error + "!");
+            log.error("Ocorreu um erro na atualização das entradas, " + error + "!");
+            alert("Ocorreu um erro na atualização das entradas, " + error + "!");
             return false;
         });
     } catch (error){
-        log.error("Ocorreu um erro aqui, " + error + "!");
-        alert("Ocorreu um erro aqui, " + error + "!");
+        log.error("Ocorreu um erro na atualização das entradas, " + error + "!");
+        alert("Ocorreu um erro na atualização das entradas, " + error + "!");
         return false;
     }
 }
