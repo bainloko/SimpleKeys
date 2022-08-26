@@ -4,32 +4,22 @@
 * 29/jun/2022
 */
 
-const sqlite = require("better-sqlite3-multiple-ciphers");
-
-const editJson = require('electron-json-storage');
 const log = require('electron-log');
 
 const Entradas = require('../model/Entradas.js');
 
 const dbConfig = require('../config/database.json');
 
-async function database(nomeArquivo){
-    try {
-        let database = new Sequelize(nomeArquivo, null, senhaMestra, dbConfig);
-        //JSON
-    } catch (error){
-
-    }
-}
-
-async function conectar(senhaMestra){
-    let database = new Sequelize(process.env.SQLITE_FILENAME, null, senhaMestra, dbConfig);
+//outra função pra trocar a senha mestra?
+export async function conectar(nomeArquivo, senhaMestra){
+    let database = new Sequelize(process.env.SQLITE_FILENAME || nomeArquivo, null, senhaMestra, dbConfig);
+    database.query("PRAGMA key = quote(" + senhaMestra + ")");
     
     try {
-        if (Entradas.init(database)){
-            await database.authenticate("key='" + senhaMestra + "'").then(() => {
-                log.info("A conexão ao Banco de Dados foi estabelecida com sucesso!");
-            });
+        Entradas.init(database);
+
+        if (database.authenticate()){
+            log.info("A conexão ao Banco de Dados foi estabelecida com sucesso!");
 
             return true;
         } else {
@@ -45,5 +35,3 @@ async function conectar(senhaMestra){
         return false;
     }
 }
-
-export default { database, conectar };

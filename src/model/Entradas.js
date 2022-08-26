@@ -4,44 +4,45 @@
 * 22/jun/2022
 */
 
+const Sequelize = require('sequelize');
 const database = require('../database/Database.js');
 
 const Entrada = database.define('entrada', {
     id: {
-        type: INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
     nome: {
-        type: TEXT,
+        type: Sequelize.TEXT,
         defaultValue: "Google",
         allowNull: false
     },
     descricao: {
-        type: TEXT,
+        type: Sequelize.TEXT,
         defaultValue: "Exemplo",
     },
     usuario: {
-        type: TEXT,
+        type: Sequelize.TEXT,
         defaultValue: "fulanodetal@gmail.com",
         allowNull: false
     },
     senha: {
-        type: TEXT,
+        type: Sequelize.TEXT,
         defaultValue: "fulanodetal",
         allowNull: false,
     },
     site: { 
-        type: TEXT,
+        type: Sequelize.TEXT,
         defaultValue: "https://google.com",
     },
     expira: {
-        type: TEXT,
+        type: Sequelize.TEXT,
         defaultValue: "S;2025/08/08",
     },
-    grupoImg: BLOB,
-    grupoLista: TEXT,
+    grupoImg: Sequelize.BLOB,
+    grupoLista: Sequelize.TEXT,
 }, {
     timestamps: true
 });

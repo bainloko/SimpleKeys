@@ -11,7 +11,7 @@ const log = require('electron-log');
 
 let telaInicial = null
 let novoArquivo = null
-let outroArquivo = null
+let lerArquivo = null
 let listaEntradas = null
 let novaEntrada = null
 let gerador = null
@@ -30,7 +30,7 @@ const opcoesMenu = [
             },
             {
                 label: 'Abrir Arquivo Já Existente',
-                click(){ criarOutroArquivo(); }
+                click(){ criarLerArquivo(); }
             },
             {
                 label: 'Fechar Arquivo',
@@ -221,9 +221,9 @@ ipcMain.on('opcao:criar', (event) => {
 
 ipcMain.on('opcao:abrir', (event) => {
     try {
-        criarOutroArquivo();
+        criarLerArquivo();
     } catch (error){
-        log.info("Houve um erro no carregamento da tela outroArquivo, " + error);
+        log.info("Houve um erro no carregamento da tela lerArquivo, " + error);
     }
 });
 
@@ -257,8 +257,8 @@ ipcMain.on('arquivo:criar', (event, item) => {
     criarListaEntradas();
 });
 
-function criarOutroArquivo(){
-    outroArquivo = new BrowserWindow({
+function criarLerArquivo(){
+    lerArquivo = new BrowserWindow({
         width: 600,
         height: 180,
         resizable: false,
@@ -271,13 +271,13 @@ function criarOutroArquivo(){
         }
     });
 
-    outroArquivo.setBounds({ x: 320, y: 360 });
-    outroArquivo.loadFile('./views/outroArquivo.html');
+    lerArquivo.setBounds({ x: 320, y: 360 });
+    lerArquivo.loadFile('./views/lerArquivo.html');
 }
 
-ipcMain.on('arquivo:outro', (event, item) => {
-    outroArquivo.webContents.send('arquivo:outro', item);
-    outroArquivo = null;
+ipcMain.on('arquivo:ler', (event, item) => {
+    lerArquivo.webContents.send('arquivo:ler', item);
+    lerArquivo = null;
     //se senha OK, criarListaEntradas();
 });
 

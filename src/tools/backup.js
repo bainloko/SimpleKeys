@@ -6,6 +6,8 @@
 
 const fse = require('fs-extra');
 const Path = require('path');
+
+const Sequelize = require('sequelize');
 const sqlite = require('better-sqlite3-multiple-ciphers');
 const bcrypt = require('bcrypt');
 
