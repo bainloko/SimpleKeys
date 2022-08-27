@@ -5,7 +5,7 @@
 */
 
 // Módulos para controlar o ciclo de vida da aplicação e criar a janela nativa do Browser
-const { app, BrowserWindow, BrowserView, Menu, ipcMain, dialog, Notification, safeStorage, systemPreferences, clipboard } = require('electron');
+const { app, BrowserWindow, BrowserView, Menu, ipcMain, dialog, Notification, safeStorage, systemPreferences, clipboard, webContents } = require('electron');
 
 const log = require('electron-log');
 
@@ -251,10 +251,21 @@ function criarNovoArquivo(){
     novoArquivo.webContents.loadFile('./views/novoArquivo.html');
 }
 
-ipcMain.on('arquivo:criar', (event, item) => {
+ipcMain.on('arquivo:criar', (e, item) => {
     telaInicial.webContents.send('arquivo:criar', item);
     novoArquivo = null;
     criarListaEntradas();
+});
+
+ipcMain.on('arquivo:novo:path', (e, item) => {
+    telaInicial.webContents.session.on('will-download', (e, item, webContents) => {
+        item.once('done', event => {
+            localStorage.setItem("path", item.getSavePath());
+            log.info(event);
+
+            
+        })
+    });
 });
 
 function criarLerArquivo(){

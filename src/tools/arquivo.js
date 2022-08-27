@@ -27,7 +27,7 @@ async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senha
     chaveReserva = document.getElementById("inputChaveArq").value;
     senhaMestra = document.getElementById("inputSenhaArq").value;
 
-    let path = Path.join(__dirname, nomeArquivo.toString()); //Chromium downloadItem.filename;
+    let path = Path.join(__dirname, nomeArquivo.toString());
 
     try {
         if (consultarBanco(path)) {
