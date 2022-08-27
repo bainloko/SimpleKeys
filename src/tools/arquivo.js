@@ -21,13 +21,13 @@ const editJson = require('electron-settings');
 const { or } = Sequelize.Op;
 
 async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra){
-    nomeArquivo = document.getElementById("inputNomeArq").innerText; //open Windows dialog box - where?
-    descArquivo = document.getElementById("inputDescArq").innerText;
-    expira = document.getElementById("inputExpArq").innerText;
-    chaveReserva = document.getElementById("inputChaveArq").innerText;
-    senhaMestra = document.getElementById("inputSenhaArq").innerText;
+    nomeArquivo = document.getElementById("inputNomeArq").value;
+    descArquivo = document.getElementById("inputDescArq").value;
+    expira = document.getElementById("inputExpArq").value;
+    chaveReserva = document.getElementById("inputChaveArq").value;
+    senhaMestra = document.getElementById("inputSenhaArq").value;
 
-    let path = Path.join(__dirname, nomeArquivo.toString());
+    let path = Path.join(__dirname, nomeArquivo.toString()); //Chromium downloadItem.filename;
 
     try {
         if (consultarBanco(path)) {
@@ -61,8 +61,8 @@ async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senha
 }
 
 async function lerArquivo(nomeArquivo, senhaMestra){
-    nomeArquivo = document.getElementById("inputNomeArq").innerText; //open Windows dialog box - where?
-    senhaMestra = document.getElementById("inputSenhaArq").innerText;
+    nomeArquivo = document.getElementById("inputNomeArq").value;
+    senhaMestra = document.getElementById("inputSenhaArq").value;
 
     let path = Path.join(__dirname, nomeArquivo.toString());
 
