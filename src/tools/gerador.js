@@ -4,58 +4,57 @@
 * 8/jun/2022
 */
 
-const log = require('electron-log');
+// const log = require('electron-log');
 
-const caracteres = {
-    upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-    lowerCase: "abcdefghijklmnopqrstuvwxyz",
-    numbers: "0123456789",
-    symbols: "'!@#$%^&*()_-+=`~/?{}[]:;><,."
+const lowerCaseChr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+const upperCaseChr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+const numbersChr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const symbolsChr = ["'", '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '-', '+', '=', '`', '~', '/', '?', '{', '}', '[', ']', ':', ';', '<', '>', ',', '.'];
+
+function generate(){
+    let l, u, n, s;
+    
+    if (lowerCase.checked === true){
+        l = true;
+    } else if (upperCase.checked === true){
+        u = true;
+    } else if (numbers.checked === true){
+        n = true;
+    } else if (symbols.checked === true){
+        s = true;
+    } else {
+        alert("Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
+    } //filtrar depois
 }
 
-const getChar = [
-    function upperCase(){
-        return caracteres.upperCase[Math.floor(Math.random() * caracteres.upperCase.length)];
-    },
-    
-    function lowerCase(){
-        return caracteres.lowerCase[Math.floor(Math.random() * caracteres.lowerCase.length)];
-    },
-    
-    function numbers(){
-        return caracteres.numbers[Math.floor(Math.random() * caracteres.numbers.length)];
-    },
+// quantidade mínima de 1 senha, comprimento mínimo de 4 caracteres
+function gerarSenhas(){
+    let qtdSenhas = document.getElementById("qtdSenhas");
+    let comprimentoSenha = document.getElementById("comprimentoSenha");
+    let lowerCase = document.getElementById("lowerCase");
+    let upperCase = document.getElementById("upperCase");
+    let numbers = document.getElementById("numbers");
+    let symbols = document.getElementById("symbols");
 
-    function symbols(){
-        return caracteres.symbols[Math.floor(Math.random() * caracteres.symbols.length)];
-    }
-];
-
-// comprimento mínimo de 3 caracteres, quantidade mínima de 1. limitar entradas inválidas
-async function gerarSenhas(comprimentoSenha, qtdSenhas, upperCase, lowerCase, numbers, symbols){
     try {
-        if ((upperCase && lowerCase && numbers && symbols) === false){
-            return alert("Por favor, selecione algum tipo de caractere para a geração da(s) senha(s)!");
-        } else {
-            let Senhas, senha;
-            for (let i = 0; i < qtdSenhas; i++){
-                while (comprimentoSenha > Senhas[i].length){
-                    let charToAdd = getChar[Math.floor(Math.random() * getChar.length)];
-                    let isChecked = charToAdd.name;
-                    if (isChecked){
-                        senha += charToAdd();
-                    }
+        if ((!(lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked === false) && (((lowerCase.checked || upperCase.checked || numbers.checked || symbols.checked) === true) && (qtdSenhas.value >= 1 && qtdSenhas.value <= 30 && comprimentoSenha.value >= 4 && comprimentoSenha.value <= 256))) === true){
+            var Senhas = ["", "\n"], senha = "";
+
+            for (let i = 0; i < qtdSenhas.value; i++){
+                while (comprimentoSenha.value > senha.length){
+                    senha += generate();
                 }
 
                 Senhas[i] += senha;
             }
 
-            return Senhas;
+            document.getElementById("listaSenhas").innerText = Senhas.join("\n");
+            return Senhas.join("\n");
+        } else {
+            alert("Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
         }
     } catch (error){
-        log.error("Ocorreu um erro inesperado na geração das senhas!");
-        alert("Ocorreu um erro inesperado na geração das senhas!");
+        // log.error("Ocorreu um erro inesperado na geração das senhas! " + error);
+        alert("Ocorreu um erro inesperado na geração das senhas! " + error);
     }
 }
-
-export default { gerarSenhas };

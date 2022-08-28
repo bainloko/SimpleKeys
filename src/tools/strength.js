@@ -4,8 +4,6 @@
 * 26/ago/2022
 */
 
-const { ipcRenderer } = require("electron");
-
 const passwordInput = document.getElementById("inpPassword");
 const passTestInput = document.getElementById("inpTestPassword");
 const passwordStrength = document.getElementById("password-strength");
@@ -28,14 +26,3 @@ passTestInput.addEventListener("input", function(){
         document.getElementById("feedback1").style.display = "none";
     }
 })
-
-export function download(data = "", type = ".db"){
-    let nomeArquivo = document.getElementById("inputNomeArq").value;
-    let s = document.getElementById("s");
-    let toDownload = nomeArquivo + type;
-    let file = new Blob([data], {type: type});
-    s.href = URL.createObjectURL(file);
-    s.download = toDownload;
-
-    ipcRenderer.send("arquivo:novo:path");
-}

@@ -69,6 +69,7 @@
   position: absolute;
   align-self: center;
   text-align: center;
+  transition: 0.3s;
   align-items: center;
   flex-direction: row;
   justify-content: center;

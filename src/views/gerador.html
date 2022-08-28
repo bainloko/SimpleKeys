@@ -84,25 +84,25 @@
             <span class="gerador-text11">
               Deseja gerar quantas senhas? (1-30)
             </span>
-            <input type="number" min="1" max="30" required class="gerador-textinput input" />
+            <input id="qtdSenhas" type="number" pattern="\d*" title="Somente números;" min="1" max="30" required class="gerador-textinput input" />
             <span class="gerador-text12">
               <span>Qual o comprimento da(s) senha(s)?</span>
               <br />
             </span>
-            <input type="number" min="4" max="256" required class="gerador-textinput1 input" />
+            <input id="comprimentoSenha" type="number" pattern="\d*" title="Somente números;" min="4" max="256" required class="gerador-textinput1 input" />
             <span class="gerador-text15">
               <span>As senhas devem conter:</span>
               <br />
             </span>
-            <input type="checkbox" id="checkLetrasMin" />[a-z]
-            <input type="checkbox" id="checkLetrasMai" />[A-Z]
-            <input type="checkbox" id="checkNumeros" />[0-9]
-            <input type="checkbox" id="checkSimbolos" />[!,@,#,$, ...]
+            <input type="checkbox" id="lowerCase" /><span id="textCheckA" title="Letras minúsculas de A à Z">[a-z]</span>
+            <input type="checkbox" id="upperCase" /><span id="textCheckB" title="Letras maiúsculas de A à Z">[A-Z]</span>
+            <input type="checkbox" id="numbers" /><span id="textCheckC" title="Números de 0 a 9">[0-9]</span>
+            <input type="checkbox" id="symbols" /><span id="textCheckD" title="Símbolos incluem: ' ! @ # $ % ^ & * ( ) _ - + = ` ~ / ? { } [ ] : ; &lt; &gt; , .">[Sym]</span>
             <span class="gerador-text18">
               <span>Lista de senhas geradas:</span>
               <br />
             </span>
-            <button class="gerador-button1 button">
+            <button class="gerador-button1 button" onClick="gerarSenhas()">
               <span class="gerador-text21">
                 <span>Gerar</span>
                 <br />
@@ -113,7 +113,7 @@
               rows="30"
               autofocus
               disabled
-              id="listasenhas"
+              id="listaSenhas"
               class="gerador-textarea textarea"
             ></textarea>
             <button class="gerador-button2 button">
@@ -123,6 +123,8 @@
               </span>
             </button>
           </div>
+          <script src="../tools/gerador.js"></script>
+          <script></script>
         </div>
       </article>
     </div>

@@ -202,8 +202,6 @@
   position: absolute;
   font-size: 26px;
   transition: 0.3s;
-}
-.novo-arquivo-text23:hover {
   text-decoration: underline;
 }
 .novo-arquivo-checkbox {
@@ -215,17 +213,15 @@
   cursor: pointer;
 }
 .novo-arquivo-text24 {
-  top: 437px;
+  top: 447px;
   left: 120px;
   position: absolute;
   font-size: 26px;
   transition: 0.3s;
-}
-.novo-arquivo-text24:hover {
   text-decoration: underline;
 }
 .novo-arquivo-text25 {
-  top: 497px;
+  top: 517px;
   left: 120px;
   position: absolute;
   font-size: 26px;
@@ -235,7 +231,7 @@
   display: block;
 }
 #password-strength {
-  top: 483px;
+  top: 497px;
   left: 320px;
   width: 300px;
   position: absolute;
@@ -270,26 +266,26 @@
   width: 100%;
 }
 .novo-arquivo-textinput2 {
-  top: 437px;
+  top: 447px;
   left: 320px;
   width: 300px;
   position: absolute;
 }
 .novo-arquivo-textinput3 {
-  top: 495px;
+  top: 515px;
   left: 320px;
   width: 300px;
   position: absolute;
 }
 .component-icon {
-  top: 465px;
+  top: 475px;
   left: 645px;
   position: absolute;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
 }
 .component1-icon {
-  top: 465px;
+  top: 475px;
   left: 645px;
   position: absolute;
   display: none;
