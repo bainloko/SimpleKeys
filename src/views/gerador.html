@@ -82,17 +82,22 @@
             <span class="gerador-text09">v 0.1.0</span>
             <span class="gerador-text10">Gerador de Senhas</span>
             <span class="gerador-text11">
-              Deseja gerar quantas senhas? (0-30)
+              Deseja gerar quantas senhas? (1-30)
             </span>
-            <input type="text" required class="gerador-textinput input" />
+            <input type="number" min="1" max="30" required class="gerador-textinput input" />
             <span class="gerador-text12">
               <span>Qual o comprimento da(s) senha(s)?</span>
               <br />
             </span>
+            <input type="number" min="4" max="256" required class="gerador-textinput1 input" />
             <span class="gerador-text15">
               <span>As senhas devem conter:</span>
               <br />
             </span>
+            <input type="checkbox" id="checkLetrasMin" />[a-z]
+            <input type="checkbox" id="checkLetrasMai" />[A-Z]
+            <input type="checkbox" id="checkNumeros" />[0-9]
+            <input type="checkbox" id="checkSimbolos" />[!,@,#,$, ...]
             <span class="gerador-text18">
               <span>Lista de senhas geradas:</span>
               <br />
@@ -117,7 +122,6 @@
                 <br />
               </span>
             </button>
-            <input type="text" required class="gerador-textinput1 input" />
           </div>
         </div>
       </article>

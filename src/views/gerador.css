@@ -143,6 +143,37 @@
   position: absolute;
   align-self: center;
 }
+.gerador-textinput1 {
+  top: 187px;
+  left: 595px;
+  width: 100px;
+  position: absolute;
+  align-self: center;
+}
+#checkLetrasMin {
+  top: 255px;
+  left: 445px;
+  position: absolute;
+  align-self: center;
+}
+#checkLetrasMai {
+  top: 255px;
+  margin-left: 15px;
+  position: absolute;
+  align-self: center;
+}
+#checkNumeros {
+  top: 255px;
+  margin-left: 15px;
+  position: absolute;
+  align-self: center;
+}
+#checkSimbolos {
+  top: 255px;
+  margin-left: 15px;
+  position: absolute;
+  align-self: center;
+}
 .gerador-text12 {
   top: 190px;
   left: 120px;
@@ -219,11 +250,4 @@
   font-style: normal;
   text-align: center;
   font-weight: 500;
-}
-.gerador-textinput1 {
-  top: 187px;
-  left: 595px;
-  width: 100px;
-  position: absolute;
-  align-self: center;
 }
