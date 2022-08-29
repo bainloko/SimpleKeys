@@ -4,12 +4,16 @@
 * 20/jun/2022
 */
 
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge } = require('electron');
+const { ipcRenderer: ipc } = require('electron-better-ipc');
 
 const log = require('electron-log');
 
+const ContextMenu = require("secure-electron-context-menu").default;
+
 window.log = log.functions;
 
-contextBridge.exposeInMainWorld('', {
-    // setTitle: (title) => ipcRenderer.send('set-title', title)  
+contextBridge.exposeInMainWorld("api", {
+    // setTitle: (title) => ipcRenderer.send('set-title', title)
+    contextMenu: ContextMenu.preloadBindings(ipcRenderer)
 });

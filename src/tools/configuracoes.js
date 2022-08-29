@@ -9,8 +9,7 @@ const Path = require('path');
 
 const log = require('electron-log');
 
-const config = require('../config/settings.json');
-const editJson = require('electron-settings');
+const electronStore = require('electron-store');
 
 async function lerConfiguracoes(configBanco){
     // path? copiar para a pasta do usuário? lookup json e edição?

@@ -1,0 +1,298 @@
+/*
+* SimpleKeys
+* novaEntrada.css
+* 29/08/2022
+*/
+
+.nova-entrada-container {
+  width: 100%;
+  height: 720px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  max-width: 1280px;
+  box-sizing: border-box;
+  min-height: 100vh;
+  align-items: center;
+  flex-shrink: 0;
+  border-color: transparent;
+  border-radius: 0px 0px 0px 0px;
+  justify-content: center;
+  background-image: linear-gradient(0deg, rgb(255, 255, 255) 0.00%,rgb(80, 150, 250) 100.00%);
+}
+.nova-entrada-desktop {
+  width: 100%;
+  height: 720px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  max-width: 1280px;
+  box-sizing: border-box;
+  align-items: flex-start;
+  flex-shrink: 0;
+  border-color: transparent;
+  border-radius: 0px 0px 0px 0px;
+  justify-content: flex-start;
+}
+.nova-entrada-text {
+  top: var(--dl-space-space-halfunit);
+  left: var(--dl-space-space-twounits);
+  color: var(--dl-color-gray-black);
+  bottom: 0px;
+  margin: auto;
+  position: absolute;
+  font-style: italic;
+  text-decoration: underline;
+}
+.nova-entrada-container1 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  opacity: 1;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+}
+.nova-entrada-button {
+  top: 630px;
+  left: 315px;
+  color: #ffffff;
+  width: 335px;
+  height: 40px;
+  display: flex;
+  position: absolute;
+  align-self: center;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #000000;
+  cursor: pointer;
+}
+.nova-entrada-button1 a {
+  text-decoration: none;
+}
+.nova-entrada-button:hover {
+  background-color: lightgrey;
+  color: black;
+}
+.nova-entrada-button2 {
+  top: 630px;
+  left: 655px;
+  color: #ffffff;
+  width: 335px;
+  height: 40px;
+  display: flex;
+  position: absolute;
+  align-self: center;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #000000;
+  cursor: pointer;
+}
+.nova-entrada-button2:hover {
+  background-color: lightgrey;
+  color: black;
+}
+.nova-entrada-text01 {
+  font-size: 18px;
+  align-self: center;
+  font-style: normal;
+  text-align: center;
+  font-weight: 500;
+}
+.nova-entrada-container2 {
+  top: -16px;
+  flex: 0 0 auto;
+  left: 720px;
+  width: 520px;
+  border: 2px solid black;
+  bottom: 0px;
+  height: 430px;
+  margin: auto;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  border-color: #000000;
+  border-style: inset;
+  border-width: 2px;
+  justify-content: center;
+}
+.nova-entrada-text04 {
+  text-align: center;
+}
+.nova-entrada-icon {
+  top: 30px;
+  right: var(--dl-space-space-fourunits);
+  width: var(--dl-size-size-small);
+  height: var(--dl-size-size-small);
+  position: absolute;
+  cursor: pointer;
+}
+.nova-entrada-icon2 {
+  top: 30px;
+  right: var(--dl-space-space-unit);
+  width: var(--dl-size-size-small);
+  height: var(--dl-size-size-small);
+  position: absolute;
+  cursor: pointer;
+}
+.nova-entrada-text09 {
+  color: #000000;
+  right: var(--dl-space-space-twounits);
+  bottom: var(--dl-space-space-twounits);
+  position: absolute;
+  font-size: 28px;
+}
+.nova-entrada-text10 {
+  top: var(--dl-space-space-fourunits);
+  left: var(--dl-space-space-sixunits);
+  position: absolute;
+  font-size: 32px;
+}
+.nova-entrada-text11 {
+  top: 137px;
+  left: 120px;
+  width: auto;
+  height: auto;
+  position: absolute;
+  font-size: 26px;
+}
+.nova-entrada-textinput {
+  top: 138px;
+  left: 232px;
+  width: 460px;
+  position: absolute;
+  align-self: center;
+}
+.nova-entrada-text12 {
+  top: 187px;
+  left: 120px;
+  position: absolute;
+  font-size: 26px;
+}
+.nova-entrada-textinput1 {
+  top: 188px;
+  left: 277px;
+  width: 415px;
+  height: 72px;
+  position: absolute;
+  align-self: center;
+}
+.nova-entrada-text15 {
+  top: 271px;
+  left: 120px;
+  position: absolute;
+  font-size: 26px;
+}
+.nova-entrada-textinput2 {
+  top: 272px;
+  left: 325px;
+  width: 367px;
+  position: absolute;
+}
+.nova-entrada-text18 {
+  top: 319px;
+  left: 120px;
+  position: absolute;
+  font-size: 26px;
+}
+.nova-entrada-slider {
+  top: 352px;
+  left: 325px;
+  height: 32px;
+  position: absolute;
+  text-align: center;
+  cursor: pointer;
+}
+#intervalo {
+  width: 126px;
+}
+.nova-entrada-text23 {
+  top: 387px;
+  left: 120px;
+  position: absolute;
+  font-size: 26px;
+  transition: 0.3s;
+  text-decoration: underline;
+}
+.nova-entrada-checkbox {
+  top: 385px;
+  left: 610px;
+  width: 126px;
+  height: 32px;
+  position: absolute;
+  cursor: pointer;
+}
+.nova-entrada-text24 {
+  top: 447px;
+  left: 120px;
+  position: absolute;
+  font-size: 26px;
+  transition: 0.3s;
+  text-decoration: underline;
+}
+.nova-entrada-text25 {
+  top: 517px;
+  left: 120px;
+  position: absolute;
+  font-size: 26px;
+  transition: 0.3s;
+}
+#password span {
+  display: block;
+}
+#password-strength {
+  top: 497px;
+  left: 320px;
+  width: 300px;
+  position: absolute;
+  display: block;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+}
+#password-strength span {
+  display: block;
+  height: 7px;
+  border-radius: 2px;
+  transition: all 500ms ease;
+}
+.strength-0 span {
+  background-color: red;
+  width: 5%;
+}
+.strength-1 span {
+  background-color: orangered;
+  width: 25%;
+}
+.strength-2 span {
+  background-color: orange;
+  width: 50%;
+}
+.strength-3 span {
+  background-color: yellowgreen;
+  width: 75%;
+}
+.strength-4 span {
+  background-color: green;
+  width: 100%;
+}
+.component-icon {
+  top: 475px;
+  left: 645px;
+  position: absolute;
+  width: var(--dl-size-size-small);
+  height: var(--dl-size-size-small);
+}
+.component1-icon {
+  top: 475px;
+  left: 645px;
+  position: absolute;
+  display: none;
+  width: var(--dl-size-size-small);
+  height: var(--dl-size-size-small);
+}

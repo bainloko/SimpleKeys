@@ -5,19 +5,203 @@
 */
 
 // Módulos para controlar o ciclo de vida da aplicação e criar a janela nativa do Browser
-const { app, BrowserWindow, BrowserView, Menu, ipcMain, dialog, Notification, safeStorage, systemPreferences, clipboard, webContents } = require('electron');
+const { app, BrowserWindow, BrowserView, Menu, dialog, Notification, systemPreferences, clipboard, webContents } = require('electron');
+const { ipcMain: ipc } = require('electron-better-ipc');
+const ContextMenu = require("secure-electron-context-menu").default;
+const { showAboutWindow } = require('electron-util');
 
 const log = require('electron-log');
 
-let telaInicial = null
-let novoArquivo = null
-let lerArquivo = null
-let listaEntradas = null
-let novaEntrada = null
-let gerador = null
-let backup = null
-let configuracoes = null
-let sobre = null
+const electronStore = require('electron-store');
+
+let telaInicial = null;
+let novoArquivo = null;
+let lerArquivo = null;
+let listaEntradas = null;
+let novaEntrada = null;
+let gerador = null;
+let backup = null;
+let configuracoes = null;
+
+const isDev = process.env.NODE_ENV === "development";
+const lock = app.requestSingleInstanceLock();
+(!lock) ? app.quit() : log.info("Aplicativo inicializando!"); //o App já está aberto!
+
+const criarTelaInicial = () => {
+    // Cria a tela inicial
+    telaInicial = new BrowserWindow({
+        width: 1280,
+        height: 720,
+        resizable: false,
+        title: "SimpleKeys",
+        webPreferences: {
+            devTools: !app.isPackaged,
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: './preload.js',
+            renderer: './renderer.js'
+        }
+    });
+
+    ContextMenu.mainBindings(ipcMain, telaInicial, Menu, isDev, {
+        "alertTemplate": [{
+            id: "alert",
+            label: "AN ALERT!"
+        }]
+    });
+
+    // window.api.contextMenu.onReceive("alert", function(args) {
+    //     ?
+    // });
+
+    // e carrega a tela padrão do App
+    telaInicial.loadFile('./views/index.html');
+
+    // new Notification("Senha...", {
+    //     body: "Senha...",
+    // });
+
+    telaInicial.on('closed', () => {
+        app.quit();
+    });
+}
+
+ipc.on('opcao:criar', (event) => {
+    try {
+        criarNovoArquivo();
+    } catch (error){
+        log.info("Houve um erro no carregamento da tela novoArquivo, " + error);
+    }
+});
+
+ipc.on('opcao:abrir', (event) => {
+    try {
+        criarLerArquivo();
+    } catch (error){
+        log.info("Houve um erro no carregamento da tela lerArquivo, " + error);
+    }
+});
+
+ipc.on('opcao:config', (event) => {
+    try {
+        criarConfiguracoes();
+    } catch (error){
+        log.info("Houve um erro no carregamento da tela configuracoes, " + error);
+    }
+});
+
+ipc.on('opcao:ajuda', (event) => {
+    try {
+        criarSobre();
+    } catch (error){
+        log.info("Houve um erro no carregamento da tela sobre, " + error);
+    }
+});
+
+function criarNovoArquivo(){
+    novoArquivo = new BrowserView();
+
+    telaInicial.setBrowserView(novoArquivo);
+    novoArquivo.setBounds({ x: 0, y: 0 });
+    novoArquivo.webContents.loadFile('./views/novoArquivo.html');
+}
+
+ipc.on('arquivo:criar', (e, item) => {
+    telaInicial.webContents.send('arquivo:criar', item);
+    novoArquivo = null;
+    criarListaEntradas();
+});
+
+ipc.on('arquivo:novo:path', (e, item) => {
+    telaInicial.webContents.session.on('will-download', (e, item, webContents) => {
+        item.once('done', event => {
+            localStorage.setItem("path", item.getSavePath());
+            log.info(event);
+
+            
+        })
+    });
+});
+
+function criarLerArquivo(){
+    lerArquivo = new BrowserWindow({
+        width: 600,
+        height: 180,
+        resizable: false,
+        parent: telaInicial,
+        title: "SimpleKeys - Abrir Arquivo Já Existente",
+        webPreferences: {
+            devTools: !app.isPackaged,
+            nodeIntegration: false,
+            contextIsolation: true
+        }
+    });
+
+    lerArquivo.setBounds({ x: 320, y: 360 });
+    lerArquivo.loadFile('./views/lerArquivo.html');
+}
+
+ipc.on('arquivo:ler', (event, item) => {
+    lerArquivo.webContents.send('arquivo:ler', item);
+    lerArquivo = null;
+    //se senha OK, criarListaEntradas();
+});
+
+function criarListaEntradas(){
+    listaEntradas = new BrowserView();
+
+    telaInicial.setBrowserView(listaEntradas);
+    listaEntradas.setBounds({ x: 0, y: 0 });
+    listaEntradas.webContents.loadFile('./views/listaEntradas.html');
+
+    // Cria o template do menu
+    const menu = Menu.buildFromTemplate(opcoesMenu);
+
+    // Insere o menu
+    Menu.setApplicationMenu(menu);
+}
+
+function criarNovaEntrada(){
+    novaEntrada = new BrowserView();
+
+    telaInicial.setBrowserView(novaEntrada);
+    novaEntrada.setBounds({ x: 0, y: 0 });
+    novaEntrada.webContents.loadFile('./views/novaEntrada.html');
+}
+
+function criarGerador(){
+    gerador = new BrowserView();
+
+    telaInicial.setBrowserView(gerador);
+    gerador.setBounds({ x: 0, y: 0 });
+    gerador.webContents.loadFile('./views/gerador.html');
+}
+
+function criarBackup(){
+    backup = new BrowserView();
+
+    telaInicial.setBrowserView(backup);
+    backup.setBounds({ x: 0, y: 0 });
+    backup.webContents.loadFile('./views/backup.html');
+}
+
+function criarConfiguracoes(){
+    configuracoes = new BrowserView();
+
+    telaInicial.setBrowserView(configuracoes);
+    configuracoes.setBounds({ x: 0, y: 0 });
+    configuracoes.webContents.loadFile('./views/configuracoes.html');
+}
+
+function criarSobre(){
+    showAboutWindow({
+        icon: path.join(__dirname, 'src/views/public/favicon/favicon-48x48.png'),
+        copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
+        text: 'Beta Fechado, v 0.1.0 \n \n Links e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n \n Em caso de dúvida, envie um e-mail para kaua.maia177@gmail.com ',
+        title: 'Ajuda, Sobre - ',
+        website: 'https://github.com/bainloko/SimpleKeys',
+    });
+}
 
 const opcoesMenu = [
     // Cada objeto é um dropdown
@@ -102,8 +286,8 @@ const opcoesMenu = [
                 click(){ /* Abre nova janelinha editarEntrada.html */ },
             },
             {
-                label: 'Deletar Entrada(s) //to add: Are you sure?',
-                click(){  },
+                label: 'Deletar Entrada(s)',
+                click(){ /* to add: Are you sure? */ },
             },
             {
                 label: 'Selecionar Tudo',
@@ -139,6 +323,10 @@ const opcoesMenu = [
         submenu: [
             // { FUNCIONALIDADE FUTURA
             //     label: 'Alterar Idioma', //Abre nova janelinha idiomas.html
+            //     click(){  },
+            // },
+            // { FUNCIONALIDADE FUTURA
+            //     label: 'Grupos',
             //     click(){  },
             // },
             {
@@ -178,187 +366,7 @@ const opcoesMenu = [
             },
         ]
     },
-]
-
-// new Notification("Senha...", {
-//     body: "Senha...",    
-// });
-
-const lock = app.requestSingleInstanceLock();
-(!lock) ? app.quit() : log.info("Aplicativo inicializando!"); //o App já está aberto!
-
-const criarTelaInicial = () => {
-    // Cria a tela inicial
-    telaInicial = new BrowserWindow({
-        width: 1280,
-        height: 720,
-        resizable: false,
-        title: "SimpleKeys",
-        webPreferences: {
-            devTools: !app.isPackaged,
-            nodeIntegration: false,
-            contextIsolation: true,
-            preload: './preload.js',
-            renderer: './renderer.js'
-        }
-    });
-
-    // e carrega a tela padrão do App
-    telaInicial.loadFile('./views/index.html');
-
-    telaInicial.on('closed', () => {
-        app.quit();
-    });
-}
-
-ipcMain.on('opcao:criar', (event) => {
-    try {
-        criarNovoArquivo();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela novoArquivo, " + error);
-    }
-});
-
-ipcMain.on('opcao:abrir', (event) => {
-    try {
-        criarLerArquivo();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela lerArquivo, " + error);
-    }
-});
-
-ipcMain.on('opcao:config', (event) => {
-    try {
-        criarConfiguracoes();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela configuracoes, " + error);
-    }
-});
-
-ipcMain.on('opcao:ajuda', (event) => {
-    try {
-        criarSobre();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela sobre, " + error);
-    }
-});
-
-function criarNovoArquivo(){
-    novoArquivo = new BrowserView();
-
-    telaInicial.setBrowserView(novoArquivo);
-    novoArquivo.setBounds({ x: 0, y: 0 });
-    novoArquivo.webContents.loadFile('./views/novoArquivo.html');
-}
-
-ipcMain.on('arquivo:criar', (e, item) => {
-    telaInicial.webContents.send('arquivo:criar', item);
-    novoArquivo = null;
-    criarListaEntradas();
-});
-
-ipcMain.on('arquivo:novo:path', (e, item) => {
-    telaInicial.webContents.session.on('will-download', (e, item, webContents) => {
-        item.once('done', event => {
-            localStorage.setItem("path", item.getSavePath());
-            log.info(event);
-
-            
-        })
-    });
-});
-
-function criarLerArquivo(){
-    lerArquivo = new BrowserWindow({
-        width: 600,
-        height: 180,
-        resizable: false,
-        parent: telaInicial,
-        title: "SimpleKeys - Abrir Arquivo Já Existente",
-        webPreferences: {
-            devTools: !app.isPackaged,
-            nodeIntegration: false,
-            contextIsolation: true
-        }
-    });
-
-    lerArquivo.setBounds({ x: 320, y: 360 });
-    lerArquivo.loadFile('./views/lerArquivo.html');
-}
-
-ipcMain.on('arquivo:ler', (event, item) => {
-    lerArquivo.webContents.send('arquivo:ler', item);
-    lerArquivo = null;
-    //se senha OK, criarListaEntradas();
-});
-
-function criarListaEntradas(){
-    listaEntradas = new BrowserView();
-
-    telaInicial.setBrowserView(listaEntradas);
-    listaEntradas.setBounds({ x: 0, y: 0 });
-    listaEntradas.webContents.loadFile('./views/listaEntradas.html');
-
-    // Cria o template do menu
-    const menu = Menu.buildFromTemplate(opcoesMenu);
-
-    // Insere o menu
-    Menu.setApplicationMenu(menu);
-}
-
-function criarNovaEntrada(){
-    novaEntrada = new BrowserView();
-
-    telaInicial.setBrowserView(novaEntrada);
-    novaEntrada.setBounds({ x: 0, y: 0 });
-    novaEntrada.webContents.loadFile('./views/novaEntrada.html');
-}
-
-function criarGerador(){
-    gerador = new BrowserView();
-
-    telaInicial.setBrowserView(gerador);
-    gerador.setBounds({ x: 0, y: 0 });
-    gerador.webContents.loadFile('./views/gerador.html');
-}
-
-function criarBackup(){
-    backup = new BrowserView();
-
-    telaInicial.setBrowserView(backup);
-    backup.setBounds({ x: 0, y: 0 });
-    backup.webContents.loadFile('./views/backup.html');
-}
-
-function criarConfiguracoes(){
-    configuracoes = new BrowserView();
-
-    telaInicial.setBrowserView(configuracoes);
-    configuracoes.setBounds({ x: 0, y: 0 });
-    configuracoes.webContents.loadFile('./views/configuracoes.html');
-}
-
-function criarSobre(){
-    sobre = new BrowserWindow({
-        width: 600,
-        height: 180,
-        resizable: false,
-        parent: telaInicial,
-        title: "SimpleKeys - Ajuda, Sobre",
-        webPreferences: {
-            devTools: !app.isPackaged,
-            nodeIntegration: false,
-            contextIsolation: true
-        }
-    });
-
-    sobre.setBounds({ x: 320, y: 360 });
-    sobre.loadFile('./views/sobre.html');
-
-    sobre.on('closed', () => {
-        sobre = null;
-    });
-}
+];
 
 app.on('ready', () => {
     log.info("Aplicativo aberto!");

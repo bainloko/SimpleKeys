@@ -8,7 +8,7 @@ const log = require('electron-log');
 
 const Entradas = require('../model/Entradas.js');
 
-const dbConfig = require('../config/database.json');
+const dbConfig = require('./database.json');
 
 //outra função pra trocar a senha mestra?
 export async function conectar(nomeArquivo, senhaMestra){

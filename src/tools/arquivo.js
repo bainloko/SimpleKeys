@@ -11,12 +11,11 @@ const Sequelize = require('sequelize');
 
 const Entradas = require('../model/Entradas.js');
 const database = require('../database/Database.js');
-const dbConfig = require('../config/database.json');
+const dbConfig = require('../database/database.json');
 
 const log = require('electron-log');
 
-const config = require('../config/settings.json');
-const editJson = require('electron-settings');
+const electronStore = require('electron-store');
 
 const { or } = Sequelize.Op;
 

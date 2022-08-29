@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
 
 const log = require('electron-log');
 
-const config = require('../config/settings.json');
+const electronStore = require('electron-store');
 
 function realizarBackup(nomeArquivo, senhaMestra, configBanco, imprimir){
     //screen5 tirar o nome, a descrição e o registro de data e hora do backup (handle automatically) e criar o novo .db criptografado
