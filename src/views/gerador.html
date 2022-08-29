@@ -84,12 +84,12 @@
             <span class="gerador-text11">
               Deseja gerar quantas senhas? (1-30)
             </span>
-            <input id="qtdSenhas" type="number" pattern="\d*" title="Somente números;" min="1" max="30" required class="gerador-textinput input" />
+            <input id="qtdSenhas" type="number" pattern="^(?=.*[0-9]).{1,30}$" title="Somente números entre [1-30]!!" min="1" max="30" required class="gerador-textinput input" />
             <span class="gerador-text12">
               <span>Qual o comprimento da(s) senha(s)?</span>
               <br />
             </span>
-            <input id="comprimentoSenha" type="number" pattern="\d*" title="Somente números;" min="4" max="256" required class="gerador-textinput1 input" />
+            <input id="comprimentoSenha" type="number" pattern="^(?=.*[0-9]).{4,256}$" title="Somente números entre [4-256]!!" min="4" max="256" required class="gerador-textinput1 input" />
             <span class="gerador-text15">
               <span>As senhas devem conter:</span>
               <br />
@@ -111,12 +111,13 @@
             <textarea
               cols="1"
               rows="30"
+              placeholder="Colocar função botão direito copiar"
               autofocus
               disabled
               id="listaSenhas"
               class="gerador-textarea textarea"
             ></textarea>
-            <button class="gerador-button2 button">
+            <button class="gerador-button2 button" onClick="window.history.back()">
               <span class="gerador-text24">
                 <span>Voltar</span>
                 <br />

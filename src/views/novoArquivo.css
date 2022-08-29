@@ -55,7 +55,7 @@
 }
 .novo-arquivo-button {
   top: 630px;
-  left: 475px;
+  left: 315px;
   color: #ffffff;
   width: 335px;
   height: 40px;
@@ -74,6 +74,27 @@
   text-decoration: none;
 }
 .novo-arquivo-button:hover {
+  background-color: lightgrey;
+  color: black;
+}
+.novo-arquivo-button2 {
+  top: 630px;
+  left: 655px;
+  color: #ffffff;
+  width: 335px;
+  height: 40px;
+  display: flex;
+  position: absolute;
+  align-self: center;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #000000;
+  cursor: pointer;
+}
+.novo-arquivo-button2:hover {
   background-color: lightgrey;
   color: black;
 }

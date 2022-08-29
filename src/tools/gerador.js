@@ -11,20 +11,25 @@ const upperCaseChr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'
 const numbersChr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const symbolsChr = ["'", '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '-', '+', '=', '`', '~', '/', '?', '{', '}', '[', ']', ':', ';', '<', '>', ',', '.'];
 
-function generate(){
-    let l, u, n, s;
-    
-    if (lowerCase.checked === true){
-        l = true;
-    } else if (upperCase.checked === true){
-        u = true;
-    } else if (numbers.checked === true){
-        n = true;
-    } else if (symbols.checked === true){
-        s = true;
-    } else {
-        alert("Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
-    } //filtrar depois
+function generate(size){
+    let l = "", u = "", n = "", s = "", r = "";
+
+    for (let i = 0; i < size; i++){
+        while (size > r.length){
+            (lowerCase.checked === true) ? l = lowerCaseChr[Math.floor(Math.random() * lowerCaseChr.length)] : console.log("Letra minúscula usada! Substituir por log.info()");
+            (upperCase.checked === true) ? u = upperCaseChr[Math.floor(Math.random() * upperCaseChr.length)] : console.log("Letra maiúscula usada! Substituir por log.info()");
+            (numbers.checked === true) ? n = numbersChr[Math.floor(Math.random() * numbersChr.length)] : console.log("Número usado! Substituir por log.info()");
+            (symbols.checked === true) ? s = symbolsChr[Math.floor(Math.random() * symbolsChr.length)] : console.log("Símbolo usado! Substituir por log.info()");
+
+            (size > r.length) ? r += l : r.slice(0, size - 1);
+            (size > r.length) ? r += u : r.slice(0, size - 1);
+            (size > r.length) ? r += n : r.slice(0, size - 1);
+            (size > r.length) ? r += s : r.slice(0, size - 1);
+        }
+    }
+
+    r = [...r].sort(() => Math.random() - .5).join('');
+    return r;
 }
 
 // quantidade mínima de 1 senha, comprimento mínimo de 4 caracteres
@@ -37,19 +42,20 @@ function gerarSenhas(){
     let symbols = document.getElementById("symbols");
 
     try {
-        if ((!(lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked === false) && (((lowerCase.checked || upperCase.checked || numbers.checked || symbols.checked) === true) && (qtdSenhas.value >= 1 && qtdSenhas.value <= 30 && comprimentoSenha.value >= 4 && comprimentoSenha.value <= 256))) === true){
-            var Senhas = ["", "\n"], senha = "";
+        if ((((!(lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked && false === false) && ((lowerCase.checked || upperCase.checked || numbers.checked || symbols.checked) === true)) || (lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked) === true) && ((qtdSenhas.value >= 1 && qtdSenhas.value <= 30 && comprimentoSenha.value >= 4 && comprimentoSenha.value <= 256))) === true){
+            var Senhas = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], senha = "";
 
             for (let i = 0; i < qtdSenhas.value; i++){
                 while (comprimentoSenha.value > senha.length){
-                    senha += generate();
+                    senha += generate(comprimentoSenha.value);
                 }
 
                 Senhas[i] += senha;
+                senha = "";
             }
 
-            document.getElementById("listaSenhas").innerText = Senhas.join("\n");
-            return Senhas.join("\n");
+            document.getElementById("listaSenhas").innerHTML = Senhas.join("\n");
+            return Senhas.join('\n');
         } else {
             alert("Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
         }

@@ -272,6 +272,9 @@
   background-color: lightgrey;
   color: black;
 }
+#listaSenhas {
+  white-space: pre-line;
+}
 .gerador-text24 {
   font-size: 18px;
   align-self: center;
