@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!--
+          * SimpleKeys
+          * lerArquivo.html
+          * 29/08/2022
+    -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6 {  margin: 0;  padding: 0;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link rel="icon" type="image/png" sizes="16x16" href="./public/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./public/favicon/favicon-32x32.png">
+    <link rel="stylesheet" href="./font.css" data-tag="font" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>SimpleKeys - Abrir Arquivo Já Existente</title>
+  </head>
+  <body>
+    <div>
+      <link href="./lerArquivo.css" rel="stylesheet" />
+      <div class="ler-arquivo-container">
+        <nav class="ler-arquivo-container1">
+          <div class="ler-arquivo-container2"></div>
+          <div class="ler-arquivo-container3"></div>
+          <button type="button" class="ler-arquivo-o-k button" onclick="">OK</button>
+          <button type="button" class="ler-arquivo-cancelar button" onClick="">
+            <span>
+              <span>Cancelar</span>
+              <br />
+            </span>
+          </button>
+          <span class="ler-arquivo-text03">
+            <span>Abrir Arquivo Já Existente</span>
+            <br />
+            <span class="ler-arquivo-text07">Chaveiro em: %path%</span>
+            <br />
+          </span>
+          <button type="button" class="ler-arquivo-ajuda button" onClick="">
+            <span>
+              <span>Ajuda</span>
+              <br />
+            </span>
+          </button>
+          <img
+            src="public/playground_assets/favicon-48x48-200h.png"
+            alt="image"
+            class="ler-arquivo-image"
+          />
+          <img
+            src="public/playground_assets/file-200h.png"
+            alt="image"
+            class="ler-arquivo-image1"
+          />
+          <div class="ler-arquivo-container4">
+            <input type="text" required class="ler-arquivo-textinput input" />
+            <div class="ler-arquivo-container5">
+              <img
+                src="public/playground_assets/folder-200h.png"
+                alt="image"
+                class="ler-arquivo-image2"
+              />
+              <span class="ler-arquivo-text12">
+                Selecionar outro arquivo&ensp;&ensp; -&gt;&ensp;
+              </span>
+            </div>
+            <span class="ler-arquivo-text13">Senha Mestra:</span>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+/*
+* SimpleKeys
+* lerArquivo.css
+* 29/08/2022
+*/
+
+.ler-arquivo-container {
+  width: 512px;
+  height: 360px;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.ler-arquivo-container1 {
+  width: 512px;
+  height: 360px;
+  display: flex;
+  opacity: 1;
+  position: relative;
+  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-image: linear-gradient(0deg, rgb(255, 255, 255) 0.00%,rgb(80, 150, 250) 100.00%);
+}
+.ler-arquivo-container2 {
+  top: var(--dl-space-space-fiveunits);
+  flex: 0 0 auto;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 3px;
+  margin: auto;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  border-color: rgba(120, 120, 120, 0.4);
+  border-style: solid;
+  border-width: 2px;
+  flex-direction: column;
+  background-color: #fa8314;
+}
+.ler-arquivo-container3 {
+  top: 295px;
+  flex: 0 0 auto;
+  left: 0px;
+  width: 100%;
+  height: 3px;
+  margin: auto;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  flex-direction: column;
+  background-color: #414141;
+}
+.ler-arquivo-o-k {
+  left: 326px;
+  bottom: 14px;
+  position: absolute;
+  cursor: pointer;
+}
+.ler-arquivo-cancelar {
+  color: var(--dl-color-gray-black);
+  right: 20px;
+  bottom: 14px;
+  display: flex;
+  position: absolute;
+  flex-direction: row;
+  cursor: pointer;
+}
+.ler-arquivo-text03 {
+  top: var(--dl-space-space-unit);
+  left: var(--dl-space-space-sixunits);
+  position: absolute;
+  font-size: 22px;
+}
+.ler-arquivo-text07 {
+  font-size: 20px;
+}
+.ler-arquivo-ajuda {
+  left: var(--dl-space-space-twounits);
+  color: var(--dl-color-gray-black);
+  bottom: 14px;
+  display: flex;
+  position: absolute;
+  flex-direction: row;
+  cursor: pointer;
+}
+.ler-arquivo-image {
+  top: 0px;
+  left: 0px;
+  width: var(--dl-size-size-small);
+  height: var(--dl-size-size-small);
+  position: absolute;
+  margin-top: var(--dl-space-space-unit);
+  object-fit: cover;
+  margin-left: var(--dl-space-space-oneandhalfunits);
+  margin-bottom: auto;
+}
+.ler-arquivo-image1 {
+  width: 52px;
+  height: 52px;
+  margin-top: var(--dl-space-space-unit);
+  object-fit: cover;
+  margin-right: var(--dl-space-space-oneandhalfunits);
+}
+.ler-arquivo-container4 {
+  top: 115px;
+  left: 58px;
+  width: 375px;
+  height: 92px;
+  display: flex;
+  position: absolute;
+  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.ler-arquivo-textinput {
+  top: 0px;
+  left: 165px;
+  width: 225px;
+  position: absolute;
+}
+.ler-arquivo-container5 {
+  top: 42px;
+  left: 12px;
+  width: 344px;
+  height: 50px;
+  display: flex;
+  position: absolute;
+  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.ler-arquivo-image2 {
+  right: -32px;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  object-fit: cover;
+  cursor: pointer;
+}
+.ler-arquivo-text12 {
+  top: 10px;
+  left: 0px;
+  margin: auto;
+  position: absolute;
+  font-size: 22px;
+}
+.ler-arquivo-text13 {
+  top: 6px;
+  left: 0px;
+  margin: auto;
+  position: absolute;
+  font-size: 22px;
+}
