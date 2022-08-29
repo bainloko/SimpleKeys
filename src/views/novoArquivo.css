@@ -211,8 +211,6 @@
   left: 566px;
   height: 32px;
   position: absolute;
-  text-align: center;
-  cursor: pointer;
 }
 #intervalo {
   width: 126px;
@@ -242,7 +240,7 @@
   text-decoration: underline;
 }
 .novo-arquivo-text25 {
-  top: 517px;
+  top: 512px;
   left: 120px;
   position: absolute;
   font-size: 26px;
@@ -252,8 +250,8 @@
   display: block;
 }
 #password-strength {
-  top: 497px;
-  left: 320px;
+  top: 492px;
+  left: 325px;
   width: 300px;
   position: absolute;
   display: block;
@@ -288,25 +286,25 @@
 }
 .novo-arquivo-textinput2 {
   top: 447px;
-  left: 320px;
+  left: 325px;
   width: 300px;
   position: absolute;
 }
 .novo-arquivo-textinput3 {
-  top: 515px;
-  left: 320px;
+  top: 510px;
+  left: 325px;
   width: 300px;
   position: absolute;
 }
 .component-icon {
-  top: 475px;
+  top: 470px;
   left: 645px;
   position: absolute;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
 }
 .component1-icon {
-  top: 475px;
+  top: 470px;
   left: 645px;
   position: absolute;
   display: none;

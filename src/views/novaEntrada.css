@@ -170,7 +170,7 @@
   align-self: center;
 }
 .nova-entrada-text12 {
-  top: 187px;
+  top: 205px;
   left: 120px;
   position: absolute;
   font-size: 26px;
@@ -201,55 +201,61 @@
   position: absolute;
   font-size: 26px;
 }
-.nova-entrada-slider {
-  top: 352px;
+#inpPassword {
+  top: 369px;
   left: 325px;
-  height: 32px;
   position: absolute;
-  text-align: center;
-  cursor: pointer;
 }
 #intervalo {
   width: 126px;
 }
 .nova-entrada-text23 {
-  top: 387px;
+  top: 370px;
   left: 120px;
   position: absolute;
   font-size: 26px;
   transition: 0.3s;
-  text-decoration: underline;
 }
-.nova-entrada-checkbox {
-  top: 385px;
-  left: 610px;
-  width: 126px;
-  height: 32px;
+.nova-entrada-textinput3 {
+  top: 320px;
+  left: 325px;
+  width: 367px;
   position: absolute;
-  cursor: pointer;
 }
 .nova-entrada-text24 {
-  top: 447px;
+  top: 431px;
   left: 120px;
   position: absolute;
   font-size: 26px;
-  transition: 0.3s;
-  text-decoration: underline;
+}
+.nova-entrada-textinput4 {
+  top: 432px;
+  left: 325px;
+  width: 300px;
+  position: absolute;
 }
 .nova-entrada-text25 {
-  top: 517px;
+  top: 482px;
   left: 120px;
   position: absolute;
   font-size: 26px;
-  transition: 0.3s;
+}
+.nova-entrada-slider {
+  top: 487px;
+  left: 430px;
+  height: 32px;
+  position: absolute;
+}
+#intervalo {
+  width: 260px;
 }
 #password span {
   display: block;
 }
 #password-strength {
-  top: 497px;
-  left: 320px;
-  width: 300px;
+  top: 415px;
+  left: 326px;
+  width: 298px;
   position: absolute;
   display: block;
   cursor: pointer;
@@ -282,14 +288,14 @@
   width: 100%;
 }
 .component-icon {
-  top: 475px;
+  top: 389px;
   left: 645px;
   position: absolute;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
 }
 .component1-icon {
-  top: 475px;
+  top: 389px;
   left: 645px;
   position: absolute;
   display: none;
