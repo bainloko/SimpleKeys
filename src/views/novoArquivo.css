@@ -296,6 +296,33 @@
   width: 300px;
   position: absolute;
 }
+#eye {
+  top: 452px;
+  left: 585px;
+  position: absolute;
+  cursor: pointer;
+  display: block;
+}
+#eyeShown {
+  top: 452px;
+  left: 585px;
+  position: absolute;
+  cursor: pointer;
+  display: none;
+}
+#eye1 {
+  top: 515px;
+  left: 585px;
+  position: absolute;
+  cursor: pointer;
+}
+#eye1Shown {
+  top: 515px;
+  left: 585px;
+  position: absolute;
+  cursor: pointer;
+  display: none;
+}
 .component-icon {
   top: 470px;
   left: 645px;

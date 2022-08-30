@@ -31,7 +31,7 @@ const criarTelaInicial = () => {
     // Cria a tela inicial
     telaInicial = new BrowserWindow({
         width: 1280,
-        height: 720,
+        height: 749,
         resizable: false,
         title: "SimpleKeys",
         webPreferences: {
@@ -43,7 +43,7 @@ const criarTelaInicial = () => {
         }
     });
 
-    ContextMenu.mainBindings(ipcMain, telaInicial, Menu, isDev, {
+    ContextMenu.mainBindings(ipc, telaInicial, Menu, isDev, {
         "alertTemplate": [{
             id: "alert",
             label: "AN ALERT!"
@@ -55,7 +55,8 @@ const criarTelaInicial = () => {
     // });
 
     // e carrega a tela padrão do App
-    telaInicial.loadFile('./views/index.html');
+    telaInicial.loadFile('src/views/index.html');
+    Menu.setApplicationMenu(null);
 
     // new Notification("Senha...", {
     //     body: "Senha...",
@@ -103,7 +104,7 @@ function criarNovoArquivo(){
 
     telaInicial.setBrowserView(novoArquivo);
     novoArquivo.setBounds({ x: 0, y: 0 });
-    novoArquivo.webContents.loadFile('./views/novoArquivo.html');
+    novoArquivo.webContents.loadFile('views/novoArquivo.html');
 }
 
 ipc.on('arquivo:criar', (e, item) => {
@@ -138,7 +139,7 @@ function criarLerArquivo(){
     });
 
     lerArquivo.setBounds({ x: 320, y: 360 });
-    lerArquivo.loadFile('./views/lerArquivo.html');
+    lerArquivo.loadFile('views/lerArquivo.html');
 }
 
 ipc.on('arquivo:ler', (event, item) => {
@@ -148,11 +149,11 @@ ipc.on('arquivo:ler', (event, item) => {
 });
 
 function criarListaEntradas(){
-    listaEntradas = new BrowserView();
+    listaEntradas = new BrowserView(); //
 
     telaInicial.setBrowserView(listaEntradas);
     listaEntradas.setBounds({ x: 0, y: 0 });
-    listaEntradas.webContents.loadFile('./views/listaEntradas.html');
+    listaEntradas.webContents.loadFile('views/listaEntradas.html');
 
     // Cria o template do menu
     const menu = Menu.buildFromTemplate(opcoesMenu);
@@ -166,7 +167,7 @@ function criarNovaEntrada(){
 
     telaInicial.setBrowserView(novaEntrada);
     novaEntrada.setBounds({ x: 0, y: 0 });
-    novaEntrada.webContents.loadFile('./views/novaEntrada.html');
+    novaEntrada.webContents.loadFile('views/novaEntrada.html');
 }
 
 function criarGerador(){
@@ -174,30 +175,30 @@ function criarGerador(){
 
     telaInicial.setBrowserView(gerador);
     gerador.setBounds({ x: 0, y: 0 });
-    gerador.webContents.loadFile('./views/gerador.html');
+    gerador.webContents.loadFile('views/gerador.html');
 }
 
 function criarBackup(){
-    backup = new BrowserView();
+    backup = new BrowserView(); //
 
     telaInicial.setBrowserView(backup);
     backup.setBounds({ x: 0, y: 0 });
-    backup.webContents.loadFile('./views/backup.html');
+    backup.webContents.loadFile('views/backup.html');
 }
 
 function criarConfiguracoes(){
-    configuracoes = new BrowserView();
+    configuracoes = new BrowserView(); //
 
     telaInicial.setBrowserView(configuracoes);
     configuracoes.setBounds({ x: 0, y: 0 });
-    configuracoes.webContents.loadFile('./views/configuracoes.html');
+    configuracoes.webContents.loadFile('views/configuracoes.html');
 }
 
 function criarSobre(){
     showAboutWindow({
         icon: path.join(__dirname, 'src/views/public/favicon/favicon-48x48.png'),
         copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-        text: 'Beta Fechado, v 0.1.0 \n \n Links e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n \n Em caso de dúvida, envie um e-mail para kaua.maia177@gmail.com ',
+        text: 'Beta Fechado, v 0.1.0 \n \n Links e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n Para ver o histórico de um banco de dados, veja os registros na pasta Documentos no Windows e Home no Linux. \n Em caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n \n TCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense <em>Campus</em> Bagé.',
         title: 'Ajuda, Sobre - ',
         website: 'https://github.com/bainloko/SimpleKeys',
     });

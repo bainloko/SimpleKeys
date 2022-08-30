@@ -1,3 +1,3 @@
 # SimpleKeys
-POR: descrição, quick start, link, disclaimers, copying, ajuda;; tela config alterar senha junto, criar tela edit entrada
+POR: descrição/features, quick start, link p/ instalação, ajuda, disclaimers, copying
 ENG:

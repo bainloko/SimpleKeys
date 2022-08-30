@@ -1,10 +1,10 @@
 /*
 * SimpleKeys
-* novaEntrada.css
-* 29/08/2022
+* editarEntrada.css
+* 30/08/2022
 */
 
-.nova-entrada-container {
+.editar-entrada-container {
   width: 100%;
   height: 720px;
   display: flex;
@@ -20,7 +20,7 @@
   justify-content: center;
   background-image: linear-gradient(0deg, rgb(255, 255, 255) 0.00%,rgb(80, 150, 250) 100.00%);
 }
-.nova-entrada-desktop {
+.editar-entrada-desktop {
   width: 100%;
   height: 720px;
   display: flex;
@@ -34,7 +34,7 @@
   border-radius: 0px 0px 0px 0px;
   justify-content: flex-start;
 }
-.nova-entrada-text {
+.editar-entrada-text {
   top: var(--dl-space-space-halfunit);
   left: var(--dl-space-space-twounits);
   color: var(--dl-color-gray-black);
@@ -44,7 +44,7 @@
   font-style: italic;
   text-decoration: underline;
 }
-.nova-entrada-container1 {
+.editar-entrada-container1 {
   width: 100%;
   height: 100%;
   display: flex;
@@ -53,7 +53,7 @@
   align-items: center;
   justify-content: flex-start;
 }
-.nova-entrada-button {
+.editar-entrada-button {
   top: 630px;
   left: 315px;
   color: #ffffff;
@@ -70,14 +70,14 @@
   background-color: #000000;
   cursor: pointer;
 }
-.nova-entrada-button1 a {
+.editar-entrada-button1 a {
   text-decoration: none;
 }
-.nova-entrada-button:hover {
+.editar-entrada-button:hover {
   background-color: lightgrey;
   color: black;
 }
-.nova-entrada-button2 {
+.editar-entrada-button2 {
   top: 630px;
   left: 655px;
   color: #ffffff;
@@ -94,18 +94,18 @@
   background-color: #000000;
   cursor: pointer;
 }
-.nova-entrada-button2:hover {
+.editar-entrada-button2:hover {
   background-color: lightgrey;
   color: black;
 }
-.nova-entrada-text01 {
+.editar-entrada-text01 {
   font-size: 18px;
   align-self: center;
   font-style: normal;
   text-align: center;
   font-weight: 500;
 }
-.nova-entrada-container2 {
+.editar-entrada-container2 {
   top: -16px;
   flex: 0 0 auto;
   left: 720px;
@@ -122,10 +122,10 @@
   border-width: 2px;
   justify-content: center;
 }
-.nova-entrada-text04 {
+.editar-entrada-text04 {
   text-align: center;
 }
-.nova-entrada-icon {
+.editar-entrada-icon {
   top: 30px;
   right: var(--dl-space-space-fourunits);
   width: var(--dl-size-size-small);
@@ -133,7 +133,7 @@
   position: absolute;
   cursor: pointer;
 }
-.nova-entrada-icon2 {
+.editar-entrada-icon2 {
   top: 30px;
   right: var(--dl-space-space-unit);
   width: var(--dl-size-size-small);
@@ -141,20 +141,20 @@
   position: absolute;
   cursor: pointer;
 }
-.nova-entrada-text09 {
+.editar-entrada-text09 {
   color: #000000;
   right: var(--dl-space-space-twounits);
   bottom: var(--dl-space-space-twounits);
   position: absolute;
   font-size: 28px;
 }
-.nova-entrada-text10 {
+.editar-entrada-text10 {
   top: var(--dl-space-space-fourunits);
   left: var(--dl-space-space-sixunits);
   position: absolute;
   font-size: 32px;
 }
-.nova-entrada-text11 {
+.editar-entrada-text11 {
   top: 137px;
   left: 120px;
   width: auto;
@@ -162,20 +162,20 @@
   position: absolute;
   font-size: 26px;
 }
-.nova-entrada-textinput {
+.editar-entrada-textinput {
   top: 138px;
   left: 232px;
   width: 460px;
   position: absolute;
   align-self: center;
 }
-.nova-entrada-text12 {
+.editar-entrada-text12 {
   top: 205px;
   left: 120px;
   position: absolute;
   font-size: 26px;
 }
-.nova-entrada-textinput1 {
+.editar-entrada-textinput1 {
   top: 188px;
   left: 277px;
   width: 415px;
@@ -183,19 +183,19 @@
   position: absolute;
   align-self: center;
 }
-.nova-entrada-text15 {
+.editar-entrada-text15 {
   top: 271px;
   left: 120px;
   position: absolute;
   font-size: 26px;
 }
-.nova-entrada-textinput2 {
+.editar-entrada-textinput2 {
   top: 272px;
   left: 325px;
   width: 367px;
   position: absolute;
 }
-.nova-entrada-text18 {
+.editar-entrada-text18 {
   top: 319px;
   left: 120px;
   position: absolute;
@@ -204,34 +204,6 @@
 #inpPassword {
   top: 369px;
   left: 325px;
-  position: absolute;
-}
-#intervalo {
-  width: 126px;
-}
-.nova-entrada-text23 {
-  top: 370px;
-  left: 120px;
-  position: absolute;
-  font-size: 26px;
-  transition: 0.3s;
-}
-.nova-entrada-textinput3 {
-  top: 320px;
-  left: 325px;
-  width: 367px;
-  position: absolute;
-}
-.nova-entrada-text24 {
-  top: 431px;
-  left: 120px;
-  position: absolute;
-  font-size: 26px;
-}
-.nova-entrada-textinput4 {
-  top: 432px;
-  left: 325px;
-  width: 300px;
   position: absolute;
 }
 #eye {
@@ -261,13 +233,41 @@
   cursor: pointer;
   display: none;
 }
-.nova-entrada-text25 {
+#intervalo {
+  width: 126px;
+}
+.editar-entrada-text23 {
+  top: 370px;
+  left: 120px;
+  position: absolute;
+  font-size: 26px;
+  transition: 0.3s;
+}
+.editar-entrada-textinput3 {
+  top: 320px;
+  left: 325px;
+  width: 367px;
+  position: absolute;
+}
+.editar-entrada-text24 {
+  top: 431px;
+  left: 120px;
+  position: absolute;
+  font-size: 26px;
+}
+.editar-entrada-textinput4 {
+  top: 432px;
+  left: 325px;
+  width: 300px;
+  position: absolute;
+}
+.editar-entrada-text25 {
   top: 482px;
   left: 120px;
   position: absolute;
   font-size: 26px;
 }
-.nova-entrada-slider {
+.editar-entrada-slider {
   top: 487px;
   left: 430px;
   height: 32px;

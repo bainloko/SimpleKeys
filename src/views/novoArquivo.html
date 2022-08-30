@@ -9,6 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="twitter:card" content="summary_large_image" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
     <style data-tag="reset-style-sheet">
       html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6 {  margin: 0;  padding: 0;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
     </style>
@@ -55,145 +56,149 @@
       <article class="novo-arquivo-container">
         <div class="novo-arquivo-desktop">
           <span class="novo-arquivo-text">SimpleKeys</span>
-          <div class="novo-arquivo-container1">
-            <div class="novo-arquivo-container2">
+            <div class="novo-arquivo-container1">
+              <div class="novo-arquivo-container2">
               <span class="novo-arquivo-text04">
-                <span>iframe carousel com infos importantes,</span>
-                <br />
-                <span>imagens, etc.</span>
-                <br />
+                  <span>iframe carousel com infos importantes,</span>
+                  <br />
+                  <span>imagens, etc.</span>
+                  <br />
               </span>
-            </div>
-            <svg viewBox="0 0 1024 1024" class="novo-arquivo-icon" onClick="criarConfiguracoes()">
-              <path
-                d="M512 662q62 0 106-44t44-106-44-106-106-44-106 44-44 106 44 106 106 44zM830 554l90 70q14 10 4 28l-86 148q-8 14-26 8l-106-42q-42 30-72 42l-16 112q-4 18-20 18h-172q-16 0-20-18l-16-112q-38-16-72-42l-106 42q-18 6-26-8l-86-148q-10-18 4-28l90-70q-2-14-2-42t2-42l-90-70q-14-10-4-28l86-148q8-14 26-8l106 42q42-30 72-42l16-112q4-18 20-18h172q16 0 20 18l16 112q38 16 72 42l106-42q18-6 26 8l86 148q10 18-4 28l-90 70q2 14 2 42t-2 42z"
-              ></path>
-            </svg>
-            <svg viewBox="0 0 1024 1024" class="novo-arquivo-icon2" onClick="criarSobre()">
-              <path
-                d="M512 256q70 0 120 50t50 120q0 54-64 111t-64 103h-84q0-46 20-79t44-48 44-37 20-50q0-34-26-59t-60-25-60 25-26 59h-84q0-70 50-120t120-50zM512 854q140 0 241-101t101-241-101-241-241-101-241 101-101 241 101 241 241 101zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125zM470 768v-86h84v86h-84z"
-              ></path>
-            </svg>
-            <span class="novo-arquivo-text09">v 0.1.0</span>
-            <span class="novo-arquivo-text10">Novo arquivo...</span>
-            <span class="novo-arquivo-text11">Nome:</span>
-            <input
-              type="text"
-              placeholder="Escreva aqui o nome do seu chaveiro!"
-              id="inputNomeArq"
-              class="novo-arquivo-textinput input"
-              required
-            />
-            <span class="novo-arquivo-text12">
-              <span>Descrição:</span>
-              <br />
-            </span>
-            <input
-              type="text"
-              placeholder="Para o que você vai usar esse chaveiro?"
-              id="inputDescArq"
-              class="novo-arquivo-textinput1 input"
-            />
-            <span class="novo-arquivo-text15">
-              <span>Onde você vai salvar o arquivo?</span>
-              <br />
-            </span>
-            <button type="button" class="novo-arquivo-button1 button" onClick="download()">
-              <a href="" id="s">Navegar...</a>
-            </button>
-            <span class="novo-arquivo-text18">
-              <span>Deseja ser lembrado de trocar de</span>
-              <br />
-              <span>senhas periodicamente? (meses)</span>
-              <br />
-            </span>
-            <div class="novo-arquivo-slider">
-              <input id="intervalo" title="6 meses" type="range" min="0" max="12" value="6" onInput="(this.value > 0) ? (intervalo.title = this.value + ' meses') : intervalo.title = 'Desligado.'" />
-            </div>
-            <span
-              title="Uma chave reserva é uma sequência longa de letras e números gerados aleatoriamente que serve para a aumentar a segurança das senhas contidas no seu chaveiro digital. Você vai precisar da sua senha mestra e da sua chave JUNTAS para abrir o arquivo."
-              class="novo-arquivo-text23"
-            >
-              Deseja gerar uma chave reserva? (S ou N)
-            </span>
-            <input type="checkbox" class="novo-arquivo-checkbox" />
-            <div id="password">
-              <span title="A senha mestra do chaveiro é a única senha que você precisará lembrar na vida caso use o gerenciador de senhas SimpleKeys. Com ela, o programa irá criptografar o arquivo, lembrando de todas as suas senhas, de forma segura, de modo a impedir acesso não autorizado. Por isso, escolha muito bem sua senha mestra! Ela que protege os seus dados!" class="novo-arquivo-text24">
-                Senha Mestra:
-              </span>
-              <span class="novo-arquivo-text25">
-                Repita a senha:
+              </div>
+              <svg viewBox="0 0 1024 1024" class="novo-arquivo-icon" onClick="criarConfiguracoes()">
+                  <path
+                    d="M512 662q62 0 106-44t44-106-44-106-106-44-106 44-44 106 44 106 106 44zM830 554l90 70q14 10 4 28l-86 148q-8 14-26 8l-106-42q-42 30-72 42l-16 112q-4 18-20 18h-172q-16 0-20-18l-16-112q-38-16-72-42l-106 42q-18 6-26-8l-86-148q-10-18 4-28l90-70q-2-14-2-42t2-42l-90-70q-14-10-4-28l86-148q8-14 26-8l106 42q42-30 72-42l16-112q4-18 20-18h172q16 0 20 18l16 112q38 16 72 42l106-42q18-6 26 8l86 148q10 18-4 28l-90 70q2 14 2 42t-2 42z"
+                  ></path>
+              </svg>
+              <svg viewBox="0 0 1024 1024" class="novo-arquivo-icon2" onClick="criarSobre()">
+                  <path
+                    d="M512 256q70 0 120 50t50 120q0 54-64 111t-64 103h-84q0-46 20-79t44-48 44-37 20-50q0-34-26-59t-60-25-60 25-26 59h-84q0-70 50-120t120-50zM512 854q140 0 241-101t101-241-101-241-241-101-241 101-101 241 101 241 241 101zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125zM470 768v-86h84v86h-84z"
+                  ></path>
+              </svg>
+              <span class="novo-arquivo-text09">v 0.1.0</span>
+              <span class="novo-arquivo-text10">Novo arquivo...</span>
+              <span class="novo-arquivo-text11">Nome:</span>
+              <input
+                type="text"
+                placeholder="Escreva aqui o nome do seu chaveiro!"
+                id="inputNomeArq"
+                class="novo-arquivo-textinput input"
+                required
+              />
+              <span class="novo-arquivo-text12">
+                  <span>Descrição:</span>
+                  <br />
               </span>
               <input
-                id="inpPassword"
-                type="password"
-                minlength="8"
-                pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&-+=()]).{8,}$"
-                placeholder="Digite uma senha para o chaveiro"
-                autocomplete="off"
-                required
-                class="novo-arquivo-textinput2 input"
+                type="text"
+                placeholder="Para o que você vai usar esse chaveiro?"
+                id="inputDescArq"
+                class="novo-arquivo-textinput1 input"
               />
-              <div id="password-strength" title="Esse é o marcador de segurança da sua senha mestra. Você precisa seguir a estes critérios aqui: No mínimo 8 caracteres, dos quais, uma letra minúscula, uma letra maiúscula, um número e um símbolo, em qualquer ordem.">
-                <span></span>
+              <span class="novo-arquivo-text15">
+                  <span>Onde você vai salvar o arquivo?</span>
+                  <br />
+              </span>
+              <button type="button" class="novo-arquivo-button1 button" onClick="download()">
+                  <a href="" id="s">Navegar...</a>
+              </button>
+              <span class="novo-arquivo-text18">
+                  <span>Deseja ser lembrado de trocar de</span>
+                  <br />
+                  <span>senhas periodicamente? (meses)</span>
+                  <br />
+              </span>
+              <div class="novo-arquivo-slider">
+                  <input id="intervalo" title="6 meses" type="range" min="0" max="12" value="6" onInput="(this.value > 0) ? (intervalo.title = this.value + ' meses') : intervalo.title = 'Desligado.'" />
               </div>
-              <input
-                id="inpTestPassword"
-                type="password"
-                minlength="8"
-                pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()]).{8,}$"
-                placeholder="Repita a senha por segurança"
-                autocomplete="off"
-                required
-                class="novo-arquivo-textinput3 input"
-              />
-              <div class="password-feedback">
-                <span>
-                  <svg viewBox="0 0 1024 1024" id="feedback" class="component-icon">
-                    <path
-                      d="M512 854q140 0 241-101t101-241-101-241-241-101-241 101-101 241 101 241 241 101zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
-                    ></path>
-                  </svg>
-                  <svg viewBox="0 0 1024 1024" id="feedback1" class="component1-icon">
-                    <path
-                      d="M896 472.747v39.253c-0.043 106.027-43.051 201.941-112.64 271.445s-165.547 112.384-271.573 112.299-201.984-43.051-271.445-112.64-112.384-165.504-112.341-271.573 43.051-201.941 112.64-271.445 165.547-112.384 271.573-112.341c56.747 0.043 110.336 12.331 155.691 33.067 21.419 9.813 46.763 0.341 56.533-21.077s0.341-46.763-21.077-56.533c-56.619-25.856-122.283-40.747-191.104-40.789-129.579-0.085-246.997 52.437-331.947 137.259s-137.557 202.24-137.643 331.819 52.437 246.997 137.259 331.947 202.197 137.6 331.776 137.643 246.997-52.437 331.947-137.259 137.6-202.197 137.685-331.819v-39.253c0-23.552-19.115-42.667-42.667-42.667s-42.667 19.115-42.667 42.667zM908.501 140.501l-396.501 396.885-97.835-97.792c-16.683-16.683-43.691-16.683-60.331 0s-16.683 43.691 0 60.331l128 128c16.683 16.683 43.691 16.64 60.373 0l426.667-427.093c16.64-16.683 16.64-43.691-0.043-60.331s-43.691-16.64-60.331 0.043z"
-                    ></path>
-                  </svg>
-                </span>
+              <span
+                title="Uma chave reserva é uma sequência longa de letras e números gerados aleatoriamente que serve para a aumentar a segurança das senhas contidas no seu chaveiro digital. Você vai precisar da sua senha mestra e da sua chave JUNTAS para abrir o arquivo."
+                class="novo-arquivo-text23"
+              >
+                Deseja gerar uma chave reserva? (S ou N)
+              </span>
+              <input type="checkbox" class="novo-arquivo-checkbox" />
+              <div id="password">
+                  <span title="A senha mestra do chaveiro é a única senha que você precisará lembrar na vida caso use o gerenciador de senhas SimpleKeys. Com ela, o programa irá criptografar o arquivo, lembrando de todas as suas senhas, de forma segura, de modo a impedir acesso não autorizado. Por isso, escolha muito bem sua senha mestra! Ela que protege os seus dados!" class="novo-arquivo-text24">
+                    Senha Mestra:
+                  </span>
+                  <span class="novo-arquivo-text25">
+                    Repita a senha:
+                  </span>
+                  <input
+                    id="inpPassword"
+                    type="password"
+                    minlength="8"
+                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&-+=()]).{8,}$"
+                    placeholder="Digite uma senha p/o chaveiro"
+                    autocomplete="off"
+                    required
+                    class="novo-arquivo-textinput2 input"
+                  />
+                  <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
+                  <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
+                  <div id="password-strength" title="Esse é o marcador de segurança da sua senha mestra. Você precisa seguir a estes critérios aqui: No mínimo 8 caracteres, dos quais, uma letra minúscula, uma letra maiúscula, um número e um símbolo, em qualquer ordem.">
+                      <span></span>
+                  </div>
+                  <input
+                    id="inpTestPassword"
+                    type="password"
+                    minlength="8"
+                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()]).{8,}$"
+                    placeholder="Repita a senha por segurança"
+                    autocomplete="off"
+                    required
+                    class="novo-arquivo-textinput3 input"
+                  />
+                  <i id="eye1"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
+                  <i id="eye1Shown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
+                  <div class="password-feedback">
+                    <span>
+                      <svg viewBox="0 0 1024 1024" id="feedback" class="component-icon">
+                        <path
+                          d="M512 854q140 0 241-101t101-241-101-241-241-101-241 101-101 241 101 241 241 101zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
+                        ></path>
+                      </svg>
+                      <svg viewBox="0 0 1024 1024" id="feedbackPass" class="component1-icon">
+                        <path
+                          d="M896 472.747v39.253c-0.043 106.027-43.051 201.941-112.64 271.445s-165.547 112.384-271.573 112.299-201.984-43.051-271.445-112.64-112.384-165.504-112.341-271.573 43.051-201.941 112.64-271.445 165.547-112.384 271.573-112.341c56.747 0.043 110.336 12.331 155.691 33.067 21.419 9.813 46.763 0.341 56.533-21.077s0.341-46.763-21.077-56.533c-56.619-25.856-122.283-40.747-191.104-40.789-129.579-0.085-246.997 52.437-331.947 137.259s-137.557 202.24-137.643 331.819 52.437 246.997 137.259 331.947 202.197 137.6 331.776 137.643 246.997-52.437 331.947-137.259 137.6-202.197 137.685-331.819v-39.253c0-23.552-19.115-42.667-42.667-42.667s-42.667 19.115-42.667 42.667zM908.501 140.501l-396.501 396.885-97.835-97.792c-16.683-16.683-43.691-16.683-60.331 0s-16.683 43.691 0 60.331l128 128c16.683 16.683 43.691 16.64 60.373 0l426.667-427.093c16.64-16.683 16.64-43.691-0.043-60.331s-43.691-16.64-60.331 0.043z"
+                        ></path>
+                      </svg>
+                    </span>
+                  </div>
               </div>
+              <button type="button" class="novo-arquivo-button button">
+                  <span class="novo-arquivo-text01">
+                      <span>Criar</span>
+                      <br />
+                  </span>
+              </button>
+              <button type="button" class="novo-arquivo-button2 button" onClick="window.history.back()">
+                  <span class="novo-arquivo-text01">
+                      <span>Voltar</span>
+                      <br />
+                  </span>
+              </button>
             </div>
-            <button type="button" class="novo-arquivo-button button">
-              <span class="novo-arquivo-text01">
-                <span>Criar</span>
-                <br />
-              </span>
-            </button>
-            <button type="button" class="novo-arquivo-button2 button" onClick="window.history.back()">
-              <span class="novo-arquivo-text01">
-                <span>Voltar</span>
-                <br />
-              </span>
-            </button>
-            <script src="../tools/strength.js"></script>
-            <script>
-              //   const download = (data = "", type = ".db") => {
-              //   const { ipcRenderer } = require("electron");
-
-              //   let nomeArquivo = document.getElementById("inputNomeArq").value;
-              //   let s = document.getElementById("s");
-              //   let toDownload = nomeArquivo + type;
-              //   let file = new Blob([data], {type: type});
-              //   s.href = URL.createObjectURL(file);
-              //   s.download = toDownload;
-
-              //   ipcRenderer.send("arquivo:novo:path");
-              //   DownloadItem.getFilename("nomeArquivo");
-              // }
-            </script>
-          </div>
-          <div cm-template="alertTemplate"></div>
+            <div cm-template="alertTemplate"></div>
         </div>
       </article>
     </div>
+    <script src="../tools/strength.js"></script>
+    <!--<script>
+      const download = (data = "", type = ".db") => {
+        const { ipcRenderer } = require("electron");
+
+        let nomeArquivo = document.getElementById("inputNomeArq").value;
+        let s = document.getElementById("s");
+        let toDownload = nomeArquivo + type;
+        let file = new Blob([data], {type: type});
+        s.href = URL.createObjectURL(file);
+        s.download = toDownload;
+
+        ipcRenderer.send("arquivo:novo:path");
+        DownloadItem.getFilename("nomeArquivo");
+      }
+    </script>-->
   </body>
 </html>

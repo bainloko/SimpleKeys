@@ -2,7 +2,7 @@
   "name": "simplekeys",
   "version": "0.1.0",
   "description": "Um gerenciador de senhas leve e seguro.",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "test": "electron .",
     "package": "electron-packager package",
@@ -44,7 +44,6 @@
   "devDependencies": {
     "@doyensec/electronegativity": "^1.9.1",
     "@types/fs-extra": "^9.0.13",
-    "electron-packager": "^15.5.1",
-    "nodemon": "^2.0.18"
+    "electron-packager": "^15.5.1"
   }
 }
