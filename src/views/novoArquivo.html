@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="twitter:card" content="summary_large_image" />
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'" />
     <style data-tag="reset-style-sheet">
       html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6 {  margin: 0;  padding: 0;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
     </style>
@@ -36,6 +36,9 @@
     <link rel="stylesheet" href="./font.css" data-tag="font" />
     <link rel="stylesheet" href="./style.css" />
     <script src="../tools/zxcvbn.js"></script>
+    <script>
+      const { ipcRenderer: ipc } = require('electron-better-ipc');
+    </script>
     <title>SimpleKeys - Novo Arquivo</title>
   </head>
   <body>
@@ -65,12 +68,12 @@
                   <br />
               </span>
               </div>
-              <svg viewBox="0 0 1024 1024" class="novo-arquivo-icon" onClick="criarConfiguracoes()">
+              <svg viewBox="0 0 1024 1024" class="novo-arquivo-icon" onClick="ipc.send('opcao:config');">
                   <path
                     d="M512 662q62 0 106-44t44-106-44-106-106-44-106 44-44 106 44 106 106 44zM830 554l90 70q14 10 4 28l-86 148q-8 14-26 8l-106-42q-42 30-72 42l-16 112q-4 18-20 18h-172q-16 0-20-18l-16-112q-38-16-72-42l-106 42q-18 6-26-8l-86-148q-10-18 4-28l90-70q-2-14-2-42t2-42l-90-70q-14-10-4-28l86-148q8-14 26-8l106 42q42-30 72-42l16-112q4-18 20-18h172q16 0 20 18l16 112q38 16 72 42l106-42q18-6 26 8l86 148q10 18-4 28l-90 70q2 14 2 42t-2 42z"
                   ></path>
               </svg>
-              <svg viewBox="0 0 1024 1024" class="novo-arquivo-icon2" onClick="criarSobre()">
+              <svg viewBox="0 0 1024 1024" class="novo-arquivo-icon2" onClick="ipc.send('opcao:sobre');">
                   <path
                     d="M512 256q70 0 120 50t50 120q0 54-64 111t-64 103h-84q0-46 20-79t44-48 44-37 20-50q0-34-26-59t-60-25-60 25-26 59h-84q0-70 50-120t120-50zM512 854q140 0 241-101t101-241-101-241-241-101-241 101-101 241 101 241 241 101zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125zM470 768v-86h84v86h-84z"
                   ></path>
@@ -99,7 +102,7 @@
                   <span>Onde você vai salvar o arquivo?</span>
                   <br />
               </span>
-              <button type="button" class="novo-arquivo-button1 button" onClick="download()">
+              <button type="button" class="novo-arquivo-button1 button" onClick="download();">
                   <a href="" id="s">Navegar...</a>
               </button>
               <span class="novo-arquivo-text18">
@@ -167,13 +170,13 @@
                     </span>
                   </div>
               </div>
-              <button type="button" class="novo-arquivo-button button">
+              <button type="button" class="novo-arquivo-button button" onClick="ipc.send('arquivo:criar');">
                   <span class="novo-arquivo-text01">
                       <span>Criar</span>
                       <br />
                   </span>
               </button>
-              <button type="button" class="novo-arquivo-button2 button" onClick="window.history.back()">
+              <button type="button" class="novo-arquivo-button2 button" onClick="window.history.back();">
                   <span class="novo-arquivo-text01">
                       <span>Voltar</span>
                       <br />
@@ -185,10 +188,8 @@
       </article>
     </div>
     <script src="../tools/strength.js"></script>
-    <!--<script>
+    <script>
       const download = (data = "", type = ".db") => {
-        const { ipcRenderer } = require("electron");
-
         let nomeArquivo = document.getElementById("inputNomeArq").value;
         let s = document.getElementById("s");
         let toDownload = nomeArquivo + type;
@@ -196,9 +197,8 @@
         s.href = URL.createObjectURL(file);
         s.download = toDownload;
 
-        ipcRenderer.send("arquivo:novo:path");
-        DownloadItem.getFilename("nomeArquivo");
+        ipc.send("arquivo:novo:path", DownloadItem.getFilename("nomeArquivo"));
       }
-    </script>-->
+    </script>
   </body>
 </html>

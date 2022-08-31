@@ -14,6 +14,5 @@ const ContextMenu = require("secure-electron-context-menu").default;
 window.log = log.functions;
 
 contextBridge.exposeInMainWorld("api", {
-    // setTitle: (title) => ipcRenderer.send('set-title', title)
-    contextMenu: ContextMenu.preloadBindings(ipcRenderer)
+    contextMenu: ContextMenu.preloadBindings(ipc)
 });

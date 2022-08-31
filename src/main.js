@@ -38,8 +38,7 @@ const criarTelaInicial = () => {
             devTools: !app.isPackaged,
             nodeIntegration: false,
             contextIsolation: true,
-            preload: './preload.js',
-            renderer: './renderer.js'
+            preload: './preload.js'
         }
     });
 
@@ -67,7 +66,7 @@ const criarTelaInicial = () => {
     });
 }
 
-ipc.on('opcao:criar', (event) => {
+ipc.on('opcao:criar', (e) => {
     try {
         criarNovoArquivo();
     } catch (error){
@@ -75,7 +74,7 @@ ipc.on('opcao:criar', (event) => {
     }
 });
 
-ipc.on('opcao:abrir', (event) => {
+ipc.on('opcao:abrir', (e) => {
     try {
         criarLerArquivo();
     } catch (error){
@@ -83,7 +82,7 @@ ipc.on('opcao:abrir', (event) => {
     }
 });
 
-ipc.on('opcao:config', (event) => {
+ipc.on('opcao:config', (e) => {
     try {
         criarConfiguracoes();
     } catch (error){
@@ -91,7 +90,7 @@ ipc.on('opcao:config', (event) => {
     }
 });
 
-ipc.on('opcao:ajuda', (event) => {
+ipc.on('opcao:ajuda', (e) => {
     try {
         criarSobre();
     } catch (error){
@@ -109,25 +108,28 @@ function criarNovoArquivo(){
 
 ipc.on('arquivo:criar', (e, item) => {
     telaInicial.webContents.send('arquivo:criar', item);
+    log.info(e);
+
     novoArquivo = null;
     criarListaEntradas();
 });
 
 ipc.on('arquivo:novo:path', (e, item) => {
-    telaInicial.webContents.session.on('will-download', (e, item, webContents) => {
-        item.once('done', event => {
-            localStorage.setItem("path", item.getSavePath());
-            log.info(event);
-
-            
+    telaInicial.webContents.session.on('will-download', download => {
+        download.once('done', e => {
+            localStorage.setItem("path", item);
         })
+
+        log.info(e);
     });
+
+    log.info(e);
 });
 
 function criarLerArquivo(){
     lerArquivo = new BrowserWindow({
-        width: 600,
-        height: 180,
+        width: 512,
+        height: 389,
         resizable: false,
         parent: telaInicial,
         title: "SimpleKeys - Abrir Arquivo Já Existente",
@@ -138,11 +140,10 @@ function criarLerArquivo(){
         }
     });
 
-    lerArquivo.setBounds({ x: 320, y: 360 });
     lerArquivo.loadFile('views/lerArquivo.html');
 }
 
-ipc.on('arquivo:ler', (event, item) => {
+ipc.on('arquivo:ler', (e, item) => {
     lerArquivo.webContents.send('arquivo:ler', item);
     lerArquivo = null;
     //se senha OK, criarListaEntradas();
@@ -369,12 +370,12 @@ const opcoesMenu = [
     },
 ];
 
-app.on('ready', () => {
+app.on('ready', (e) => {
     log.info("Aplicativo aberto!");
     criarTelaInicial();
 });
 
-app.on('window-all-closed', () => {
+app.on('window-all-closed', (e) => {
     // Fecha o App
     app.quit();
 });
