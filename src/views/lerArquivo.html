@@ -45,7 +45,7 @@
           <div class="ler-arquivo-container2"></div>
           <div class="ler-arquivo-container3"></div>
           <button type="button" class="ler-arquivo-o-k button" onclick="ipc.send('arquivo:ler');">OK</button>
-          <button type="button" class="ler-arquivo-cancelar button" onClick="window.history.back();">
+          <button type="button" class="ler-arquivo-cancelar button" onClick="window.close();">
             <span>
               <span>Cancelar</span>
               <br />
@@ -79,6 +79,7 @@
               <img
                 src="public/playground_assets/folder-200h.png"
                 class="ler-arquivo-image2"
+                onClick=""
               />
             </div>
             <span class="ler-arquivo-text13">Senha Mestra:</span>
@@ -136,6 +137,8 @@
             pwShown = false;
         }
       });
+
+       //dialogShowOpenDialog
     </script>
   </body>
 </html>

@@ -196,7 +196,7 @@
         s.href = URL.createObjectURL(file);
         s.download = toDownload;
 
-        ipc.send("arquivo:novo:path", DownloadItem.getFilename("nomeArquivo"));
+        ipc.send("arquivo:novo:path", DownloadItem.getFilename("nomeArquivo")); //dialogShowOpenDialog
       }
     </script>
   </body>

@@ -10,24 +10,20 @@ const { ipcMain: ipc } = require('electron-better-ipc');
 const ContextMenu = require("secure-electron-context-menu").default;
 const { showAboutWindow } = require('electron-util');
 
+const path = require('path');
 const log = require('electron-log');
 
 const electronStore = require('electron-store');
 
 let telaInicial = null;
-let novoArquivo = null;
 let lerArquivo = null;
-let listaEntradas = null;
-let novaEntrada = null;
-let gerador = null;
-let backup = null;
 let configuracoes = null;
 
 const isDev = process.env.NODE_ENV === "development";
 const lock = app.requestSingleInstanceLock();
 (!lock) ? app.quit() : log.info("Aplicativo inicializando!"); //o App já está aberto!
 
-const criarTelaInicial = () => {
+function criarTelaInicial(){
     // Cria a tela inicial
     telaInicial = new BrowserWindow({
         width: 1280,
@@ -38,7 +34,7 @@ const criarTelaInicial = () => {
             devTools: !app.isPackaged,
             contextIsolation: false,
             nodeIntegration: true,
-            preload: './preload.js'
+            preload: path.join(__dirname, 'preload.js')
         }
     });
 
@@ -55,6 +51,7 @@ const criarTelaInicial = () => {
 
     // e carrega a tela padrão do App
     telaInicial.loadFile('src/views/index.html');
+    Menu.setApplicationMenu(null);
 
     // new Notification("Senha...", {
     //     body: "Senha...",
@@ -98,14 +95,11 @@ ipc.on('opcao:sobre', (e) => {
 });
 
 function criarNovoArquivo(){
-    novoArquivo = new BrowserView();
-    novoArquivo.webContents.loadFile('src/views/novoArquivo.html');
-    novoArquivo.setBounds({ x: 0, y: 0 });
-    telaInicial.setBrowserView(novoArquivo);
+    telaInicial.loadFile('src/views/novoArquivo.html');
 }
 
 ipc.on('arquivo:criar', (e, item) => {
-    telaInicial.webContents.send('arquivo:criar', item);
+    localStorage.setItem("novoArquivo", item);
     log.info(e);
 
     novoArquivo = null;
@@ -126,7 +120,7 @@ ipc.on('arquivo:novo:path', (e, item) => {
 
 function criarLerArquivo(){
     lerArquivo = new BrowserWindow({
-        width: 536,
+        width: 518,
         height: 389,
         resizable: false,
         parent: telaInicial,
@@ -142,16 +136,13 @@ function criarLerArquivo(){
 }
 
 ipc.on('arquivo:ler', (e, item) => {
-    lerArquivo.webContents.send('arquivo:ler', item);
+    localStorage.setItem("senha", item);
     lerArquivo = null;
     //se senha OK, criarListaEntradas();
 });
 
 function criarListaEntradas(){
-    listaEntradas = new BrowserView(); //
-    listaEntradas.webContents.loadFile('src/views/listaEntradas.html');
-    listaEntradas.setBounds({ x: 0, y: 0 });
-    telaInicial.setBrowserView(listaEntradas);
+    telaInicial.loadFile('src/views/listaEntradas.html');
 
     // Cria o template do menu
     const menu = Menu.buildFromTemplate(opcoesMenu);
@@ -161,38 +152,26 @@ function criarListaEntradas(){
 }
 
 function criarNovaEntrada(){
-    novaEntrada = new BrowserView();
-    novaEntrada.webContents.loadFile('src/views/novaEntrada.html');
-    novaEntrada.setBounds({ x: 0, y: 0 });
-    telaInicial.setBrowserView(novaEntrada);
+    telaInicial.loadFile('src/views/novaEntrada.html');
 }
 
 function criarGerador(){
-    gerador = new BrowserView();
-    gerador.webContents.loadFile('src/views/gerador.html');
-    gerador.setBounds({ x: 0, y: 0 });
-    telaInicial.setBrowserView(gerador);
+    telaInicial.loadFile('src/views/gerador.html');
 }
 
 function criarBackup(){
-    backup = new BrowserView(); //
-    backup.webContents.loadFile('src/views/backup.html');
-    backup.setBounds({ x: 0, y: 0 });
-    telaInicial.setBrowserView(backup);
+    telaInicial.loadFile('src/views/backup.html');
 }
 
 function criarConfiguracoes(){
-    configuracoes = new BrowserView(); //
-    configuracoes.webContents.loadFile('src/views/configuracoes.html');
-    configuracoes.setBounds({ x: 0, y: 0 });
-    telaInicial.setBrowserView(configuracoes);
+    telaInicial.loadFile('src/views/configuracoes.html');
 }
 
 function criarSobre(){
     showAboutWindow({
         icon: 'src/views/public/favicon/favicon-48x48.png',
         copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-        text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
+        text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n\nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\n\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
         website: 'https://github.com/bainloko/SimpleKeys'
     });
 }
