@@ -20,12 +20,6 @@ const electronStore = require('electron-store');
 const { or } = Sequelize.Op;
 
 async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra){
-    nomeArquivo = document.getElementById("inputNomeArq").value;
-    descArquivo = document.getElementById("inputDescArq").value;
-    expira = document.getElementById("inputExpArq").value;
-    chaveReserva = document.getElementById("inputChaveArq").value;
-    senhaMestra = document.getElementById("inputSenhaArq").value;
-
     let path = Path.join(__dirname, nomeArquivo.toString());
 
     try {
@@ -44,9 +38,10 @@ async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senha
 
                 return true;
             } else {
+                database.close(dbConfig);
+
                 log.error("Houve um problema no salvamento do Banco, tente novamente!");
                 alert("Houve um problema no salvamento do Banco, tente novamente!");
-                database.close(dbConfig);
 
                 return false;
             }
@@ -60,9 +55,6 @@ async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senha
 }
 
 async function lerArquivo(nomeArquivo, senhaMestra){
-    nomeArquivo = document.getElementById("inputNomeArq").value;
-    senhaMestra = document.getElementById("inputSenhaArq").value;
-
     let path = Path.join(__dirname, nomeArquivo.toString());
 
     try {
@@ -74,10 +66,10 @@ async function lerArquivo(nomeArquivo, senhaMestra){
 
             return true;
         } else {
-            log.error("Houve um problema na abertura do Banco, tente novamente!");
-            alert("Houve um problema na abertura do Banco, tente novamente!");
-
             database.close(dbConfig);
+
+            log.error("Houve um problema na abertura do Banco, tente novamente! Será que a senha está errada?");
+            alert("Houve um problema na abertura do Banco, tente novamente! Será que a senha está errada?");
 
             return false;
         }
@@ -103,9 +95,11 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, loginEntradas, senh
             expira: expira,
             grupoImg: grupoImg,
             grupoLista: grupoLista 
-        })
+        });
 
         log.info(resultadoCreate);
+
+        return true;
     } catch (error){
         log.error("Ocorreu um erro no cadastramento de novas entradas, " + error + "!");
         alert("Ocorreu um erro no cadastramento de novas entradas, " + error + "!");
@@ -118,6 +112,8 @@ async function lerEntradas(){
     try {
         const entradas = await Entradas.findAll();
         log.info(entradas);
+
+        return true;
     } catch (error){
         log.info("Ocorreu um erro na leitura das entradas, " + error + "!");
         alert("Ocorreu um erro na leitura das entradas, " + error + "!");
@@ -148,7 +144,7 @@ async function pesquisarEntradas(pesquisa){
         log.error("Ocorreu um erro na pesquisa das entradas, " + error + "!");
         alert("Ocorreu um erro na pesquisa das entradas, " + error + "!");
 
-        return false;
+        return null;
     }
 }
 
@@ -168,13 +164,16 @@ async function atualizarEntradas(selecaoAtual, nomeEntradas, descEntradas, login
             
             const resultadoUpdate = entradas.save();
             log.info(resultadoUpdate);
-            return true;
         }).catch((error) => {
             log.error("Ocorreu um erro na atualização das entradas, " + error + "!");
             alert("Ocorreu um erro na atualização das entradas, " + error + "!");
 
             return false;
         });
+
+        log.info(entradas);
+        
+        return true;
     } catch (error){
         log.error("Ocorreu um erro na atualização das entradas, " + error + "!");
         alert("Ocorreu um erro na atualização das entradas, " + error + "!");
@@ -186,9 +185,13 @@ async function atualizarEntradas(selecaoAtual, nomeEntradas, descEntradas, login
 async function apagarEntradas(selecaoAtual){
     try {
         Entradas.destroy({ where: { id: selecaoAtual }});
+
+        return true;
     } catch (error){
         log.error("Ocorreu um erro aqui, " + error + "!\nTalvez esta entrada não exista, ou já tenha sido apagada.");
         alert("Ocorreu um erro aqui, " + error + "!\nTalvez esta entrada não exista, ou já tenha sido apagada."); 
+
+        return false;
     }
 }
 

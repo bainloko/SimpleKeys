@@ -44,17 +44,10 @@
         <article class="ler-arquivo-container1">
           <div class="ler-arquivo-container2"></div>
           <div class="ler-arquivo-container3"></div>
-          <button type="button" class="ler-arquivo-o-k button" onclick="ipc.send('arquivo:ler');">OK</button>
-          <button type="button" class="ler-arquivo-cancelar button" onClick="window.close();">
-            <span>
-              <span>Cancelar</span>
-              <br />
-            </span>
-          </button>
           <span class="ler-arquivo-text03">
             <span>Abrir Arquivo Já Existente</span>
             <br />
-            <span class="ler-arquivo-text07">&nbsp;&nbsp;&ensp;Chaveiro em: %path%</span>
+            <span class="ler-arquivo-text07">&nbsp;&nbsp;&ensp;Chaveiro em: <span id="localChaveiro">%path%</span></span>
             <br />
           </span>
           <button type="button" class="ler-arquivo-ajuda button" onClick="ipc.send('opcao:sobre');">
@@ -71,7 +64,7 @@
             src="public/playground_assets/file-200h.png"
             class="ler-arquivo-image1"
           />
-          <div class="ler-arquivo-container4">
+          <form class="ler-arquivo-container4">
             <div class="ler-arquivo-container5">
               <span class="ler-arquivo-text12">
                 Selecionar outro arquivo&ensp;&ensp; -&gt;&ensp;
@@ -79,7 +72,7 @@
               <img
                 src="public/playground_assets/folder-200h.png"
                 class="ler-arquivo-image2"
-                onClick=""
+                onClick="ipc.send('arquivo:ler:path');"
               />
             </div>
             <span class="ler-arquivo-text13">Senha Mestra:</span>
@@ -93,12 +86,22 @@
             />
             <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
             <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
-          </div>
+          </form>
+          <button type="button" id="okButton" class="ler-arquivo-o-k button">OK</button>
+          <button type="button" class="ler-arquivo-cancelar button" onClick="ipc.send('arquivo:ler:cancelar');">
+            <span>
+              <span>Cancelar</span>
+              <br />
+            </span>
+          </button>
         </article>
       </div>
     </div>
     <script>
       const { ipcRenderer: ipc } = require('electron-better-ipc');
+      
+      const Store = require('electron-store');
+      const store = new Store();
       
       const passwordInput = document.getElementById("inpPassword");
 
@@ -138,7 +141,19 @@
         }
       });
 
-       //dialogShowOpenDialog
+      const okButton = document.getElementById("okButton");
+      const localChaveiro = document.getElementById("localChaveiro");
+
+      let lerPath = store.get("lerPath");
+      let senha = inpPassword.value;
+
+      function validar(){
+        (lerPath == ("" || null || undefined)) ? alert("Tem certeza que selecionou um arquivo válido?") : ipc.send('arquivo:ler', lerPath, senha); 
+      }
+
+      okButton.addEventListener("click", () => {
+        (lerPath != ("" || null || undefined)) ? () => { localChaveiro.innerText = lerPath; validar(); } : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+      })
     </script>
   </body>
 </html>

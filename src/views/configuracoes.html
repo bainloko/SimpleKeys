@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+  <!--
+        * SimpleKeys
+        * configuracoes.html
+        * 31/08/2022
+  -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'" />
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6 {  margin: 0;  padding: 0;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style: normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link rel="icon" type="image/png" sizes="16x16" href="./public/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./public/favicon/favicon-32x32.png">
+    <link rel="stylesheet" href="./font.css" data-tag="font" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>SimpleKeys - Configurações</title>
+  </head>
+  <body>
+    <div>
+      <link href="./configuracoes.css" rel="stylesheet" />
+      <noscript>
+        <h1>SimpleKeys</h1>
+        <p lang="pt-BR">
+          SimpleKeys é um gerenciador de senhas desenvolvido em JavaScript.
+          Por favor, instale ou ative o JavaScript para usar o programa.
+        </p>
+  
+        <p lang="en">
+          SimpleKeys is a password manager coded in JavaScript.
+          Please, install or enable JavaScript to run this software.
+        </p>
+      </noscript>
+      <article class="configuracoes-container">
+        <div class="configuracoes-desktop">
+          <span class="configuracoes-text">SimpleKeys</span>
+          <div class="configuracoes-container1">
+            <button type="button" class="configuracoes-button button" onClick="window.history.back();">
+              <span class="configuracoes-text01">
+                <span>Voltar</span>
+                <br />
+              </span>
+            </button>
+            <span class="configuracoes-text02">
+              <span>Página de Configurações BANCO e SISTEMA, ideias:<br />menus, dropdowns, checkboxes? + edit senha mestra</span>
+              <br />
+            </span>
+            <span class="configuracoes-text09">v 0.1.0</span>
+          </div> 
+          <div cm-template="alertTemplate"></div>
+        </div>
+      </article>
+    </div>
+    <script>
+      const { ipcRenderer: ipc } = require('electron-better-ipc');
+    </script>
+  </body>
+</html>

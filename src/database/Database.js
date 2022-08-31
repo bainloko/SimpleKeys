@@ -4,14 +4,16 @@
 * 29/jun/2022
 */
 
-const log = require('electron-log');
+const Sequelize = require('sequelize');
 
 const Entradas = require('../model/Entradas.js');
 
 const dbConfig = require('./database.json');
 
-//outra função pra trocar a senha mestra?
-export async function conectar(nomeArquivo, senhaMestra){
+const log = require('electron-log');
+
+//outra função pra trocar a senha mestra? outra função pra criar um arquivo com os dados pré-estabelecidos?
+async function conectar(nomeArquivo, senhaMestra){
     let database = new Sequelize(process.env.SQLITE_FILENAME || nomeArquivo, null, senhaMestra, dbConfig);
     database.query("PRAGMA key = quote(" + senhaMestra + ")");
     
@@ -35,3 +37,14 @@ export async function conectar(nomeArquivo, senhaMestra){
         return false;
     }
 }
+
+// async function criar(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra){
+//     let database = new Sequelize(process.env.SQLITE_FILENAME || nomeArquivo, null, senhaMestra, dbConfig);
+//     database.query("PRAGMA key = quote(" + senhaMestra + ")");
+//     database.bulkInsert("entradas", {
+//         nome: nome,
+
+//     });
+// } , criar
+
+export default { conectar };

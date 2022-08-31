@@ -99,7 +99,7 @@
                   <span>Onde você vai salvar o arquivo?</span>
                   <br />
               </span>
-              <button type="button" class="novo-arquivo-button1 button" onClick="download();">
+              <button type="button" class="novo-arquivo-button1 button" onClick="ipc.send('arquivo:novo:salvar');">
                   <a href="" id="s">Navegar...</a>
               </button>
               <span class="novo-arquivo-text18">
@@ -117,8 +117,8 @@
               >
                 Deseja gerar uma chave reserva? (S ou N)
               </span>
-              <input type="checkbox" class="novo-arquivo-checkbox" />
-              <div id="password">
+              <input type="checkbox" id="expira" class="novo-arquivo-checkbox" />
+              <form id="password">
                   <span title="A senha mestra do chaveiro é a única senha que você precisará lembrar na vida caso use o gerenciador de senhas SimpleKeys. Com ela, o programa irá criptografar o arquivo, lembrando de todas as suas senhas, de forma segura, de modo a impedir acesso não autorizado. Por isso, escolha muito bem sua senha mestra! Ela que protege os seus dados!" class="novo-arquivo-text24">
                     Senha Mestra:
                   </span>
@@ -166,19 +166,19 @@
                       </svg>
                     </span>
                   </div>
-              </div>
-              <button type="button" class="novo-arquivo-button button" onClick="ipc.send('arquivo:criar');">
-                  <span class="novo-arquivo-text01">
-                      <span>Criar</span>
-                      <br />
-                  </span>
-              </button>
-              <button type="button" class="novo-arquivo-button2 button" onClick="window.history.back();">
-                  <span class="novo-arquivo-text01">
-                      <span>Voltar</span>
-                      <br />
-                  </span>
-              </button>
+                </form>
+                <button type="submit" class="novo-arquivo-button button" onSubmit="ipc.send('arquivo:criar', inputNomeArq.value, inputDescArq.value, novoPath, expira.checked, inpPassword.value);">
+                    <span class="novo-arquivo-text01">
+                        <span>Criar</span>
+                        <br />
+                    </span>
+                </button>
+                <button type="button" class="novo-arquivo-button2 button" onClick="window.history.back();">
+                    <span class="novo-arquivo-text01">
+                        <span>Voltar</span>
+                        <br />
+                    </span>
+                </button>
             </div>
             <div cm-template="alertTemplate"></div>
         </div>
@@ -187,17 +187,6 @@
     <script src="../tools/strength.js"></script>
     <script>
       const { ipcRenderer: ipc } = require('electron-better-ipc');
-      
-      const download = (data = "", type = ".db") => {
-        let nomeArquivo = document.getElementById("inputNomeArq").value;
-        let s = document.getElementById("s");
-        let toDownload = nomeArquivo + type;
-        let file = new Blob([data], {type: type});
-        s.href = URL.createObjectURL(file);
-        s.download = toDownload;
-
-        ipc.send("arquivo:novo:path", DownloadItem.getFilename("nomeArquivo")); //dialogShowOpenDialog
-      }
     </script>
   </body>
 </html>

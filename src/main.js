@@ -5,7 +5,7 @@
 */
 
 // Módulos para controlar o ciclo de vida da aplicação e criar a janela nativa do Browser
-const { app, BrowserWindow, BrowserView, Menu, dialog, Notification, systemPreferences, clipboard, webContents } = require('electron');
+const { app, BrowserWindow, webContents, Menu, dialog, Notification, systemPreferences, clipboard } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
 const ContextMenu = require("secure-electron-context-menu").default;
 const { showAboutWindow } = require('electron-util');
@@ -13,15 +13,16 @@ const { showAboutWindow } = require('electron-util');
 const path = require('path');
 const log = require('electron-log');
 
-const electronStore = require('electron-store');
+const Store = require('electron-store');
+const store = new Store();
 
 let telaInicial = null;
 let lerArquivo = null;
-let configuracoes = null;
+let WIN = null;
 
 const isDev = process.env.NODE_ENV === "development";
 const lock = app.requestSingleInstanceLock();
-(!lock) ? app.quit() : log.info("Aplicativo inicializando!"); //o App já está aberto!
+(!lock) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
 
 function criarTelaInicial(){
     // Cria a tela inicial
@@ -38,16 +39,7 @@ function criarTelaInicial(){
         }
     });
 
-    ContextMenu.mainBindings(ipc, telaInicial, Menu, isDev, {
-        "alertTemplate": [{
-            id: "alert",
-            label: "AN ALERT!"
-        }]
-    });
-
-    // window.api.contextMenu.onReceive("alert", function(args) {
-    //     ?
-    // });
+    //contextMenu isDev
 
     // e carrega a tela padrão do App
     telaInicial.loadFile('src/views/index.html');
@@ -99,24 +91,30 @@ function criarNovoArquivo(){
 }
 
 ipc.on('arquivo:criar', (e, item) => {
-    localStorage.setItem("novoArquivo", item);
+    store.set("novoArquivo", item);
     log.info(e);
 
-    novoArquivo = null;
     criarListaEntradas();
 });
 
-ipc.on('arquivo:novo:path', (e, item) => {
-    telaInicial.webContents.session.on('will-download', download => {
-        download.once('done', e => {
-            localStorage.setItem("path", item);
-        })
+ipc.on('arquivo:novo:salvar', (e) => {
+    let options = {
+        title: "SimpleKeys - Criar Um Novo Arquivo",
+        defaultPath: "%USER_PROFILE%/Documents/" || "$HOME/",
+        buttonLabel: "Salvar",
+        filters: [
+            {name: 'Banco de Dados', extensions: ['db']},
+            {name: 'All Files', extensions: ['*']}
+        ]
+    }
 
-        log.info(e);
+    let arquivo = dialog.showSaveDialog(WIN, options).then(() => {
+        store.set("novoPath", arquivo);
+        log.info(arquivo);
+    }).catch((error) => {
+        log.info("Houve um erro aqui! " + error);
     });
-
-    log.info(e);
-});
+})
 
 function criarLerArquivo(){
     lerArquivo = new BrowserWindow({
@@ -135,13 +133,52 @@ function criarLerArquivo(){
     lerArquivo.loadFile('src/views/lerArquivo.html');
 }
 
-ipc.on('arquivo:ler', (e, item) => {
-    localStorage.setItem("senha", item);
-    lerArquivo = null;
-    //se senha OK, criarListaEntradas();
+ipc.on('arquivo:ler', (e, lerPath, senha) => {
+    let arq = require('src/tools/arquivo.js');
+
+    try {
+        if (arq.lerArquivo(lerPath, senha)) {
+            lerArquivo.close();
+            criarListaEntradas();
+            telaInicial.focus();
+        } else {
+            alert("Erro! Possivelmente a senha está incorreta. Tente novamente!");
+            log.info("Erro! Possivelmente a senha está incorreta. Tente novamente!");
+            lerArquivo.focus();
+        }
+    } catch (error) {
+        alert("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
+        log.info("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
+        lerArquivo.focus();
+    }
 });
 
-function criarListaEntradas(){
+ipc.on('arquivo:ler:cancelar', (e) => {
+    lerArquivo.close();
+    telaInicial.focus();
+});
+
+ipc.on('arquivo:ler:path', (e) => {
+    let options = {
+        title: "SimpleKeys - Abrir Arquivo Já Existente",
+        defaultPath: "%USER_PROFILE%/Documents/" || "$HOME/",
+        buttonLabel: "Abrir",
+        filters: [
+            {name: 'Banco de Dados', extensions: ['db']},
+            {name: 'All Files', extensions: ['*']}
+        ],
+        properties: ['openFile']
+    }
+
+    let arquivo = dialog.showOpenDialog(WIN, options).then(() => {
+        store.set("lerPath", arquivo);
+        log.info(arquivo);
+    }).catch((error) => {
+        log.info("Houve um erro aqui! " + error);
+    });
+});
+
+function criarListaEntradas(lerPath, senha){
     telaInicial.loadFile('src/views/listaEntradas.html');
 
     // Cria o template do menu
@@ -153,6 +190,12 @@ function criarListaEntradas(){
 
 function criarNovaEntrada(){
     telaInicial.loadFile('src/views/novaEntrada.html');
+}
+
+function criarEditarEntrada(){
+    telaInicial.loadFile('src/views/editarEntrada.html');
+
+    //nos IPCs, atentar para alerts e checks de verificação após editar (are you sure?)
 }
 
 function criarGerador(){
@@ -342,8 +385,8 @@ const opcoesMenu = [
 ];
 
 app.on('ready', (e) => {
-    log.info("Aplicativo aberto!");
     criarTelaInicial();
+    log.info("Aplicativo aberto!");
 });
 
 app.on('window-all-closed', (e) => {
