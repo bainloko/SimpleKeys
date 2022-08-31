@@ -36,8 +36,8 @@ const criarTelaInicial = () => {
         title: "SimpleKeys",
         webPreferences: {
             devTools: !app.isPackaged,
-            nodeIntegration: false,
-            contextIsolation: true,
+            contextIsolation: false,
+            nodeIntegration: true,
             preload: './preload.js'
         }
     });
@@ -55,7 +55,6 @@ const criarTelaInicial = () => {
 
     // e carrega a tela padrão do App
     telaInicial.loadFile('src/views/index.html');
-    Menu.setApplicationMenu(null);
 
     // new Notification("Senha...", {
     //     body: "Senha...",
@@ -90,7 +89,7 @@ ipc.on('opcao:config', (e) => {
     }
 });
 
-ipc.on('opcao:ajuda', (e) => {
+ipc.on('opcao:sobre', (e) => {
     try {
         criarSobre();
     } catch (error){
@@ -100,10 +99,9 @@ ipc.on('opcao:ajuda', (e) => {
 
 function criarNovoArquivo(){
     novoArquivo = new BrowserView();
-
-    telaInicial.setBrowserView(novoArquivo);
+    novoArquivo.webContents.loadFile('src/views/novoArquivo.html');
     novoArquivo.setBounds({ x: 0, y: 0 });
-    novoArquivo.webContents.loadFile('views/novoArquivo.html');
+    telaInicial.setBrowserView(novoArquivo);
 }
 
 ipc.on('arquivo:criar', (e, item) => {
@@ -128,19 +126,19 @@ ipc.on('arquivo:novo:path', (e, item) => {
 
 function criarLerArquivo(){
     lerArquivo = new BrowserWindow({
-        width: 512,
+        width: 536,
         height: 389,
         resizable: false,
         parent: telaInicial,
         title: "SimpleKeys - Abrir Arquivo Já Existente",
         webPreferences: {
             devTools: !app.isPackaged,
-            nodeIntegration: false,
-            contextIsolation: true
+            contextIsolation: false,
+            nodeIntegration: true
         }
     });
 
-    lerArquivo.loadFile('views/lerArquivo.html');
+    lerArquivo.loadFile('src/views/lerArquivo.html');
 }
 
 ipc.on('arquivo:ler', (e, item) => {
@@ -151,10 +149,9 @@ ipc.on('arquivo:ler', (e, item) => {
 
 function criarListaEntradas(){
     listaEntradas = new BrowserView(); //
-
-    telaInicial.setBrowserView(listaEntradas);
+    listaEntradas.webContents.loadFile('src/views/listaEntradas.html');
     listaEntradas.setBounds({ x: 0, y: 0 });
-    listaEntradas.webContents.loadFile('views/listaEntradas.html');
+    telaInicial.setBrowserView(listaEntradas);
 
     // Cria o template do menu
     const menu = Menu.buildFromTemplate(opcoesMenu);
@@ -165,43 +162,38 @@ function criarListaEntradas(){
 
 function criarNovaEntrada(){
     novaEntrada = new BrowserView();
-
-    telaInicial.setBrowserView(novaEntrada);
+    novaEntrada.webContents.loadFile('src/views/novaEntrada.html');
     novaEntrada.setBounds({ x: 0, y: 0 });
-    novaEntrada.webContents.loadFile('views/novaEntrada.html');
+    telaInicial.setBrowserView(novaEntrada);
 }
 
 function criarGerador(){
     gerador = new BrowserView();
-
-    telaInicial.setBrowserView(gerador);
+    gerador.webContents.loadFile('src/views/gerador.html');
     gerador.setBounds({ x: 0, y: 0 });
-    gerador.webContents.loadFile('views/gerador.html');
+    telaInicial.setBrowserView(gerador);
 }
 
 function criarBackup(){
     backup = new BrowserView(); //
-
-    telaInicial.setBrowserView(backup);
+    backup.webContents.loadFile('src/views/backup.html');
     backup.setBounds({ x: 0, y: 0 });
-    backup.webContents.loadFile('views/backup.html');
+    telaInicial.setBrowserView(backup);
 }
 
 function criarConfiguracoes(){
     configuracoes = new BrowserView(); //
-
-    telaInicial.setBrowserView(configuracoes);
+    configuracoes.webContents.loadFile('src/views/configuracoes.html');
     configuracoes.setBounds({ x: 0, y: 0 });
-    configuracoes.webContents.loadFile('views/configuracoes.html');
+    telaInicial.setBrowserView(configuracoes);
 }
 
 function criarSobre(){
     showAboutWindow({
-        icon: path.join(__dirname, 'src/views/public/favicon/favicon-48x48.png'),
+        icon: 'src/views/public/favicon/favicon-48x48.png',
         copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-        text: 'Beta Fechado, v 0.1.0 \n \n Links e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n Para ver o histórico de um banco de dados, veja os registros na pasta Documentos no Windows e Home no Linux. \n Em caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n \n TCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense <em>Campus</em> Bagé.',
-        title: 'Ajuda, Sobre - ',
-        website: 'https://github.com/bainloko/SimpleKeys',
+        text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
+        website: 'https://github.com/bainloko/SimpleKeys'
     });
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "simplekeys",
+  "name": "SimpleKeys",
   "version": "0.1.0",
   "description": "Um gerenciador de senhas leve e seguro.",
   "main": "src/main.js",

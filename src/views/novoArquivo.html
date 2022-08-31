@@ -36,9 +36,6 @@
     <link rel="stylesheet" href="./font.css" data-tag="font" />
     <link rel="stylesheet" href="./style.css" />
     <script src="../tools/zxcvbn.js"></script>
-    <script>
-      const { ipcRenderer: ipc } = require('electron-better-ipc');
-    </script>
     <title>SimpleKeys - Novo Arquivo</title>
   </head>
   <body>
@@ -189,6 +186,8 @@
     </div>
     <script src="../tools/strength.js"></script>
     <script>
+      const { ipcRenderer: ipc } = require('electron-better-ipc');
+      
       const download = (data = "", type = ".db") => {
         let nomeArquivo = document.getElementById("inputNomeArq").value;
         let s = document.getElementById("s");
