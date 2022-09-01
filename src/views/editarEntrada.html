@@ -177,19 +177,19 @@
                 <div class="editar-entrada-slider">
                     <input id="intervalo" title="6 meses" type="range" min="0" max="36" value="6" onInput="(this.value > 0) ? (intervalo.title = this.value + ' meses') : intervalo.title = 'Desligado.'" />
                 </div>
+                <button type="submit" class="nova-entrada-button button" onClick="ipc.send('entrada:editar', inputNomeEnt.value, inputDescEnt.value, inpSite, inputLoginEnt, inpPassword, intervalo.value);">
+                <span class="editar-entrada-text01">
+                    <span>Editar</span>
+                    <br />
+                </span>
+                </button>
+                <button type="button" class="editar-entrada-button2 button" onClick="window.history.back();">
+                <span class="editar-entrada-text01">
+                    <span>Voltar</span>
+                    <br />
+                </span>
+                </button>
               </form>
-              <button type="button" class="nova-entrada-button button" onClick="ipc.send('entrada:editar', inputNomeEnt.value, inputDescEnt.value, inpSite, inputLoginEnt, inpPassword, intervalo.value);">
-              <span class="editar-entrada-text01">
-                  <span>Editar</span>
-                  <br />
-              </span>
-              </button>
-              <button type="button" class="editar-entrada-button2 button" onClick="window.history.back();">
-              <span class="editar-entrada-text01">
-                  <span>Voltar</span>
-                  <br />
-              </span>
-              </button>
             </div>
             <div cm-template="alertTemplate"></div>
         </div>

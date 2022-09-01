@@ -166,19 +166,19 @@
                       </svg>
                     </span>
                   </div>
+                  <button type="submit" class="novo-arquivo-button button" onSubmit="ipc.send('arquivo:criar', inputNomeArq.value, inputDescArq.value, novoPath, expira.checked, inpPassword.value);">
+                      <span class="novo-arquivo-text01">
+                          <span>Criar</span>
+                          <br />
+                      </span>
+                  </button>
+                  <button type="button" class="novo-arquivo-button2 button" onClick="window.history.back();">
+                      <span class="novo-arquivo-text01">
+                          <span>Voltar</span>
+                          <br />
+                      </span>
+                  </button>
                 </form>
-                <button type="submit" class="novo-arquivo-button button" onSubmit="ipc.send('arquivo:criar', inputNomeArq.value, inputDescArq.value, novoPath, expira.checked, inpPassword.value);">
-                    <span class="novo-arquivo-text01">
-                        <span>Criar</span>
-                        <br />
-                    </span>
-                </button>
-                <button type="button" class="novo-arquivo-button2 button" onClick="window.history.back();">
-                    <span class="novo-arquivo-text01">
-                        <span>Voltar</span>
-                        <br />
-                    </span>
-                </button>
             </div>
             <div cm-template="alertTemplate"></div>
         </div>

@@ -171,19 +171,19 @@
                 <div class="nova-entrada-slider">
                     <input id="intervalo" title="6 meses" type="range" min="0" max="36" value="6" onInput="(this.value > 0) ? (intervalo.title = this.value + ' meses') : intervalo.title = 'Desligado.'" />
                 </div>
+                <button type="submit" class="nova-entrada-button button" onSubmit="ipc.send('entrada:criar', inputNomeEnt.value, inputDescEnt.value, inpSite, inputLoginEnt, inpPassword, intervalo.value);">
+                <span class="nova-entrada-text01">
+                    <span>Criar</span>
+                    <br />
+                </span>
+                </button>
+                <button type="button" class="nova-entrada-button2 button" onClick="window.history.back();">
+                <span class="nova-entrada-text01">
+                    <span>Voltar</span>
+                    <br />
+                </span>
+                </button>
               </form>
-              <button type="submit" class="nova-entrada-button button" onSubmit="ipc.send('entrada:criar', inputNomeEnt.value, inputDescEnt.value, inpSite, inputLoginEnt, inpPassword, intervalo.value);">
-              <span class="nova-entrada-text01">
-                  <span>Criar</span>
-                  <br />
-              </span>
-              </button>
-              <button type="button" class="nova-entrada-button2 button" onClick="window.history.back();">
-              <span class="nova-entrada-text01">
-                  <span>Voltar</span>
-                  <br />
-              </span>
-              </button>
             </div>
             <div cm-template="alertTemplate"></div>
         </div>

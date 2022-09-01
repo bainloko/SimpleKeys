@@ -4,7 +4,7 @@
 * 8/jun/2022
 */
 
-// const log = require('electron-log');
+const log = require('electron-log');
 
 const lowerCaseChr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const upperCaseChr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -16,10 +16,10 @@ function generate(size){
 
     for (let i = 0; i < size; i++){
         while (size > r.length){
-            (lowerCase.checked === true) ? l = lowerCaseChr[Math.floor(Math.random() * lowerCaseChr.length)] : console.log("Letra minúscula usada! Substituir por log.info()");
-            (upperCase.checked === true) ? u = upperCaseChr[Math.floor(Math.random() * upperCaseChr.length)] : console.log("Letra maiúscula usada! Substituir por log.info()");
-            (numbers.checked === true) ? n = numbersChr[Math.floor(Math.random() * numbersChr.length)] : console.log("Número usado! Substituir por log.info()");
-            (symbols.checked === true) ? s = symbolsChr[Math.floor(Math.random() * symbolsChr.length)] : console.log("Símbolo usado! Substituir por log.info()");
+            (lowerCase.checked === true) ? l = lowerCaseChr[Math.floor(Math.random() * lowerCaseChr.length)] : log.info("Letra minúscula usada!");
+            (upperCase.checked === true) ? u = upperCaseChr[Math.floor(Math.random() * upperCaseChr.length)] : log.info("Letra maiúscula usada!");
+            (numbers.checked === true) ? n = numbersChr[Math.floor(Math.random() * numbersChr.length)] : log.info("Número usado!");
+            (symbols.checked === true) ? s = symbolsChr[Math.floor(Math.random() * symbolsChr.length)] : log.info("Símbolo usado!");
 
             (size > r.length) ? r += l : r.slice(0, size - 1);
             (size > r.length) ? r += u : r.slice(0, size - 1);
@@ -33,7 +33,7 @@ function generate(size){
 }
 
 // quantidade mínima de 1 senha, comprimento mínimo de 4 caracteres
-function gerarSenhas(){
+export default function gerarSenhas(){
     let qtdSenhas = document.getElementById("qtdSenhas");
     let comprimentoSenha = document.getElementById("comprimentoSenha");
     let lowerCase = document.getElementById("lowerCase");
@@ -60,7 +60,7 @@ function gerarSenhas(){
             alert("Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
         }
     } catch (error){
-        // log.error("Ocorreu um erro inesperado na geração das senhas! " + error);
+        log.error("Ocorreu um erro inesperado na geração das senhas! " + error);
         alert("Ocorreu um erro inesperado na geração das senhas! " + error);
     }
 }

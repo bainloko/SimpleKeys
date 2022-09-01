@@ -47,7 +47,7 @@
           <span class="ler-arquivo-text03">
             <span>Abrir Arquivo Já Existente</span>
             <br />
-            <span class="ler-arquivo-text07">&nbsp;&nbsp;&ensp;Chaveiro em: <span id="localChaveiro">%path%</span></span>
+            <span class="ler-arquivo-text07">&nbsp;&nbsp;&ensp;Chaveiro em: <span id="localChaveiro"></span></span>
             <br />
           </span>
           <button type="button" class="ler-arquivo-ajuda button" onClick="ipc.send('opcao:sobre');">
@@ -86,14 +86,14 @@
             />
             <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
             <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
+            <button type="submit" id="okButton" class="ler-arquivo-o-k button">OK</button>
+            <button type="button" class="ler-arquivo-cancelar button" onClick="ipc.send('arquivo:ler:cancelar');">
+              <span>
+                <span>Cancelar</span>
+                <br />
+              </span>
+            </button>
           </form>
-          <button type="button" id="okButton" class="ler-arquivo-o-k button">OK</button>
-          <button type="button" class="ler-arquivo-cancelar button" onClick="ipc.send('arquivo:ler:cancelar');">
-            <span>
-              <span>Cancelar</span>
-              <br />
-            </span>
-          </button>
         </article>
       </div>
     </div>
@@ -144,15 +144,21 @@
       const okButton = document.getElementById("okButton");
       const localChaveiro = document.getElementById("localChaveiro");
 
-      let lerPath = store.get("lerPath");
+      ipc.on('arquivo:ler:receivePath', (path) => {
+        let lerPath = path[1].toString().replace("[\\]", "&#92;");
+        store.set('lerPath', lerPath);
+        localChaveiro.innerHTML = lerPath;
+      })
+
+      let lerPath = store.get('lerPath');
       let senha = inpPassword.value;
 
       function validar(){
-        (lerPath == ("" || null || undefined)) ? alert("Tem certeza que selecionou um arquivo válido?") : ipc.send('arquivo:ler', lerPath, senha); 
+        (senha == ("" || null || undefined)) ? alert("Digite a senha para acessar o arquivo!") : ipc.send('arquivo:ler', lerPath, senha); 
       }
 
       okButton.addEventListener("click", () => {
-        (lerPath != ("" || null || undefined)) ? () => { localChaveiro.innerText = lerPath; validar(); } : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+        (lerPath != ("" || null || undefined)) ? validar() : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
       })
     </script>
   </body>

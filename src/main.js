@@ -20,7 +20,6 @@ let telaInicial = null;
 let lerArquivo = null;
 let WIN = null;
 
-const isDev = process.env.NODE_ENV === "development";
 const lock = app.requestSingleInstanceLock();
 (!lock) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
 
@@ -35,20 +34,19 @@ function criarTelaInicial(){
             devTools: !app.isPackaged,
             contextIsolation: false,
             nodeIntegration: true,
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'preload.js'),
         }
     });
 
-    //contextMenu isDev
-
     // e carrega a tela padrão do App
     telaInicial.loadFile('src/views/index.html');
+    //contextMenu
     Menu.setApplicationMenu(null);
 
     // new Notification("Senha...", {
     //     body: "Senha...",
     // });
-
+    
     telaInicial.on('closed', () => {
         app.quit();
     });
@@ -100,7 +98,7 @@ ipc.on('arquivo:criar', (e, item) => {
 ipc.on('arquivo:novo:salvar', (e) => {
     let options = {
         title: "SimpleKeys - Criar Um Novo Arquivo",
-        defaultPath: "%USER_PROFILE%/Documents/" || "$HOME/",
+        defaultPath: "%USERPROFILE%/Documents" || "$HOME/",
         buttonLabel: "Salvar",
         filters: [
             {name: 'Banco de Dados', extensions: ['db']},
@@ -108,9 +106,9 @@ ipc.on('arquivo:novo:salvar', (e) => {
         ]
     }
 
-    let arquivo = dialog.showSaveDialog(WIN, options).then(() => {
-        store.set("novoPath", arquivo);
-        log.info(arquivo);
+    dialog.showSaveDialog(WIN, options).then((arquivo) => {
+        store.set("novoPath", arquivo.filePath);
+        log.info(arquivo.filePath);
     }).catch((error) => {
         log.info("Houve um erro aqui! " + error);
     });
@@ -142,13 +140,13 @@ ipc.on('arquivo:ler', (e, lerPath, senha) => {
             criarListaEntradas();
             telaInicial.focus();
         } else {
-            alert("Erro! Possivelmente a senha está incorreta. Tente novamente!");
             log.info("Erro! Possivelmente a senha está incorreta. Tente novamente!");
+            alert("Erro! Possivelmente a senha está incorreta. Tente novamente!");
             lerArquivo.focus();
         }
     } catch (error) {
-        alert("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
         log.info("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
+        alert("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
         lerArquivo.focus();
     }
 });
@@ -161,7 +159,7 @@ ipc.on('arquivo:ler:cancelar', (e) => {
 ipc.on('arquivo:ler:path', (e) => {
     let options = {
         title: "SimpleKeys - Abrir Arquivo Já Existente",
-        defaultPath: "%USER_PROFILE%/Documents/" || "$HOME/",
+        defaultPath: "%USERPROFILE%/Documents" || "$HOME/",
         buttonLabel: "Abrir",
         filters: [
             {name: 'Banco de Dados', extensions: ['db']},
@@ -170,9 +168,10 @@ ipc.on('arquivo:ler:path', (e) => {
         properties: ['openFile']
     }
 
-    let arquivo = dialog.showOpenDialog(WIN, options).then(() => {
-        store.set("lerPath", arquivo);
-        log.info(arquivo);
+    dialog.showOpenDialog(WIN, options).then((arquivo) => {
+        store.set("lerPath", arquivo.filePaths);
+        ipc.sendToRenderers('arquivo:ler:receivePath', arquivo.filePaths);
+        log.info(arquivo.filePaths);
     }).catch((error) => {
         log.info("Houve um erro aqui! " + error);
     });

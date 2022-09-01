@@ -55,21 +55,6 @@
   flex-direction: column;
   background-color: #414141;
 }
-.ler-arquivo-o-k {
-  left: 326px;
-  bottom: 14px;
-  position: absolute;
-  cursor: pointer;
-}
-.ler-arquivo-cancelar {
-  color: var(--dl-color-gray-black);
-  right: 20px;
-  bottom: 14px;
-  display: flex;
-  position: absolute;
-  flex-direction: row;
-  cursor: pointer;
-}
 .ler-arquivo-text03 {
   top: var(--dl-space-space-unit);
   left: var(--dl-space-space-sixunits);
@@ -79,11 +64,21 @@
 .ler-arquivo-text07 {
   font-size: 18px;
 }
+.ler-arquivo-o-k {
+  right: 52px;
+  top: 195px;
+  position: absolute;
+  cursor: pointer;
+}
+.ler-arquivo-cancelar {
+  right: -52px;
+  top: 195px;
+  position: absolute;
+  cursor: pointer;
+}
 .ler-arquivo-ajuda {
   left: var(--dl-space-space-twounits);
-  color: var(--dl-color-gray-black);
   bottom: 14px;
-  display: flex;
   position: absolute;
   flex-direction: row;
   cursor: pointer;
