@@ -57,12 +57,12 @@
 }
 .ler-arquivo-text03 {
   top: var(--dl-space-space-unit);
-  left: var(--dl-space-space-sixunits);
+  left: var(--dl-space-space-fiveunits);
   position: absolute;
   font-size: 22px;
 }
 .ler-arquivo-text07 {
-  font-size: 18px;
+  font-size: 16px;
 }
 .ler-arquivo-o-k {
   right: 52px;
@@ -91,7 +91,7 @@
   position: absolute;
   margin-top: var(--dl-space-space-unit);
   object-fit: cover;
-  margin-left: var(--dl-space-space-oneandhalfunits);
+  margin-left: var(--dl-space-space-unit);
   margin-bottom: auto;
 }
 .ler-arquivo-image1 {
@@ -99,7 +99,7 @@
   height: 52px;
   margin-top: var(--dl-space-space-unit);
   object-fit: cover;
-  margin-right: var(--dl-space-space-oneandhalfunits);
+  margin-right: var(--dl-space-space-unit);
 }
 .ler-arquivo-container4 {
   top: 115px;

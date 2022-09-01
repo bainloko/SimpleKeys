@@ -33,7 +33,7 @@ async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senha
                 log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
                 alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
 
-                //escrever dados na config do banco!! path?
+                //escrever dados na config do banco!! criar
                 lerEntradas();
 
                 return true;
@@ -61,7 +61,7 @@ async function lerArquivo(nomeArquivo, senhaMestra){
         if (database.conectar(path, senhaMestra)) {
             log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
 
-            //ler dados da config do banco!! path?
+            //ler dados da config do banco!!
             lerEntradas();
 
             return true;

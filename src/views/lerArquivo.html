@@ -47,7 +47,7 @@
           <span class="ler-arquivo-text03">
             <span>Abrir Arquivo Já Existente</span>
             <br />
-            <span class="ler-arquivo-text07">&nbsp;&nbsp;&ensp;Chaveiro em: <span id="localChaveiro"></span></span>
+            <span class="ler-arquivo-text07">&ensp;Chaveiro em: <span id="localChaveiro"></span></span>
             <br />
           </span>
           <button type="button" class="ler-arquivo-ajuda button" onClick="ipc.send('opcao:sobre');">
@@ -144,16 +144,16 @@
       const okButton = document.getElementById("okButton");
       const localChaveiro = document.getElementById("localChaveiro");
 
-      ipc.on('arquivo:ler:receivePath', (path) => {
-        let lerPath = path[1].toString().replace("[\\]", "&#92;");
+      ipc.on('arquivo:ler:receivePath', (e, path) => {
+        let lerPath = path.toString().replace("[\\]", "&#92;");
         store.set('lerPath', lerPath);
-        localChaveiro.innerHTML = lerPath;
+        localChaveiro.innerText = lerPath;
       })
 
-      let lerPath = store.get('lerPath');
-      let senha = inpPassword.value;
-
       function validar(){
+        let lerPath = store.get('lerPath');
+        let senha = inpPassword.value;
+
         (senha == ("" || null || undefined)) ? alert("Digite a senha para acessar o arquivo!") : ipc.send('arquivo:ler', lerPath, senha); 
       }
 

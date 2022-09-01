@@ -88,17 +88,10 @@ function criarNovoArquivo(){
     telaInicial.loadFile('src/views/novoArquivo.html');
 }
 
-ipc.on('arquivo:criar', (e, item) => {
-    store.set("novoArquivo", item);
-    log.info(e);
-
-    criarListaEntradas();
-});
-
 ipc.on('arquivo:novo:salvar', (e) => {
     let options = {
         title: "SimpleKeys - Criar Um Novo Arquivo",
-        defaultPath: "%USERPROFILE%/Documents" || "$HOME/",
+        defaultPath: "%USERPROFILE%/" || "$HOME/",
         buttonLabel: "Salvar",
         filters: [
             {name: 'Banco de Dados', extensions: ['db']},
@@ -114,6 +107,11 @@ ipc.on('arquivo:novo:salvar', (e) => {
     });
 })
 
+ipc.on('arquivo:criar', (e, nomeArq, descArq, expira, senha) => {
+    let path = store.get('novoPath');
+    criarListaEntradas(nomeArq, descArq, path, expira, senha);
+});
+
 function criarLerArquivo(){
     lerArquivo = new BrowserWindow({
         width: 518,
@@ -127,7 +125,7 @@ function criarLerArquivo(){
             nodeIntegration: true
         }
     });
-
+    
     lerArquivo.loadFile('src/views/lerArquivo.html');
 }
 
@@ -159,7 +157,7 @@ ipc.on('arquivo:ler:cancelar', (e) => {
 ipc.on('arquivo:ler:path', (e) => {
     let options = {
         title: "SimpleKeys - Abrir Arquivo Já Existente",
-        defaultPath: "%USERPROFILE%/Documents" || "$HOME/",
+        defaultPath: "%USERPROFILE%/" || "$HOME/",
         buttonLabel: "Abrir",
         filters: [
             {name: 'Banco de Dados', extensions: ['db']},
@@ -177,7 +175,8 @@ ipc.on('arquivo:ler:path', (e) => {
     });
 });
 
-function criarListaEntradas(lerPath, senha){
+function criarListaEntradas(nomeArq, descArq, path, expira, senha){
+    // open and insert
     telaInicial.loadFile('src/views/listaEntradas.html');
 
     // Cria o template do menu
@@ -187,15 +186,23 @@ function criarListaEntradas(lerPath, senha){
     Menu.setApplicationMenu(menu);
 }
 
+//ipc on entrada deletar
+
 function criarNovaEntrada(){
     telaInicial.loadFile('src/views/novaEntrada.html');
 }
 
+ipc.on('entrada:criar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
+    //? arquivo.js
+});
+
 function criarEditarEntrada(){
     telaInicial.loadFile('src/views/editarEntrada.html');
-
-    //nos IPCs, atentar para alerts e checks de verificação após editar (are you sure?)
 }
+
+ipc.on('entrada:editar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
+    //alerts e checks de verificação após editar (are you sure?)
+});
 
 function criarGerador(){
     telaInicial.loadFile('src/views/gerador.html');
