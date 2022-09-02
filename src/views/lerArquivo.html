@@ -146,8 +146,13 @@
 
       ipc.on('arquivo:ler:receivePath', (e, path) => {
         let lerPath = path.toString().replace("[\\]", "&#92;");
-        store.set('lerPath', lerPath);
-        localChaveiro.innerText = lerPath;
+        
+        if (lerPath != ("" || null || undefined || [])){
+          store.set('lerPath', lerPath);
+          localChaveiro.innerText = lerPath;
+        } else {
+          alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+        }
       })
 
       function validar(){
@@ -158,7 +163,7 @@
       }
 
       okButton.addEventListener("click", () => {
-        (lerPath != ("" || null || undefined)) ? validar() : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+        (lerPath != ("" || null || undefined || [])) ? validar() : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
       })
     </script>
   </body>

@@ -5,47 +5,55 @@
 */
 
 // Módulos para controlar o ciclo de vida da aplicação e criar a janela nativa do Browser
-const { app, BrowserWindow, webContents, Menu, dialog, Notification, systemPreferences, clipboard } = require('electron');
+const { app, BrowserWindow, Menu, dialog } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
-const ContextMenu = require("secure-electron-context-menu").default;
 const { showAboutWindow } = require('electron-util');
 
-const path = require('path');
-const log = require('electron-log');
+// const path = require('path');
 
 const Store = require('electron-store');
 const store = new Store();
+
+const log = require('electron-log');
+
+const lock = app.requestSingleInstanceLock();
+(!lock) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
 
 let telaInicial = null;
 let lerArquivo = null;
 let WIN = null;
 
-const lock = app.requestSingleInstanceLock();
-(!lock) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
+let opcoesMenu = [
+    {
+        label: ''
+    }
+];
 
-function criarTelaInicial(){
+async function criarTelaInicial(){
+    await app.whenReady();
+
+    // Cria o template do menu
+    const menu = Menu.buildFromTemplate(opcoesMenu);
+
     // Cria a tela inicial
     telaInicial = new BrowserWindow({
         width: 1280,
-        height: 749,
+        height: 769,
         resizable: false,
         title: "SimpleKeys",
         webPreferences: {
             devTools: !app.isPackaged,
             contextIsolation: false,
             nodeIntegration: true,
-            preload: path.join(__dirname, 'preload.js'),
+            // preload: path.join(__dirname, 'preload.js'),
         }
     });
 
+    // Insere o menu
+    Menu.setApplicationMenu(menu);
+
     // e carrega a tela padrão do App
     telaInicial.loadFile('src/views/index.html');
-    //contextMenu
-    Menu.setApplicationMenu(null);
-
-    // new Notification("Senha...", {
-    //     body: "Senha...",
-    // });
     
     telaInicial.on('closed', () => {
         app.quit();
@@ -100,8 +108,12 @@ ipc.on('arquivo:novo:salvar', (e) => {
     }
 
     dialog.showSaveDialog(WIN, options).then((arquivo) => {
-        store.set("novoPath", arquivo.filePath);
-        log.info(arquivo.filePath);
+        if (arquivo != ("" || null || undefined)) {
+            log.info(arquivo.filePath);
+            store.set("novoPath", arquivo.filePath);
+        } else {
+            alert("Selecione um local válido para salvar o arquivo!");
+        }
     }).catch((error) => {
         log.info("Houve um erro aqui! " + error);
     });
@@ -115,7 +127,7 @@ ipc.on('arquivo:criar', (e, nomeArq, descArq, expira, senha) => {
 function criarLerArquivo(){
     lerArquivo = new BrowserWindow({
         width: 518,
-        height: 389,
+        height: 409,
         resizable: false,
         parent: telaInicial,
         title: "SimpleKeys - Abrir Arquivo Já Existente",
@@ -130,13 +142,13 @@ function criarLerArquivo(){
 }
 
 ipc.on('arquivo:ler', (e, lerPath, senha) => {
-    let arq = require('src/tools/arquivo.js');
+    let arq = require('./tools/arquivo.js');
 
     try {
         if (arq.lerArquivo(lerPath, senha)) {
             lerArquivo.close();
             criarListaEntradas();
-            telaInicial.focus();
+            app.focus();
         } else {
             log.info("Erro! Possivelmente a senha está incorreta. Tente novamente!");
             alert("Erro! Possivelmente a senha está incorreta. Tente novamente!");
@@ -151,7 +163,7 @@ ipc.on('arquivo:ler', (e, lerPath, senha) => {
 
 ipc.on('arquivo:ler:cancelar', (e) => {
     lerArquivo.close();
-    telaInicial.focus();
+    app.focus();
 });
 
 ipc.on('arquivo:ler:path', (e) => {
@@ -167,23 +179,185 @@ ipc.on('arquivo:ler:path', (e) => {
     }
 
     dialog.showOpenDialog(WIN, options).then((arquivo) => {
-        store.set("lerPath", arquivo.filePaths);
-        ipc.sendToRenderers('arquivo:ler:receivePath', arquivo.filePaths);
         log.info(arquivo.filePaths);
+        ipc.sendToRenderers('arquivo:ler:receivePath', arquivo.filePaths);
     }).catch((error) => {
         log.info("Houve um erro aqui! " + error);
     });
 });
 
 function criarListaEntradas(nomeArq, descArq, path, expira, senha){
-    // open and insert
-    telaInicial.loadFile('src/views/listaEntradas.html');
-
     // Cria o template do menu
-    const menu = Menu.buildFromTemplate(opcoesMenu);
+    opcoesMenu = [
+        // Cada objeto é um dropdown
+        {
+            label: 'Arquivo',
+            submenu: [
+                {
+                    label: 'Novo Arquivo',
+                    click(){ criarNovoArquivo(); }
+                },
+                {
+                    label: 'Abrir Arquivo Já Existente',
+                    click(){ criarLerArquivo(); }
+                },
+                {
+                    label: 'Fechar Arquivo',
+                    click(){ /* Salvar, criptografar, limpar área de transferência e telaInicial.setBrowserView(telaInicial); */ }
+                },
+                {
+                    label: 'Salvar Como',
+                    submenu: [
+                        //Abrir explorer
+                    ],
+                },
+                {
+                    label: 'Alterar Senha Mestra',
+                    click(){ /* Salvar, navegar para alterarSenha e validar, criptografar banco, limpar área de transferência telaInicial.setBrowserView(telaInicial); */ },
+                },
+                {
+                    label: 'Backup',
+                    click(){ criarBackup(); },
+                },
+                // { FUNCIONALIDADE FUTURA
+                //     label: 'Importar',
+                //     click(){  },
+                // },
+                // {
+                //     label: 'Exportar',
+                //     click(){  },
+                // },
+                {
+                    label: 'Trancar Arquivo',
+                    click(){ /* Salvar, criptografar, limpar área de transferência e telaInicial.setBrowserView(telaInicial); */ },
+                },
+                {
+                    label: 'Sair',
+                    click(){ app.quit(); },
+                },
+            ]
+        },
+
+        {
+            label: 'Entradas',
+            submenu: [
+                {
+                    label: 'Copiar Usuário',
+                    click(){  },
+                },
+                {
+                    label: 'Copiar Senha',
+                    click(){  },
+                },
+                {
+                    label: 'Copiar Campos',
+                    submenu: [
+                        {
+                            label: 'Copiar Link',
+                            click(){  },
+                        },
+                        {
+                            label: 'Copiar Descrição',
+                            click(){  },
+                        },
+                    ]
+                },
+                {
+                    label: 'Adicionar Entrada',
+                    click(){ criarNovaEntrada(); }
+                },
+                {
+                    label: 'Editar Entrada',
+                    click(){ criarEditarEntrada(); },
+                },
+                {
+                    label: 'Deletar Entrada(s)',
+                    click(){ /* to add: Are you sure? */ },
+                },
+                {
+                    label: 'Selecionar Tudo',
+                    click(){  },
+                },
+            ]
+        },
+
+        {
+            label: 'Encontrar',
+            submenu: [
+                {
+                    label: 'Encontrar', //Barra de pesquisa
+                    click(){  },
+                },
+                {
+                    label: 'Expiradas', //Filtro expiradas
+                    click(){  },
+                },
+                {
+                    label: 'Recentemente Modificadas', //Filtro recentemente modificadas
+                    click(){  },
+                },
+                {
+                    label: 'Senhas Duplicadas ou Similares',
+                    click(){  }
+                },
+            ]
+        },
+
+        {
+            label: 'Ver',
+            submenu: [
+                // { FUNCIONALIDADE FUTURA
+                //     label: 'Alterar Idioma', //Abre nova janelinha idiomas.html
+                //     click(){  },
+                // },
+                // { FUNCIONALIDADE FUTURA
+                //     label: 'Grupos',
+                //     click(){  },
+                // },
+                {
+                    label: 'Configurar Colunas',
+                    click(){  },
+                },
+                {
+                    label: 'Reordenar, Filtrar...',
+                    click(){  },
+                },
+            ]
+        },
+
+        {
+            label: 'Ferramentas',
+            submenu: [
+                {
+                    label: 'Gerar Senhas',
+                    click(){ criarGerador(); },
+                },
+                {
+                    label: 'Configurações',
+                    click(){ criarConfiguracoes(); },
+                },
+                {
+                    label: 'Ajuda',
+                    submenu: [
+                        {
+                            label: 'Verificar novas Atualizações',
+                            click(){  },
+                        },
+                        {
+                            label: 'Sobre o SimpleKeys, Links de Ajuda',
+                            click(){ criarSobre(); },
+                        },
+                    ]
+                },
+            ]
+        },
+    ]; const menu = Menu.buildFromTemplate(opcoesMenu);
 
     // Insere o menu
     Menu.setApplicationMenu(menu);
+    
+    // open and insert data
+    telaInicial.loadFile('src/views/listaEntradas.html');
 }
 
 //ipc on entrada deletar
@@ -224,171 +398,6 @@ function criarSobre(){
         website: 'https://github.com/bainloko/SimpleKeys'
     });
 }
-
-const opcoesMenu = [
-    // Cada objeto é um dropdown
-    {
-        label: 'Arquivo',
-        submenu: [
-            {
-                label: 'Novo Arquivo',
-                click(){ criarNovoArquivo(); }
-            },
-            {
-                label: 'Abrir Arquivo Já Existente',
-                click(){ criarLerArquivo(); }
-            },
-            {
-                label: 'Fechar Arquivo',
-                click(){ /* Salvar, criptografar, limpar área de transferência e telaInicial.setBrowserView(telaInicial); */ }
-            },
-            {
-                label: 'Salvar Como',
-                submenu: [
-                    //Abrir explorer
-                ],
-            },
-            {
-                label: 'Alterar Senha Mestra',
-                click(){ /* Salvar, navegar para alterarSenha e validar, criptografar banco, limpar área de transferência telaInicial.setBrowserView(telaInicial); */ },
-            },
-            {
-                label: 'Backup',
-                click(){ criarBackup(); },
-            },
-            // { FUNCIONALIDADE FUTURA
-            //     label: 'Importar',
-            //     click(){  },
-            // },
-            // {
-            //     label: 'Exportar',
-            //     click(){  },
-            // },
-            {
-                label: 'Trancar Arquivo',
-                click(){ /* Salvar, criptografar, limpar área de transferência e telaInicial.setBrowserView(telaInicial); */ },
-            },
-            {
-                label: 'Sair',
-                click(){ app.quit(); },
-            },
-        ]
-    },
-
-    {
-        label: 'Entradas',
-        submenu: [
-            {
-                label: 'Copiar Usuário',
-                click(){  },
-            },
-            {
-                label: 'Copiar Senha',
-                click(){  },
-            },
-            {
-                label: 'Copiar Campos',
-                submenu: [
-                    {
-                        label: 'Copiar Link',
-                        click(){  },
-                    },
-                    {
-                        label: 'Copiar Descrição',
-                        click(){  },
-                    },
-                ]
-            },
-            {
-                label: 'Adicionar Entrada',
-                click(){ criarNovaEntrada(); }
-            },
-            {
-                label: 'Editar Entrada',
-                click(){ /* Abre nova janelinha editarEntrada.html */ },
-            },
-            {
-                label: 'Deletar Entrada(s)',
-                click(){ /* to add: Are you sure? */ },
-            },
-            {
-                label: 'Selecionar Tudo',
-                click(){  },
-            },
-        ]
-    },
-
-    {
-        label: 'Encontrar',
-        submenu: [
-            {
-                label: 'Encontrar', //Barra de pesquisa
-                click(){  },
-            },
-            {
-                label: 'Expiradas', //Filtro expiradas
-                click(){  },
-            },
-            {
-                label: 'Recentemente Modificadas', //Filtro recentemente modificadas
-                click(){  },
-            },
-            {
-                label: 'Senhas Duplicadas ou Similares',
-                click(){  }
-            },
-        ]
-    },
-
-    {
-        label: 'Ver',
-        submenu: [
-            // { FUNCIONALIDADE FUTURA
-            //     label: 'Alterar Idioma', //Abre nova janelinha idiomas.html
-            //     click(){  },
-            // },
-            // { FUNCIONALIDADE FUTURA
-            //     label: 'Grupos',
-            //     click(){  },
-            // },
-            {
-                label: 'Configurar Colunas',
-                click(){  },
-            },
-            {
-                label: 'Reordenar, Filtrar...',
-                click(){  },
-            },
-        ]
-    },
-
-    {
-        label: 'Ferramentas',
-        submenu: [
-            {
-                label: 'Gerar Senhas',
-                click(){ criarGerador(); },
-            },
-            {
-                label: 'Configurações',
-                click(){ criarConfiguracoes(); },
-            },
-            {
-                label: 'Ajuda',
-                submenu: [
-                    {
-                        label: 'Verificar novas Atualizações',
-                        click(){  },
-                    },
-                    {
-                        label: 'Sobre o SimpleKeys, Links de Ajuda',
-                        click(){ criarSobre(); },
-                    },
-                ]
-            },
-        ]
-    },
-];
 
 app.on('ready', (e) => {
     criarTelaInicial();
