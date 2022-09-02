@@ -11,13 +11,15 @@ const { showAboutWindow } = require('electron-util');
 
 // const path = require('path');
 
+const arquivo = require('./tools/arquivo.js');
+
 const Store = require('electron-store');
 const store = new Store();
 
-const log = require('electron-log');
-
 const lock = app.requestSingleInstanceLock();
 (!lock) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
+
+const log = require('electron-log');
 
 let telaInicial = null;
 let lerArquivo = null;
@@ -119,9 +121,9 @@ ipc.on('arquivo:novo:salvar', (e) => {
     });
 })
 
-ipc.on('arquivo:criar', (e, nomeArq, descArq, expira, senha) => {
-    let path = store.get('novoPath');
-    criarListaEntradas(nomeArq, descArq, path, expira, senha);
+ipc.on('arquivo:criar', (e, nomeArq, descArq, expira, chaveReserva, senhaArq) => {
+    arquivo.novoArquivo(nomeArq, descArq, expira, chaveReserva, senhaArq);
+    criarListaEntradas();
 });
 
 function criarLerArquivo(){
@@ -142,12 +144,10 @@ function criarLerArquivo(){
 }
 
 ipc.on('arquivo:ler', (e, lerPath, senha) => {
-    let arq = require('./tools/arquivo.js');
-
     try {
-        if (arq.lerArquivo(lerPath, senha)) {
-            lerArquivo.close();
+        if (arquivo.lerArquivo(lerPath, senha)) {
             criarListaEntradas();
+            lerArquivo.close();
             app.focus();
         } else {
             log.info("Erro! Possivelmente a senha está incorreta. Tente novamente!");
@@ -186,7 +186,7 @@ ipc.on('arquivo:ler:path', (e) => {
     });
 });
 
-function criarListaEntradas(nomeArq, descArq, path, expira, senha){
+function criarListaEntradas(){
     // Cria o template do menu
     opcoesMenu = [
         // Cada objeto é um dropdown
@@ -355,7 +355,7 @@ function criarListaEntradas(nomeArq, descArq, path, expira, senha){
 
     // Insere o menu
     Menu.setApplicationMenu(menu);
-    
+
     // open and insert data
     telaInicial.loadFile('src/views/listaEntradas.html');
 }
@@ -367,7 +367,7 @@ function criarNovaEntrada(){
 }
 
 ipc.on('entrada:criar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
-    //? arquivo.js
+    arquivo.cadastrarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt);
 });
 
 function criarEditarEntrada(){
@@ -376,6 +376,7 @@ function criarEditarEntrada(){
 
 ipc.on('entrada:editar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
     //alerts e checks de verificação após editar (are you sure?)
+    arquivo.editarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt);
 });
 
 function criarGerador(){
@@ -387,6 +388,16 @@ function criarBackup(){
 }
 
 function criarConfiguracoes(){
+    // const arqNome = "nome" + nomeArquivo;
+    // const arqDesc = "desc" + nomeArquivo;
+    // const arqExpira = "expira?" + nomeArquivo;
+    // const arqChaveReserva = "chaveReserva?" + nomeArquivo;
+    // ...
+    // store.get(arqNome);
+    // store.get(arqDesc);
+    // store.get(arqExpira);
+    // store.get(arqChaveReserva);
+
     telaInicial.loadFile('src/views/configuracoes.html');
 }
 

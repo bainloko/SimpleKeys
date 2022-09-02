@@ -10,9 +10,10 @@ const Path = require('path');
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 
-const log = require('electron-log');
+const Store = require('electron-store');
+const store = new Store();
 
-const electronStore = require('electron-store');
+const log = require('electron-log');
 
 function realizarBackup(nomeArquivo, senhaMestra, configBanco, imprimir){
     //screen5 tirar o nome, a descrição e o registro de data e hora do backup (handle automatically) e criar o novo .db criptografado

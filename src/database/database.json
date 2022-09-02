@@ -2,18 +2,18 @@
     "development": {
         "dialect": "sqlite",
         "dialectModulePath": "better-sqlite3-multiple-ciphers",
-        "storage": "../database.db",
-        "logging": true
+        "logging": "msg => log.info(msg)",
+        "storage": "../database.db"
     },
     "test": {
         "dialect": "sqlite",
         "dialectModulePath": "better-sqlite3-multiple-ciphers",
-        "storage": ":memory",
-        "logging": true
+        "logging": "msg => log.info(msg)",
+        "storage": ":memory"
     },
     "production": {
         "dialect": "sqlite",
         "dialectModulePath": "better-sqlite3-multiple-ciphers",
-        "logging": true
+        "logging": "msg => log.info(msg)"
     }
 }

@@ -7,9 +7,10 @@
 const fse = require('fs-extra');
 const Path = require('path');
 
-const log = require('electron-log');
+const store = new Store();
+const Store = require('electron-store');
 
-const electronStore = require('electron-store');
+const log = require('electron-log');
 
 async function lerConfiguracoes(configBanco){
     // path? copiar para a pasta do usuário? lookup json e edição?

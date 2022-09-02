@@ -13,14 +13,15 @@ const Entradas = require('../model/Entradas.js');
 const database = require('../database/Database.js');
 const dbConfig = require('../database/database.json');
 
-const log = require('electron-log');
+const Store = require('electron-store');
+const store = new Store();
 
-const electronStore = require('electron-store');
+const log = require('electron-log');
 
 const { or } = Sequelize.Op;
 
 async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra){
-    let path = Path.join(__dirname, nomeArquivo.toString());
+    let path = store.get('novoPath');
 
     try {
         if (consultarBanco(path)) {
@@ -29,16 +30,15 @@ async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senha
 
             return false;
         } else {
-            if (database.conectar(path, senhaMestra)) {
+            if (database.criar(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra)) {
+                lerEntradas();
+
                 log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
                 alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
 
-                //escrever dados na config do banco!! criar
-                lerEntradas();
-
                 return true;
             } else {
-                database.close(dbConfig);
+                database.close();
 
                 log.error("Houve um problema no salvamento do Banco, tente novamente!");
                 alert("Houve um problema no salvamento do Banco, tente novamente!");
@@ -59,10 +59,18 @@ async function lerArquivo(nomeArquivo, senhaMestra){
 
     try {
         if (database.conectar(path, senhaMestra)) {
-            log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
+            const arqNome = "nome" + nomeArquivo;
+            const arqDesc = "desc" + nomeArquivo;
+            const arqExpira = "expira?" + nomeArquivo;
+            const arqChaveReserva = "chaveReserva?" + nomeArquivo;
 
-            //ler dados da config do banco!!
+            store.get(arqNome);
+            store.get(arqDesc);
+            store.get(arqExpira);
+            store.get(arqChaveReserva);
+            
             lerEntradas();
+            log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
 
             return true;
         } else {
@@ -81,7 +89,7 @@ async function lerArquivo(nomeArquivo, senhaMestra){
     }
 }
 
-async function cadastrarEntradas(nomeEntradas, descEntradas, loginEntradas, senhaEntradas, siteEntradas, expira, grupoImg, grupoLista){
+async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
         const resultado = await database.sync();
         log.info(resultado);
@@ -89,12 +97,12 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, loginEntradas, senh
         const resultadoCreate = await Entradas.create({
             nome: nomeEntradas,
             descricao: descEntradas,
+            site: siteEntradas,
             usuario: loginEntradas,
             senha: senhaEntradas,
-            site: siteEntradas,
             expira: expira,
-            grupoImg: grupoImg,
-            grupoLista: grupoLista 
+            // grupoImg: grupoImg,
+            // grupoLista: grupoLista 
         });
 
         log.info(resultadoCreate);
@@ -129,8 +137,8 @@ async function pesquisarEntradas(pesquisa){
                 nome: pesquisa,
                 [or]: [
                     {descricao: pesquisa},
-                    {usuario: pesquisa},
                     {site: pesquisa},
+                    {usuario: pesquisa},
                     {expira: pesquisa},
                     {grupoLista: pesquisa}
                 ]
@@ -148,16 +156,14 @@ async function pesquisarEntradas(pesquisa){
     }
 }
 
-async function atualizarEntradas(selecaoAtual, nomeEntradas, descEntradas, loginEntradas, senhaEntradas, siteEntradas, expira, grupoImg, grupoLista){
+async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
         const entradas = await Entradas.findByPk(selecaoAtual).then(() => {
-            log.info(entradas);
-
             entradas.nome = nomeEntradas;
             entradas.descricao = descEntradas;
+            entradas.site = siteEntradas;
             entradas.usuario = loginEntradas;
             entradas.senha = senhaEntradas;
-            entradas.site = siteEntradas;
             entradas.expira = expira;
             entradas.grupoImg = grupoImg;
             entradas.grupoLista = grupoLista;
@@ -213,4 +219,4 @@ async function consultarBanco(nomeArquivo){
     }
 }
 
-export { novoArquivo, cadastrarEntradas, lerEntradas, pesquisarEntradas, atualizarEntradas, apagarEntradas, lerArquivo, consultarBanco };
+export { novoArquivo, cadastrarEntradas, lerEntradas, pesquisarEntradas, editarEntradas, apagarEntradas, lerArquivo, consultarBanco };
