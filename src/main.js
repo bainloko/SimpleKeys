@@ -9,8 +9,6 @@ const { app, BrowserWindow, Menu, dialog } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
 const { showAboutWindow } = require('electron-util');
 
-// const path = require('path');
-
 const Store = require('electron-store');
 const store = new Store();
 //store.log.append? um log numa chave só

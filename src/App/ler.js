@@ -1,7 +1,7 @@
 /*
 * SimpleKeys
 * ler.js
-* 07/09/2022
+* 07/set/2022
 */
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');

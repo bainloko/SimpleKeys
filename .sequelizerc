@@ -1,4 +1,8 @@
-//.sequelizerc configurações
+/*
+* SimpleKeys
+* .sequelizerc configurações
+* 2/jun/2022 ?
+*/
 
 const { resolve } = require('path');
 
