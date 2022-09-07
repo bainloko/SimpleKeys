@@ -11,7 +11,7 @@ const Sequelize = require('sequelize');
 
 const Entradas = require('../model/Entradas.js');
 const database = require('../database/Database.js');
-const dbConfig = require('../database/database.json');
+const config = require('../database/database.json');
 
 const Store = require('electron-store');
 const store = new Store();

@@ -11,15 +11,14 @@ const { showAboutWindow } = require('electron-util');
 
 // const path = require('path');
 
-const arquivo = require('./tools/arquivo.js');
-
 const Store = require('electron-store');
 const store = new Store();
 
+const log = require('electron-log');
+window.log = log.functions;
+
 const lock = app.requestSingleInstanceLock();
 (!lock) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
-
-const log = require('electron-log');
 
 let telaInicial = null;
 let lerArquivo = null;
@@ -388,16 +387,6 @@ function criarBackup(){
 }
 
 function criarConfiguracoes(){
-    // const arqNome = "nome" + nomeArquivo;
-    // const arqDesc = "desc" + nomeArquivo;
-    // const arqExpira = "expira?" + nomeArquivo;
-    // const arqChaveReserva = "chaveReserva?" + nomeArquivo;
-    // ...
-    // store.get(arqNome);
-    // store.get(arqDesc);
-    // store.get(arqExpira);
-    // store.get(arqChaveReserva);
-
     telaInicial.loadFile('src/views/configuracoes.html');
 }
 

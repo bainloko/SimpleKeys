@@ -7,8 +7,8 @@
 const fse = require('fs-extra');
 const Path = require('path');
 
-const store = new Store();
 const Store = require('electron-store');
+const store = new Store();
 
 const log = require('electron-log');
 

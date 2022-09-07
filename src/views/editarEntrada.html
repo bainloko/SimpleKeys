@@ -37,6 +37,10 @@
     <link rel="stylesheet" href="./style.css" />
     <script src="../tools/zxcvbn.js"></script>
     <title>SimpleKeys - Editar Entrada</title>
+    <script>
+      const { ipcRenderer: ipc } = require('electron-better-ipc');
+      const ContextMenu = require("secure-electron-context-menu").default;
+    </script>
   </head>
   <body>
     <div>
@@ -196,9 +200,6 @@
       </article>
     </div>
     <script src="../tools/strength.js"></script>
-    <script>
-      const { ipcRenderer: ipc } = require('electron-better-ipc');
-      const ContextMenu = require("secure-electron-context-menu").default;
-    </script>
+    <script src=""></script>
   </body>
 </html>

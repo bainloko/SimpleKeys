@@ -16,10 +16,10 @@ function generate(size){
 
     for (let i = 0; i < size; i++){
         while (size > r.length){
-            (lowerCase.checked === true) ? l = lowerCaseChr[Math.floor(Math.random() * lowerCaseChr.length)] : log.info("Letra minúscula usada!");
-            (upperCase.checked === true) ? u = upperCaseChr[Math.floor(Math.random() * upperCaseChr.length)] : log.info("Letra maiúscula usada!");
-            (numbers.checked === true) ? n = numbersChr[Math.floor(Math.random() * numbersChr.length)] : log.info("Número usado!");
-            (symbols.checked === true) ? s = symbolsChr[Math.floor(Math.random() * symbolsChr.length)] : log.info("Símbolo usado!");
+            (lowerCase.checked === true) ? l = lowerCaseChr[Math.floor(Math.random() * lowerCaseChr.length)] : log.info("Letra minuscula usada!");
+            (upperCase.checked === true) ? u = upperCaseChr[Math.floor(Math.random() * upperCaseChr.length)] : log.info("Letra maiuscula usada!");
+            (numbers.checked === true) ? n = numbersChr[Math.floor(Math.random() * numbersChr.length)] : log.info("Numero usado!");
+            (symbols.checked === true) ? s = symbolsChr[Math.floor(Math.random() * symbolsChr.length)] : log.info("Simbolo usado!");
 
             (size > r.length) ? r += l : r.slice(0, size - 1);
             (size > r.length) ? r += u : r.slice(0, size - 1);
@@ -32,8 +32,7 @@ function generate(size){
     return r;
 }
 
-// quantidade mínima de 1 senha, comprimento mínimo de 4 caracteres
-export default function gerarSenhas(){
+function gerarSenhas(){
     let qtdSenhas = document.getElementById("qtdSenhas");
     let comprimentoSenha = document.getElementById("comprimentoSenha");
     let lowerCase = document.getElementById("lowerCase");
@@ -42,7 +41,7 @@ export default function gerarSenhas(){
     let symbols = document.getElementById("symbols");
 
     try {
-        if ((((!(lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked && false === false) && ((lowerCase.checked || upperCase.checked || numbers.checked || symbols.checked) === true)) || (lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked) === true) && ((qtdSenhas.value >= 1 && qtdSenhas.value <= 30 && comprimentoSenha.value >= 4 && comprimentoSenha.value <= 256))) === true){
+        if ((((!(lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked && false === false) && ((lowerCase.checked || upperCase.checked || numbers.checked || symbols.checked) === true)) || (lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked) === true) && ((qtdSenhas.value >= 1 && qtdSenhas.value <= 30 && comprimentoSenha.value >= 4 && comprimentoSenha.value <= 256))) === true) {
             var Senhas = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], senha = "";
 
             for (let i = 0; i < qtdSenhas.value; i++){
@@ -60,7 +59,9 @@ export default function gerarSenhas(){
             alert("Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
         }
     } catch (error){
-        log.error("Ocorreu um erro inesperado na geração das senhas! " + error);
+        log.error("Ocorreu um erro inesperado na geracao das senhas! " + error);
         alert("Ocorreu um erro inesperado na geração das senhas! " + error);
     }
 }
+
+module.exports = { gerarSenhas };

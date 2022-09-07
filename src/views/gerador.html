@@ -36,6 +36,10 @@
     <link rel="stylesheet" href="./font.css" data-tag="font" />
     <link rel="stylesheet" href="./style.css" />
     <title>SimpleKeys - Gerador de Senhas</title>
+    <script>
+      const { ipcRenderer: ipc } = require('electron-better-ipc');
+      const ContextMenu = require("secure-electron-context-menu").default;
+    </script>
   </head>
   <body>
     <div>
@@ -130,9 +134,5 @@
       </article>
     </div>
     <script src="../tools/gerador.js"></script>
-    <script>
-      const { ipcRenderer: ipc } = require('electron-better-ipc');
-      const ContextMenu = require("secure-electron-context-menu").default;
-    </script>
   </body>
 </html>

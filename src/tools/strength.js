@@ -37,7 +37,7 @@ passTestInput.addEventListener("input", function(){
 })
 
 eye.addEventListener("click", () => {
-    if (pwShown === false){
+    if (pwShown === false) {
         eye.style.display = "none";
         eyeShown.style.display = "block";
         passwordInput.setAttribute("type", "text");
@@ -53,7 +53,7 @@ eye.addEventListener("click", () => {
 });
 
 eyeShown.addEventListener("click", () => {
-    if (pwShown === false){
+    if (pwShown === false) {
         eye.style.display = "none";
         eyeShown.style.display = "block";
         passwordInput.setAttribute("type", "text");
@@ -69,7 +69,7 @@ eyeShown.addEventListener("click", () => {
 });
 
 eye1.addEventListener("click", () => {
-    if (pw1Shown === false){
+    if (pw1Shown === false) {
         eye1.style.display = "none";
         eye1Shown.style.display = "block";
         passTestInput.setAttribute("type", "text");
@@ -85,7 +85,7 @@ eye1.addEventListener("click", () => {
 });
 
 eye1Shown.addEventListener("click", () => {
-    if (pw1Shown === false){
+    if (pw1Shown === false) {
         eye1.style.display = "none";
         eye1Shown.style.display = "block";
         passTestInput.setAttribute("type", "text");

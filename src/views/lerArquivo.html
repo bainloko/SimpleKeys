@@ -36,6 +36,9 @@
     <link rel="stylesheet" href="./font.css" data-tag="font" />
     <link rel="stylesheet" href="./style.css" />
     <title>SimpleKeys - Abrir Arquivo Já Existente</title>
+    <script>
+      const { ipcRenderer: ipc } = require('electron-better-ipc');
+    </script>
   </head>
   <body>
     <div>
@@ -84,6 +87,7 @@
               autocomplete="off"
               class="ler-arquivo-textinput input"
             />
+            <span>***inserir seletor pra chave reserva, local...</span>
             <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
             <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
             <button type="submit" id="okButton" class="ler-arquivo-o-k button">OK</button>
@@ -97,74 +101,6 @@
         </article>
       </div>
     </div>
-    <script>
-      const { ipcRenderer: ipc } = require('electron-better-ipc');
-      
-      const Store = require('electron-store');
-      const store = new Store();
-      
-      const passwordInput = document.getElementById("inpPassword");
-
-      const eye = document.getElementById("eye");
-      const eyeShown = document.getElementById("eyeShown");
-      var pwShown = false;
-
-      eye.addEventListener("click", () => {
-        if (pwShown === false){
-            eye.style.display = "none";
-            eyeShown.style.display = "block";
-            passwordInput.setAttribute("type", "text");
-
-            pwShown = true;
-        } else {
-            eye.style.display = "block";
-            eyeShown.style.display = "none";
-            passwordInput.setAttribute("type", "password");
-
-            pwShown = false;
-        }
-      });
-
-      eyeShown.addEventListener("click", () => {
-        if (pwShown === false){
-            eye.style.display = "none";
-            eyeShown.style.display = "block";
-            passwordInput.setAttribute("type", "text");
-
-            pwShown = true;
-        } else {
-            eye.style.display = "block";
-            eyeShown.style.display = "none";
-            passwordInput.setAttribute("type", "password");
-
-            pwShown = false;
-        }
-      });
-
-      const okButton = document.getElementById("okButton");
-      const localChaveiro = document.getElementById("localChaveiro");
-
-      ipc.on('arquivo:ler:receivePath', (e, path) => {
-        let lerPath = path.toString().replace("[\\]", "&#92;");
-        
-        if (lerPath != ("" || null || undefined || [])){
-          store.set('lerPath', lerPath);
-          localChaveiro.innerText = lerPath;
-        } else {
-          alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
-        }
-      })
-
-      function validar(){
-        let lerPath = store.get('lerPath');
-        let senha = inpPassword.value;
-
-        (senha == ("" || null || undefined)) ? alert("Digite a senha para acessar o arquivo!") : ipc.send('arquivo:ler', lerPath, senha); 
-      }
-
-      okButton.addEventListener("click", () => {
-        (lerPath != ("" || null || undefined || [])) ? validar() : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
-      })
-    </script>
+    <script src="../tools/telaLer.js"></script>
   </body>
 </html>
