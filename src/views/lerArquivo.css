@@ -5,7 +5,7 @@
 */
 
 .ler-arquivo-container {
-  width: 512px;
+  width: 532px;
   height: 360px;
   display: flex;
   overflow: auto;
@@ -15,7 +15,7 @@
   justify-content: center;
 }
 .ler-arquivo-container1 {
-  width: 512px;
+  width: 532px;
   height: 360px;
   display: flex;
   opacity: 1;
@@ -57,21 +57,21 @@
 }
 .ler-arquivo-text03 {
   top: var(--dl-space-space-unit);
-  left: var(--dl-space-space-fiveunits);
+  left: 90px;
   position: absolute;
-  font-size: 22px;
+  font-size: 24px;
 }
 .ler-arquivo-text07 {
-  font-size: 16px;
+  font-size: 14px;
 }
 .ler-arquivo-o-k {
-  right: 52px;
+  right: 38px;
   top: 195px;
   position: absolute;
   cursor: pointer;
 }
 .ler-arquivo-cancelar {
-  right: -52px;
+  right: -66px;
   top: 195px;
   position: absolute;
   cursor: pointer;
@@ -103,7 +103,7 @@
 }
 .ler-arquivo-container4 {
   top: 115px;
-  left: 58px;
+  left: 62px;
   width: 375px;
   height: 92px;
   display: flex;
@@ -113,20 +113,20 @@
   justify-content: flex-start;
 }
 .ler-arquivo-textinput {
-  top: 0px;
+  top: -42px;
   left: 165px;
   width: 225px;
   position: absolute;
 }
 #eye {
-  top: 7px;
+  top: -36px;
   left: 350px;
   position: absolute;
   cursor: pointer;
   display: block;
 }
 #eyeShown {
-  top: 7px;
+  top: -36px;
   left: 350px;
   position: absolute;
   cursor: pointer;
@@ -135,7 +135,7 @@
 .ler-arquivo-container5 {
   top: 42px;
   left: 12px;
-  width: 344px;
+  width: 354px;
   height: 50px;
   display: flex;
   position: absolute;
@@ -144,7 +144,16 @@
   justify-content: flex-start;
 }
 .ler-arquivo-image2 {
-  right: -32px;
+  right: -36px;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  object-fit: cover;
+  cursor: pointer;
+}
+.ler-arquivo-image3 {
+  top: 50px;
+  right: -36px;
   width: 50px;
   height: 50px;
   position: absolute;
@@ -152,16 +161,23 @@
   cursor: pointer;
 }
 .ler-arquivo-text12 {
-  top: 10px;
+  top: -36px;
   left: 0px;
   margin: auto;
   position: absolute;
-  font-size: 22px;
+  font-size: 20px;
 }
 .ler-arquivo-text13 {
-  top: 6px;
+  top: 16px;
   left: 0px;
   margin: auto;
   position: absolute;
-  font-size: 22px;
+  font-size: 20px;
+}
+.ler-arquivo-text14 {
+  top: 64px;
+  left: 0px;
+  margin: auto;
+  position: absolute;
+  font-size: 20px;
 }

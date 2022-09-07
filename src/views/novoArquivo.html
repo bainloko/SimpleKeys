@@ -35,12 +35,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./public/favicon/favicon-32x32.png">
     <link rel="stylesheet" href="./font.css" data-tag="font" />
     <link rel="stylesheet" href="./style.css" />
-    <script src="../tools/zxcvbn.js"></script>
     <title>SimpleKeys - Novo Arquivo</title>
-    <script>
-      const { ipcRenderer: ipc } = require('electron-better-ipc');
-      const ContextMenu = require("secure-electron-context-menu").default;
-    </script>
+    <script src="../App/tools/zxcvbn.js"></script>
+    <script src="../App/tools/strength.js"></script>
+    <script src="../App/criar.js"></script>
   </head>
   <body>
     <div>
@@ -188,9 +186,5 @@
         </div>
       </article>
     </div>
-    <script src="../tools/strength.js"></script>
-    <script>
-      //revisar este, o código das outras ferramentas, do main, do preload e fazer conforme o prof. Emílio disse. sanear os nomes das variáveis, criar o banco no próprio processo novoArquivo.html e etc., comparar com a master branch.
-    </script>
   </body>
 </html>

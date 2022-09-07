@@ -13,6 +13,7 @@ const { showAboutWindow } = require('electron-util');
 
 const Store = require('electron-store');
 const store = new Store();
+//store.log.append? um log numa chave só
 
 const log = require('electron-log');
 window.log = log.functions;
@@ -45,17 +46,17 @@ async function criarTelaInicial(){
         webPreferences: {
             devTools: !app.isPackaged,
             contextIsolation: false,
-            nodeIntegration: true,
-            // preload: path.join(__dirname, 'preload.js'),
+            nodeIntegration: true
         }
     });
 
     // Insere o menu
     Menu.setApplicationMenu(menu);
 
-    // e carrega a tela padrão do App
+    // Abre a tela
     telaInicial.loadFile('src/views/index.html');
-    
+    ipc.sendToRenderers('ready');
+
     telaInicial.on('closed', () => {
         app.quit();
     });
@@ -111,7 +112,7 @@ ipc.on('arquivo:novo:salvar', (e) => {
     dialog.showSaveDialog(WIN, options).then((arquivo) => {
         if (arquivo != ("" || null || undefined)) {
             log.info(arquivo.filePath);
-            store.set("novoPath", arquivo.filePath);
+            store.set("pathArquivo", arquivo.filePath);
         } else {
             alert("Selecione um local válido para salvar o arquivo!");
         }
@@ -121,13 +122,13 @@ ipc.on('arquivo:novo:salvar', (e) => {
 })
 
 ipc.on('arquivo:criar', (e, nomeArq, descArq, expira, chaveReserva, senhaArq) => {
-    arquivo.novoArquivo(nomeArq, descArq, expira, chaveReserva, senhaArq);
+    arquivo.novoArquivo(nomeArq, descArq, expira, chaveReserva, senhaArq); //
     criarListaEntradas();
 });
 
 function criarLerArquivo(){
     lerArquivo = new BrowserWindow({
-        width: 518,
+        width: 538,
         height: 409,
         resizable: false,
         parent: telaInicial,
@@ -142,27 +143,25 @@ function criarLerArquivo(){
     lerArquivo.loadFile('src/views/lerArquivo.html');
 }
 
-ipc.on('arquivo:ler', (e, lerPath, senha) => {
-    try {
-        if (arquivo.lerArquivo(lerPath, senha)) {
-            criarListaEntradas();
-            lerArquivo.close();
-            app.focus();
-        } else {
-            log.info("Erro! Possivelmente a senha está incorreta. Tente novamente!");
-            alert("Erro! Possivelmente a senha está incorreta. Tente novamente!");
-            lerArquivo.focus();
-        }
-    } catch (error) {
-        log.info("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
-        alert("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
-        lerArquivo.focus();
+ipc.on('arquivo:ler:chaveReserva', (e) => {
+    let options = {
+        title: "SimpleKeys - Abrir Arquivo Já Existente",
+        defaultPath: "%USERPROFILE%/" || "$HOME/",
+        buttonLabel: "Abrir",
+        filters: [
+            {name: 'Chave Reserva', extensions: ['key']},
+            {name: 'All Files', extensions: ['*']}
+        ],
+        properties: ['openFile']
     }
-});
 
-ipc.on('arquivo:ler:cancelar', (e) => {
-    lerArquivo.close();
-    app.focus();
+    dialog.showOpenDialog(WIN, options).then((arquivo) => {
+        log.info(arquivo.filePaths);
+        store.set("pathChaveReserva", arquivo.filePaths);
+        ipc.sendToRenderers('arquivo:ler:receiveChaveReserva', arquivo.filePaths);
+    }).catch((error) => {
+        log.info("Houve um erro aqui! " + error);
+    });
 });
 
 ipc.on('arquivo:ler:path', (e) => {
@@ -179,10 +178,16 @@ ipc.on('arquivo:ler:path', (e) => {
 
     dialog.showOpenDialog(WIN, options).then((arquivo) => {
         log.info(arquivo.filePaths);
+        store.set("pathArquivo", arquivo.filePaths);
         ipc.sendToRenderers('arquivo:ler:receivePath', arquivo.filePaths);
     }).catch((error) => {
         log.info("Houve um erro aqui! " + error);
     });
+});
+
+ipc.on('arquivo:ler:cancelar', (e) => {
+    lerArquivo.close();
+    app.focus();
 });
 
 function criarListaEntradas(){
@@ -355,28 +360,17 @@ function criarListaEntradas(){
     // Insere o menu
     Menu.setApplicationMenu(menu);
 
-    // open and insert data
+    // Abre a tela
     telaInicial.loadFile('src/views/listaEntradas.html');
 }
-
-//ipc on entrada deletar
 
 function criarNovaEntrada(){
     telaInicial.loadFile('src/views/novaEntrada.html');
 }
 
-ipc.on('entrada:criar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
-    arquivo.cadastrarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt);
-});
-
 function criarEditarEntrada(){
     telaInicial.loadFile('src/views/editarEntrada.html');
 }
-
-ipc.on('entrada:editar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
-    //alerts e checks de verificação após editar (are you sure?)
-    arquivo.editarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt);
-});
 
 function criarGerador(){
     telaInicial.loadFile('src/views/gerador.html');
@@ -401,7 +395,6 @@ function criarSobre(){
 
 app.on('ready', (e) => {
     criarTelaInicial();
-    log.info("Aplicativo aberto!");
 });
 
 app.on('window-all-closed', (e) => {

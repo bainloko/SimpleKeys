@@ -4,6 +4,9 @@
 * 8/jun/2022
 */
 
+const { ipcRenderer: ipc } = require('electron-better-ipc');
+const ContextMenu = require("secure-electron-context-menu").default;
+
 const log = require('electron-log');
 
 const lowerCaseChr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -32,7 +35,7 @@ function generate(size){
     return r;
 }
 
-function gerarSenhas(){
+export default function gerarSenhas(){
     let qtdSenhas = document.getElementById("qtdSenhas");
     let comprimentoSenha = document.getElementById("comprimentoSenha");
     let lowerCase = document.getElementById("lowerCase");
@@ -63,5 +66,3 @@ function gerarSenhas(){
         alert("Ocorreu um erro inesperado na geração das senhas! " + error);
     }
 }
-
-module.exports = { gerarSenhas };

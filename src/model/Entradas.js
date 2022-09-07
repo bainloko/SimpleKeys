@@ -4,55 +4,56 @@
 * 22/jun/2022
 */
 
-const Sequelize = require('sequelize');
-const database = require('../database/Database.js');
+const { DataTypes } = require('sequelize');
 
 const settings = database.define('settings', {
-    descricao: Sequelize.TEXT,
-    expira: Sequelize.TEXT,
-    chaveReserva: Sequelize.BOOLEAN
+    descricao: DataTypes.TEXT,
+    expira: DataTypes.TEXT,
+    chaveReserva: DataTypes.BOOLEAN
 }, {
-    timestamps: true
+    timestamps: true,
+    freezeTableName: true
 });
 
 const Entradas = database.define('Entradas', {
     id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
     nome: {
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         defaultValue: "Google",
         allowNull: false
     },
     descricao: {
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         defaultValue: "Exemplo",
     },
     site: { 
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         defaultValue: "https://google.com",
     },
     usuario: {
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         defaultValue: "fulanodetal@gmail.com",
         allowNull: false
     },
     senha: {
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         defaultValue: "fulanodetal",
         allowNull: false,
     },
     expira: {
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         defaultValue: "S;2025/08/08",
     },
-    grupoImg: Sequelize.BLOB,
-    grupoLista: Sequelize.TEXT,
+    grupoImg: DataTypes.BLOB,
+    grupoLista: DataTypes.TEXT,
 }, {
-    timestamps: true
+    timestamps: true,
+    freezeTableName: true
 });
 
 export { settings, Entradas };

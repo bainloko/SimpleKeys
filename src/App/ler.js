@@ -1,8 +1,10 @@
 /*
 * SimpleKeys
-* telaLer.js
+* ler.js
 * 07/09/2022
 */
+
+const { ipcRenderer: ipc } = require('electron-better-ipc');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -48,11 +50,22 @@ eyeShown.addEventListener("click", () => {
 const okButton = document.getElementById("okButton");
 const localChaveiro = document.getElementById("localChaveiro");
 
+ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
+    let chavePath = path.toString().replace("[\\]", "&#92;");
+
+    if (chavePath != ("" || null || undefined || [])){
+        store.set('pathChaveReserva', chavePath);
+        localChaveiro.innerText = chavePath;
+    } else {
+        alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+    }
+});
+
 ipc.on('arquivo:ler:receivePath', (e, path) => {
     let lerPath = path.toString().replace("[\\]", "&#92;");
 
     if (lerPath != ("" || null || undefined || [])){
-        store.set('lerPath', lerPath);
+        store.set('pathArquivo', lerPath);
         localChaveiro.innerText = lerPath;
     } else {
         alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
@@ -60,7 +73,7 @@ ipc.on('arquivo:ler:receivePath', (e, path) => {
 });
 
 function validar(){
-    let lerPath = store.get('lerPath');
+    let lerPath = store.get('pathArquivo');
     let senha = inpPassword.value;
 
     (senha == ("" || null || undefined)) ? alert("Digite a senha para acessar o arquivo!") : ipc.send('arquivo:ler', lerPath, senha); 
@@ -68,4 +81,22 @@ function validar(){
 
 okButton.addEventListener("click", () => {
     (lerPath != ("" || null || undefined || [])) ? validar() : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+});
+
+ipc.on('arquivo:ler', (e, lerPath, senha) => {
+    try {
+        if (arquivo.lerArquivo(lerPath, senha)) { //
+            criarListaEntradas();
+            lerArquivo.close();
+            app.focus();
+        } else {
+            log.info("Erro! Possivelmente a senha está incorreta. Tente novamente!");
+            alert("Erro! Possivelmente a senha está incorreta. Tente novamente!");
+            lerArquivo.focus();
+        }
+    } catch (error) {
+        log.info("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
+        alert("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
+        lerArquivo.focus();
+    }
 });

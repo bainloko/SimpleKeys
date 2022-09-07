@@ -36,9 +36,7 @@
     <link rel="stylesheet" href="./font.css" data-tag="font" />
     <link rel="stylesheet" href="./style.css" />
     <title>SimpleKeys - Abrir Arquivo Já Existente</title>
-    <script>
-      const { ipcRenderer: ipc } = require('electron-better-ipc');
-    </script>
+    <script src="../App/ler.js"></script>
   </head>
   <body>
     <div>
@@ -50,7 +48,7 @@
           <span class="ler-arquivo-text03">
             <span>Abrir Arquivo Já Existente</span>
             <br />
-            <span class="ler-arquivo-text07">&ensp;Chaveiro em: <span id="localChaveiro"></span></span>
+            <span class="ler-arquivo-text07">&ensp;&ensp;Chaveiro em: <span id="localChaveiro" wrap="hard"></span></span>
             <br />
           </span>
           <button type="button" class="ler-arquivo-ajuda button" onClick="ipc.send('opcao:sobre');">
@@ -69,27 +67,35 @@
           />
           <form class="ler-arquivo-container4">
             <div class="ler-arquivo-container5">
-              <span class="ler-arquivo-text12">
-                Selecionar outro arquivo&ensp;&ensp; -&gt;&ensp;
+              <span class="ler-arquivo-text12">Senha Mestra:</span>
+              <input
+                id="inpPassword"
+                type="password"
+                required
+                placeholder="..."
+                autocomplete="off"
+                class="ler-arquivo-textinput input"
+              />
+              <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
+              <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
+              <span class="ler-arquivo-text13">
+                Chave Reserva (se houver)&ensp;&ensp;&nbsp; --&gt;&ensp;
               </span>
               <img
                 src="public/playground_assets/folder-200h.png"
                 class="ler-arquivo-image2"
+                onClick="ipc.send('arquivo:ler:chaveReserva');"
+              />
+              <br />
+              <span class="ler-arquivo-text14">
+                Selecionar outro arquivo&ensp;&ensp;&ensp;&ensp;&ensp; --&gt;&ensp;
+              </span>
+              <img
+                src="public/playground_assets/folder-200h.png"
+                class="ler-arquivo-image3"
                 onClick="ipc.send('arquivo:ler:path');"
               />
             </div>
-            <span class="ler-arquivo-text13">Senha Mestra:</span>
-            <input
-              id="inpPassword"
-              type="password"
-              required
-              placeholder="..."
-              autocomplete="off"
-              class="ler-arquivo-textinput input"
-            />
-            <span>***inserir seletor pra chave reserva, local...</span>
-            <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
-            <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
             <button type="submit" id="okButton" class="ler-arquivo-o-k button">OK</button>
             <button type="button" class="ler-arquivo-cancelar button" onClick="ipc.send('arquivo:ler:cancelar');">
               <span>
@@ -101,6 +107,5 @@
         </article>
       </div>
     </div>
-    <script src="../tools/telaLer.js"></script>
   </body>
 </html>

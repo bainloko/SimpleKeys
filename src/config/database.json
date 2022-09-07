@@ -1,19 +1,19 @@
 {
     "development": {
         "dialect": "sqlite",
-        "dialectModulePath": "@journeyapps/sqlcipher",
+        "dialectModule": "require('@journeyapps/sqlcipher')",
         "logging": "msg => log.info(msg)",
         "storage": "../database.db"
     },
     "test": {
         "dialect": "sqlite",
-        "dialectModulePath": "@journeyapps/sqlcipher",
+        "dialectModule": "require('@journeyapps/sqlcipher')",
         "logging": "msg => log.info(msg)",
         "storage": ":memory:"
     },
     "production": {
         "dialect": "sqlite",
-        "dialectModulePath": "@journeyapps/sqlcipher",
+        "dialectModule": "require('@journeyapps/sqlcipher')",
         "logging": "msg => log.info(msg)",
         "storage": ""
     }

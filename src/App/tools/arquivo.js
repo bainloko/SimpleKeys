@@ -8,10 +8,8 @@ const fse = require('fs-extra');
 const Path = require('path');
 
 const Sequelize = require('sequelize');
-
-const Entradas = require('../model/Entradas.js');
-const database = require('../database/Database.js');
-const config = require('../database/database.json');
+const Entradas = require('../../model/Entradas.js');
+const database = require('../../database/Database.js');
 
 const Store = require('electron-store');
 const store = new Store();
