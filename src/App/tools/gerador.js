@@ -45,7 +45,7 @@ export default function gerarSenhas(){
 
     try {
         if ((((!(lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked && false === false) && ((lowerCase.checked || upperCase.checked || numbers.checked || symbols.checked) === true)) || (lowerCase.checked && upperCase.checked && numbers.checked && symbols.checked) === true) && ((qtdSenhas.value >= 1 && qtdSenhas.value <= 30 && comprimentoSenha.value >= 4 && comprimentoSenha.value <= 256))) === true) {
-            var Senhas = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], senha = "";
+            let Senhas = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], senha = "";
 
             for (let i = 0; i < qtdSenhas.value; i++){
                 while (comprimentoSenha.value > senha.length){

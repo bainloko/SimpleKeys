@@ -12,10 +12,10 @@ const feedbackPass = document.getElementById("feedbackPass");
 
 const eye = document.getElementById("eye");
 const eyeShown = document.getElementById("eyeShown");
-var pwShown = false;
+let pwShown = false;
 const eye1 = document.getElementById("eye1");
 const eye1Shown = document.getElementById("eye1Shown");
-var pw1Shown = false;
+let pw1Shown = false;
 
 passwordInput.addEventListener("input", function(){
     const val = passwordInput.value;

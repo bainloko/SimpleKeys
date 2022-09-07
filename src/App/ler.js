@@ -13,7 +13,7 @@ const passwordInput = document.getElementById("inpPassword");
 
 const eye = document.getElementById("eye");
 const eyeShown = document.getElementById("eyeShown");
-var pwShown = false;
+let pwShown = false;
 
 eye.addEventListener("click", () => {
     if (pwShown === false){

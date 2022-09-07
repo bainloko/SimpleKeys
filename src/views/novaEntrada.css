@@ -204,7 +204,7 @@
   position: absolute;
 }
 #intervalo {
-  width: 126px;
+  width: 260px;
 }
 .nova-entrada-text23 {
   top: 370px;
@@ -269,9 +269,6 @@
   left: 430px;
   height: 32px;
   position: absolute;
-}
-#intervalo {
-  width: 260px;
 }
 #password span {
   display: block;
