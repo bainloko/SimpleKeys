@@ -28,8 +28,8 @@
   },
   "homepage": "https://github.com/bainloko/SimpleKeys#readme",
   "dependencies": {
+    "@journeyapps/sqlcipher": "^5.3.1",
     "bcrypt": "^5.0.1",
-    "better-sqlite3-multiple-ciphers": "^7.6.2",
     "csv": "^6.2.0",
     "electron": "^19.0.10",
     "electron-better-ipc": "^2.0.1",

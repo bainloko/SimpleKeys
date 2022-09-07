@@ -5,27 +5,17 @@
 */
 
 const Sequelize = require('sequelize');
-
 const Entradas = require('../model/Entradas.js');
-const dbConfig = require('./database.json');
+const config = require('../config/database.json');
 
 const Store = require('electron-store');
 const store = new Store();
 
 const log = require('electron-log');
 
+//refazer ambas as funções
 async function criar(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra){
     try {
-        const arqNome = "nome" + nomeArquivo;
-        const arqDesc = "desc" + nomeArquivo;
-        const arqExpira = "expira?" + nomeArquivo;
-        const arqChaveReserva = "chaveReserva?" + nomeArquivo;
-        
-        store.set(arqNome, nomeArquivo);
-        store.set(arqDesc, descArquivo);
-        store.set(arqExpira, expira);
-        store.set(arqChaveReserva, chaveReserva);
-
         conectar(nomeArquivo, senhaMestra);
     } catch (error){
         log.error("Erro ao criar um Banco de Dados: " + error + "!");

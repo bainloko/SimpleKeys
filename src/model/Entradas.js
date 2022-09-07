@@ -7,12 +7,20 @@
 const Sequelize = require('sequelize');
 const database = require('../database/Database.js');
 
-const Entrada = database.define('entrada', {
+const settings = database.define('settings', {
+    descricao: Sequelize.TEXT,
+    expira: Sequelize.TEXT,
+    chaveReserva: Sequelize.BOOLEAN
+}, {
+    timestamps: true
+});
+
+const Entradas = database.define('Entradas', {
     id: {
         type: Sequelize.INTEGER,
+        primaryKey: true,
         autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
+        allowNull: false
     },
     nome: {
         type: Sequelize.TEXT,
@@ -22,6 +30,10 @@ const Entrada = database.define('entrada', {
     descricao: {
         type: Sequelize.TEXT,
         defaultValue: "Exemplo",
+    },
+    site: { 
+        type: Sequelize.TEXT,
+        defaultValue: "https://google.com",
     },
     usuario: {
         type: Sequelize.TEXT,
@@ -33,10 +45,6 @@ const Entrada = database.define('entrada', {
         defaultValue: "fulanodetal",
         allowNull: false,
     },
-    site: { 
-        type: Sequelize.TEXT,
-        defaultValue: "https://google.com",
-    },
     expira: {
         type: Sequelize.TEXT,
         defaultValue: "S;2025/08/08",
@@ -47,4 +55,4 @@ const Entrada = database.define('entrada', {
     timestamps: true
 });
 
-export default Entrada;
+export { settings, Entradas };

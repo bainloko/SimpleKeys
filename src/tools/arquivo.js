@@ -20,6 +20,7 @@ const log = require('electron-log');
 
 const { or } = Sequelize.Op;
 
+//revisar este, o código das outras ferramentas, do main, do preload e fazer conforme o prof. Emílio disse. sanear os nomes das variáveis, criar o banco no próprio processo novoArquivo.html e etc., comparar com a master branch.
 async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra){
     let path = store.get('novoPath');
 

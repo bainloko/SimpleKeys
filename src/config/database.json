@@ -1,19 +1,20 @@
 {
     "development": {
         "dialect": "sqlite",
-        "dialectModulePath": "better-sqlite3-multiple-ciphers",
+        "dialectModulePath": "@journeyapps/sqlcipher",
         "logging": "msg => log.info(msg)",
         "storage": "../database.db"
     },
     "test": {
         "dialect": "sqlite",
-        "dialectModulePath": "better-sqlite3-multiple-ciphers",
+        "dialectModulePath": "@journeyapps/sqlcipher",
         "logging": "msg => log.info(msg)",
-        "storage": ":memory"
+        "storage": ":memory:"
     },
     "production": {
         "dialect": "sqlite",
-        "dialectModulePath": "better-sqlite3-multiple-ciphers",
-        "logging": "msg => log.info(msg)"
+        "dialectModulePath": "@journeyapps/sqlcipher",
+        "logging": "msg => log.info(msg)",
+        "storage": ""
     }
 }
