@@ -8,8 +8,8 @@ const fse = require('fs-extra');
 const Path = require('path');
 
 const Sequelize = require('sequelize');
-const Database = require('../../database/Database.js');
-const { Entradas } = require('../../model/Entradas.js');
+const Database = require('../database/Database.js');
+const { Entradas } = require('../model/Entradas.js');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -20,7 +20,6 @@ const { or } = Sequelize.Op;
 
 let database;
 
-//revisar este, o código das outras ferramentas, do main, do preload e fazer conforme o prof. Emílio disse. sanear os nomes das variáveis, criar o banco no próprio processo novoArquivo.html e etc., comparar com a master branch.
 async function novoArquivo(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra){
     let path = store.get("pathArquivo");
 
@@ -40,6 +39,8 @@ async function novoArquivo(path, nomeArquivo, descArquivo, expiraArquivo, chaveR
             return true;
         }
     } catch (error){
+        database.close();
+
         log.error("Houve um problema na criacao do Banco, tente novamente! " + error);
         alert("Houve um problema na criação do Banco, tente novamente! " + error);
 
@@ -51,20 +52,15 @@ async function lerArquivo(nomeArquivo, senhaMestra){
     let path = Path.join(__dirname, nomeArquivo.toString());
 
     try {
-        if (Database.conectar(path, nomeArquivo, senhaMestra) == true) {
-            lerEntradas();
-            log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
+        database = await Database.conectar(path, nomeArquivo, senhaMestra)
+        lerEntradas();
 
-            return true;
-        } else {
-            database.close();
+        log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
 
-            log.error("Houve um problema na abertura do Banco, tente novamente! Sera que a senha esta errada?");
-            alert("Houve um problema na abertura do Banco, tente novamente! Será que a senha está errada?");
-
-            return false;
-        }
+        return true;
     } catch (error){
+        database.close();
+
         log.error("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome ja exista.");
         alert("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
 

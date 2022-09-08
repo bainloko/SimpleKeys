@@ -10,7 +10,7 @@ const { ipcMain: ipc } = require('electron-better-ipc');
 const { showAboutWindow } = require('electron-util');
 
 const Store = require('electron-store');
-const store = new Store(); //store.log.append? um log numa chave só. ideia futura
+const store = new Store();
 
 const log = require('electron-log');
 
@@ -27,7 +27,9 @@ function criarTelaInicial(){
         width: 1280,
         height: 769,
         resizable: false,
+        show: false,
         title: "SimpleKeys",
+        icon: __dirname + './views/public/icon/icon.png',
         webPreferences: {
             devTools: !app.isPackaged,
             contextIsolation: false,
@@ -35,12 +37,15 @@ function criarTelaInicial(){
         }
     });
 
-    // Insere o menu
-    Menu.setApplicationMenu(null);
+    (app.isPackaged) ? Menu.setApplicationMenu(null) : log.info("Menu PROD aberto!");
 
-    // Abre a tela
     telaInicial.loadFile('src/views/index.html');
-    ipc.send('ready');
+
+    telaInicial.on('ready-to-show', (e) => {
+        telaInicial.show();
+        app.focus();
+        log.info("Tela aberta! Evento: " + e);
+    });
 
     telaInicial.on('closed', () => {
         app.quit();
@@ -57,16 +62,16 @@ ipc.on('arquivo:novo:salvar', (e) => {
         defaultPath: "%USERPROFILE%/" || "$HOME/",
         buttonLabel: "Salvar",
         filters: [
-            {name: 'Chave Reserva', extensions: ['key']},
+            {name: 'Banco de Dados', extensions: ['db']},
             {name: 'All Files', extensions: ['*']}
         ]
     }
 
-    dialog.showOpenDialog(WIN, options).then((arquivo) => {
+    dialog.showSaveDialog(WIN, options).then((arquivo) => {
         if (arquivo != ("" || null || undefined)) {
-            log.info(arquivo.filePaths);
-            store.set("pathArquivo", arquivo.filePaths);
-            ipc.send('arquivo:novo:receiveArquivo', arquivo.filePaths);
+            log.info(arquivo.filePath);
+            store.set("pathArquivo", arquivo.filePath);
+            ipc.sendToRenderers('arquivo:novo:receiveArquivo', arquivo.filePath);
         } else {
             alert("Selecione um local válido para salvar o arquivo!");
         }
@@ -80,8 +85,10 @@ function criarLerArquivo(){
         width: 538,
         height: 409,
         resizable: false,
+        show: false,
         parent: telaInicial,
         title: "SimpleKeys - Abrir Arquivo Já Existente",
+        icon: __dirname + './views/public/icon/icon.png',
         webPreferences: {
             devTools: !app.isPackaged,
             contextIsolation: false,
@@ -90,6 +97,11 @@ function criarLerArquivo(){
     });
     
     lerArquivo.loadFile('src/views/lerArquivo.html');
+
+    lerArquivo.on('ready-to-show', (e) => {
+        lerArquivo.show();
+        app.focus();
+    });
 
     lerArquivo.on('closed', () => {
         app.focus();
@@ -120,13 +132,13 @@ ipc.on('arquivo:ler:chaveReserva', (e) => {
         ]
     }
 
-    dialog.showSaveDialog(WIN, options).then((arquivo) => {
-        if (arquivo != ("" || null || undefined)) {
-            log.info(arquivo.filePath);
-            store.set("pathChaveReserva", arquivo.filePath);
-            ipc.send('arquivo:ler:receiveChaveReserva', arquivo.filePath);
+    dialog.showOpenDialog(WIN, options).then((arquivo) => {
+        if (arquivo != ("" || null || undefined || [])) {
+            log.info(arquivo.filePaths);
+            store.set("pathChaveReserva", arquivo.filePaths);
+            ipc.sendToRenderers('arquivo:ler:receiveChaveReserva', arquivo.filePaths);
         } else {
-            alert("Selecione um local válido para salvar o arquivo!");
+            alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
         }
     }).catch((error) => {
         log.info("Houve um erro aqui! " + error);
@@ -144,13 +156,13 @@ ipc.on('arquivo:ler:path', (e) => {
         ]
     }
 
-    dialog.showSaveDialog(WIN, options).then((arquivo) => {
-        if (arquivo != ("" || null || undefined)) {
-            log.info(arquivo.filePath);
-            store.set("pathArquivo", arquivo.filePath);
-            ipc.send('arquivo:ler:receiveArquivo', arquivo.filePath);
+    dialog.showOpenDialog(WIN, options).then((arquivo) => {
+        if (arquivo != ("" || null || undefined || [])) {
+            log.info(arquivo.filePaths);
+            store.set("pathArquivo", arquivo.filePaths);
+            ipc.sendToRenderers('arquivo:ler:receiveArquivo', arquivo.filePaths);
         } else {
-            alert("Selecione um local válido para salvar o arquivo!");
+            alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
         }
     }).catch((error) => {
         log.info("Houve um erro aqui! " + error);
@@ -179,7 +191,7 @@ function criarConfiguracoes(){
 
 function criarSobre(){
     showAboutWindow({
-        icon: 'src/views/public/favicon/favicon-48x48.png',
+        icon: __dirname + './views/public/icon/icon.ico',
         copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
         text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n\nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\n\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
         website: 'https://github.com/bainloko/SimpleKeys'

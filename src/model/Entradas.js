@@ -4,7 +4,7 @@
 * 22/jun/2022
 */
 
-const { DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
 class Settings extends Model {
     static init(database){

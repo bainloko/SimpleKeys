@@ -27,12 +27,11 @@
         letter-spacing: normal;
         line-height: 1.15;
         color: var(--dl-color-gray-black);
-        background-color: var(--dl-color-gray-white);
 
       }
     </style>
     <link rel="icon" type="image/png" sizes="16x16" href="./public/favicon/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./public/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="./public/favicon/favicon-48x48.png">
     <link rel="stylesheet" href="./font.css" data-tag="font" />
     <link rel="stylesheet" href="./style.css" />
     <title>SimpleKeys - Abrir Arquivo Já Existente</title>
@@ -47,8 +46,8 @@
           <span class="ler-arquivo-text03">
             <span>Abrir Arquivo Já Existente</span>
             <br />
-            <span class="ler-arquivo-text07">&ensp;&ensp;Chaveiro em: <span id="localChaveiro" wrap="hard"></span></span>
-            <br />
+            <span class="ler-arquivo-text07">&ensp;&ensp;Chave em: </span><span id="localChave"></span>
+            <span class="ler-arquivo-text08">&ensp;&ensp;Chaveiro em: </span><span id="localChaveiro"></span>
           </span>
           <button type="button" class="ler-arquivo-ajuda button" onclick="ipc.send('opcao:sobre');">
             <span>

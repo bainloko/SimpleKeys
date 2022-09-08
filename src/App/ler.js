@@ -6,7 +6,7 @@
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 
-const Database = require('../../database/Database.js');
+const Database = require('../database/Database.js');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -56,47 +56,45 @@ const localChave = document.getElementById("localChave");
 const localChaveiro = document.getElementById("localChaveiro");
 
 ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
-    if (path != ("" || null || undefined || [])) {
-        store.set("pathChaveReserva", path);
-        localChave.innerHTML = path;
+    let chavePath = path.toString().replace("[\\]", "&#92;");
+
+    if (chavePath != ("" || null || undefined || [])) {
+        store.set("pathChaveReserva", chavePath);
+        localChave.innerText = chavePath;
     } else {
-        alert("Selecione uma Chave para abrir clicando na pasta abaixo da senha!");
+        alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
     }
 });
 
 ipc.on('arquivo:ler:receiveArquivo', (e, path) => {
-    if (path != ("" || null || undefined || [])) {
-        store.set("pathArquivo", path);
-        localChaveiro.innerHTML = path;
+    let lerPath = path.toString().replace("[\\]", "&#92;");
+
+    if (lerPath != ("" || null || undefined || [])) {
+        store.set("pathArquivo", lerPath);
+        localChaveiro.innerText = lerPath;
     } else {
-        alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+        alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
     }
 });
 
 function lerArquivo(path, senha){
     try {
-        if (Database.conectar(path, senha) == true) {
-            ipc.send('arquivo:ler');
-        } else {
-            log.info("Erro! Possivelmente a senha esta incorreta. Tente novamente!");
-            alert("Erro! Possivelmente a senha está incorreta. Tente novamente!");
-        }
+        Database.conectar(path, senha);
+        ipc.send('arquivo:ler');
     } catch (error){
-        log.info("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
-        alert("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
+        log.info("Erro! Possivelmente a senha esta incorreta ou a conexão ao Banco de Dados falhou. Tente novamente! " + error);
+        alert("Erro! Possivelmente a senha esta incorreta ou a conexão ao Banco de Dados falhou. Tente novamente! " + error);
     }
 }
 
 function validar(lerPath){
     let senha = inpPassword.value;
 
-    (senha == ("" || null || undefined)) ? alert("Digite a senha para acessar o arquivo!") : lerArquivo(lerPath, senha); 
+    (senha == ("" || null || undefined || [])) ? alert("Digite a senha para acessar o arquivo!") : lerArquivo(lerPath, senha);
 }
 
 okButton.addEventListener("click", () => {
-    let lerPath = store.get("pathArquivo");
+    let lerPath = localChaveiro.innerText;
 
     (lerPath != ("" || null || undefined || [])) ? validar(lerPath) : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
 });
-
-module.exports = { chaveReserva, arquivo };

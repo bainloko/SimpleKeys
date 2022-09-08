@@ -20,15 +20,15 @@ ipc.on('arquivo:novo:receiveArquivo', (e, path) => {
     if (criarPath != ("" || null || undefined || [])) {
         store.set("pathArquivo", criarPath);
     } else {
-        alert("Selecione uma Chave para abrir clicando na pasta abaixo da senha!");
+        alert("Selecione um local válido para salvar o Arquivo!");
     }
 });
 
-async function novoCriar(nomeArq, descArq, expiraArq, chaveReserva, senhaArq){
+function novoCriar(nomeArq, descArq, expiraArq, chaveReserva, senhaArq){
     path = store.get("pathArquivo");
 
     try {
-        await Database.criar(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
+        Database.criar(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
         ipc.send('arquivo:criar');
     } catch (error){
         log.error("Houve um problema na criacao do Banco, tente novamente! " + error);

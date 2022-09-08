@@ -5,7 +5,6 @@
 */
 
 const Sequelize = require('sequelize');
-const config = require('../config/database.json');
 const { Entradas } = require('../model/Entradas.js');
 
 const log = require('electron-log');
@@ -15,8 +14,13 @@ let database;
 //outra função pra trocar a senha mestra?
 async function conectar(path, nomeArquivo, senhaMestra){
     try {
-        config.production.storage = path;
-        let database = new Sequelize(nomeArquivo, null, senhaMestra, config);
+        let database = new Sequelize(nomeArquivo, null, senhaMestra, {
+            dialect: 'sqlite',
+            dialectModule: require('@journeyapps/sqlcipher'),
+            logging: msg => log.info(msg),
+            storage: path,
+            define: { timestamps: true }
+        });
 
         await database.authenticate('PRAGMA key = "' + senhaMestra + '"');
         Entradas.init(database);
@@ -35,8 +39,13 @@ async function conectar(path, nomeArquivo, senhaMestra){
 
 async function criar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra){
     try {
-        config.production.storage = path;
-        let database = new Sequelize(nomeArquivo, null, senhaMestra, config);
+        let database = new Sequelize(nomeArquivo, null, senhaMestra, {
+            dialect: 'sqlite',
+            dialectModule: require('@journeyapps/sqlcipher'),
+            logging: msg => log.info(msg),
+            storage: path,
+            define: { timestamps: true }
+        });
 
         await database.authenticate('PRAGMA key = "' + senhaMestra + '"');
         Entradas.init(database);
