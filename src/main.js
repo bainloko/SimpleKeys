@@ -10,8 +10,7 @@ const { ipcMain: ipc } = require('electron-better-ipc');
 const { showAboutWindow } = require('electron-util');
 
 const Store = require('electron-store');
-const store = new Store();
-//store.log.append? um log numa chave só
+const store = new Store(); //store.log.append? um log numa chave só. ideia futura
 
 const log = require('electron-log');
 
@@ -20,17 +19,9 @@ const lock = app.requestSingleInstanceLock();
 
 let telaInicial = null;
 let lerArquivo = null;
-
-let opcoesMenu = [
-    {
-        label: ''
-    }
-];
+let WIN = null;
 
 function criarTelaInicial(){
-    // Cria o template do menu
-    const menu = Menu.buildFromTemplate(opcoesMenu);
-
     // Cria a tela inicial
     telaInicial = new BrowserWindow({
         width: 1280,
@@ -45,11 +36,11 @@ function criarTelaInicial(){
     });
 
     // Insere o menu
-    // Menu.setApplicationMenu(menu);
+    Menu.setApplicationMenu(null);
 
     // Abre a tela
     telaInicial.loadFile('src/views/index.html');
-    ipc.sendToRenderers('ready');
+    ipc.send('ready');
 
     telaInicial.on('closed', () => {
         app.quit();
@@ -59,6 +50,30 @@ function criarTelaInicial(){
 function criarNovoArquivo(){
     telaInicial.loadFile('src/views/novoArquivo.html');
 }
+
+ipc.on('arquivo:novo:salvar', (e) => {
+    let options = {
+        title: "SimpleKeys - Criar Um Novo Arquivo",
+        defaultPath: "%USERPROFILE%/" || "$HOME/",
+        buttonLabel: "Salvar",
+        filters: [
+            {name: 'Chave Reserva', extensions: ['key']},
+            {name: 'All Files', extensions: ['*']}
+        ]
+    }
+
+    dialog.showOpenDialog(WIN, options).then((arquivo) => {
+        if (arquivo != ("" || null || undefined)) {
+            log.info(arquivo.filePaths);
+            store.set("pathArquivo", arquivo.filePaths);
+            ipc.send('arquivo:novo:receiveArquivo', arquivo.filePaths);
+        } else {
+            alert("Selecione um local válido para salvar o arquivo!");
+        }
+    }).catch((error) => {
+        log.info("Houve um erro aqui! " + error);
+    });
+});
 
 function criarLerArquivo(){
     lerArquivo = new BrowserWindow({
@@ -81,9 +96,65 @@ function criarLerArquivo(){
     });
 }
 
+ipc.on('arquivo:ler', (e) => {
+    lerArquivo.close();
+    criarListaEntradas();
+});
+
+ipc.on('arquivo:criar', (e) => {
+    criarListaEntradas();
+})
+
 ipc.on('arquivo:ler:cancelar', (e) => {
     lerArquivo.close();
-    app.focus();
+});
+
+ipc.on('arquivo:ler:chaveReserva', (e) => {
+    let options = {
+        title: "SimpleKeys - Criar Um Novo Arquivo",
+        defaultPath: "%USERPROFILE%/" || "$HOME/",
+        buttonLabel: "Salvar",
+        filters: [
+            {name: 'Chave Reserva', extensions: ['key']},
+            {name: 'All Files', extensions: ['*']}
+        ]
+    }
+
+    dialog.showSaveDialog(WIN, options).then((arquivo) => {
+        if (arquivo != ("" || null || undefined)) {
+            log.info(arquivo.filePath);
+            store.set("pathChaveReserva", arquivo.filePath);
+            ipc.send('arquivo:ler:receiveChaveReserva', arquivo.filePath);
+        } else {
+            alert("Selecione um local válido para salvar o arquivo!");
+        }
+    }).catch((error) => {
+        log.info("Houve um erro aqui! " + error);
+    });
+});
+
+ipc.on('arquivo:ler:path', (e) => {
+    let options = {
+        title: "SimpleKeys - Criar Um Novo Arquivo",
+        defaultPath: "%USERPROFILE%/" || "$HOME/",
+        buttonLabel: "Salvar",
+        filters: [
+            {name: 'Banco de Dados', extensions: ['db']},
+            {name: 'All Files', extensions: ['*']}
+        ]
+    }
+
+    dialog.showSaveDialog(WIN, options).then((arquivo) => {
+        if (arquivo != ("" || null || undefined)) {
+            log.info(arquivo.filePath);
+            store.set("pathArquivo", arquivo.filePath);
+            ipc.send('arquivo:ler:receiveArquivo', arquivo.filePath);
+        } else {
+            alert("Selecione um local válido para salvar o arquivo!");
+        }
+    }).catch((error) => {
+        log.info("Houve um erro aqui! " + error);
+    });
 });
 
 function criarNovaEntrada(){
@@ -313,17 +384,15 @@ function criarListaEntradas(){
             ]
         },
     ]; const menu = Menu.buildFromTemplate(opcoesMenu);
-
+    
     // Insere o menu
     Menu.setApplicationMenu(menu);
 
     // Abre a tela
     telaInicial.loadFile('src/views/listaEntradas.html');
+    
+    app.focus();
 }
-
-ipc.on('arquivo:criar', (e) => {
-    criarListaEntradas();
-})
 
 app.on('ready', (e) => {
     criarTelaInicial();

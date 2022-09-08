@@ -8,8 +8,8 @@ const fse = require('fs-extra');
 const Path = require('path');
 
 const Sequelize = require('sequelize');
-const Entradas = require('../../model/Entradas.js');
-const database = require('../../database/Database.js');
+const Database = require('../../database/Database.js');
+const { Entradas } = require('../../model/Entradas.js');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -17,6 +17,8 @@ const store = new Store();
 const log = require('electron-log');
 
 const { or } = Sequelize.Op;
+
+let database;
 
 //revisar este, o código das outras ferramentas, do main, do preload e fazer conforme o prof. Emílio disse. sanear os nomes das variáveis, criar o banco no próprio processo novoArquivo.html e etc., comparar com a master branch.
 async function novoArquivo(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra){
@@ -29,8 +31,8 @@ async function novoArquivo(path, nomeArquivo, descArquivo, expiraArquivo, chaveR
 
             return false;
         } else {
-            await database.criar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra);
-            lerEntradas(); //
+            database = await Database.criar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra);
+            lerEntradas();
 
             log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
             alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
@@ -49,7 +51,7 @@ async function lerArquivo(nomeArquivo, senhaMestra){
     let path = Path.join(__dirname, nomeArquivo.toString());
 
     try {
-        if (database.conectar(path, nomeArquivo, senhaMestra) == true) {
+        if (Database.conectar(path, nomeArquivo, senhaMestra) == true) {
             lerEntradas();
             log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
 
@@ -146,14 +148,14 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
             entradas.usuario = loginEntradas;
             entradas.senha = senhaEntradas;
             entradas.expira = expira;
-            entradas.grupoImg = grupoImg;
-            entradas.grupoLista = grupoLista;
+            // entradas.grupoImg = grupoImg;
+            // entradas.grupoLista = grupoLista;
             
             const resultadoUpdate = entradas.save();
             log.info(resultadoUpdate);
         }).catch((error) => {
-            log.error("Ocorreu um erro na atualizacao das entradas, " + error + "!");
-            alert("Ocorreu um erro na atualização das entradas, " + error + "!");
+            log.error("Ocorreu um erro na edicao das entradas, " + error + "!");
+            alert("Ocorreu um erro na edição das entradas, " + error + "!");
 
             return false;
         });
@@ -162,8 +164,8 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
         
         return true;
     } catch (error){
-        log.error("Ocorreu um erro na atualizacao das entradas, " + error + "!");
-        alert("Ocorreu um erro na atualização das entradas, " + error + "!");
+        log.error("Ocorreu um erro na edicao das entradas, " + error + "!");
+        alert("Ocorreu um erro na edição das entradas, " + error + "!");
 
         return false;
     }
@@ -171,7 +173,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
 
 async function apagarEntradas(selecaoAtual){
     try {
-        Entradas.destroy({ where: { id: selecaoAtual }});
+        await Entradas.destroy({ where: { id: selecaoAtual }});
 
         return true;
     } catch (error){
@@ -182,9 +184,9 @@ async function apagarEntradas(selecaoAtual){
     }
 }
 
-async function consultarBanco(nomeArquivo){
+async function consultarBanco(path){
     try {
-        if (fse.existsSync(nomeArquivo)){
+        if (fse.existsSync(path) == true){
             return true;
         } else {
             log.error("Este arquivo nao existe!");

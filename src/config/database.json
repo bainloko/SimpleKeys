@@ -16,5 +16,8 @@
         "dialectModule": "require('@journeyapps/sqlcipher')",
         "logging": "msg => log.info(msg)",
         "storage": ""
+    },
+    "define": {
+        "timestamps": true
     }
 }

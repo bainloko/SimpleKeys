@@ -36,7 +36,6 @@
     <link rel="stylesheet" href="./font.css" data-tag="font" />
     <link rel="stylesheet" href="./style.css" />
     <title>SimpleKeys - Abrir Arquivo Já Existente</title>
-    <script src="../App/ler.js"></script>
   </head>
   <body>
     <div>
@@ -84,7 +83,7 @@
               <img
                 src="public/playground_assets/folder-200h.png"
                 class="ler-arquivo-image2"
-                onclick="chaveReserva();"
+                onclick="ipc.send('arquivo:ler:chaveReserva');"
               />
               <br />
               <span class="ler-arquivo-text14">
@@ -93,7 +92,7 @@
               <img
                 src="public/playground_assets/folder-200h.png"
                 class="ler-arquivo-image3"
-                onclick="arquivo();"
+                onclick="ipc.send('arquivo:ler:path');"
               />
             </div>
             <button type="submit" id="okButton" class="ler-arquivo-o-k button">OK</button>
@@ -107,5 +106,6 @@
         </article>
       </div>
     </div>
+    <script src="../App/ler.js"></script>
   </body>
 </html>

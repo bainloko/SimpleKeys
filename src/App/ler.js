@@ -4,8 +4,9 @@
 * 07/set/2022
 */
 
-const { dialog } = require('electron');
 const { ipcRenderer: ipc } = require('electron-better-ipc');
+
+const Database = require('../../database/Database.js');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -51,76 +52,45 @@ eyeShown.addEventListener("click", () => {
 });
 
 const okButton = document.getElementById("okButton");
+const localChave = document.getElementById("localChave");
 const localChaveiro = document.getElementById("localChaveiro");
 
-function receiveChaveReserva(path){
-    let chavePath = path.toString().replace("[\\]", "&#92;");
-
-    if (chavePath != ("" || null || undefined || [])) {
-        store.set("pathChaveReserva", chavePath);
-        localChaveiro.innerText += chavePath;
+ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
+    if (path != ("" || null || undefined || [])) {
+        store.set("pathChaveReserva", path);
+        localChave.innerHTML = path;
     } else {
         alert("Selecione uma Chave para abrir clicando na pasta abaixo da senha!");
     }
-}
+});
 
-function receivePath(path){
-    let lerPath = path.toString().replace("[\\]", "&#92;");
-
-    if (lerPath != ("" || null || undefined || [])) {
-        store.set("pathArquivo", lerPath);
-        localChaveiro.innerText += lerPath;
+ipc.on('arquivo:ler:receiveArquivo', (e, path) => {
+    if (path != ("" || null || undefined || [])) {
+        store.set("pathArquivo", path);
+        localChaveiro.innerHTML = path;
     } else {
         alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
     }
-}
+});
 
-function chaveReserva(){
-    let options = {
-        title: "SimpleKeys - Abrir Arquivo Já Existente",
-        defaultPath: "%USERPROFILE%/" || "$HOME/",
-        buttonLabel: "Abrir",
-        filters: [
-            {name: 'Chave Reserva', extensions: ['key']},
-            {name: 'All Files', extensions: ['*']}
-        ],
-        properties: ['openFile']
+function lerArquivo(path, senha){
+    try {
+        if (Database.conectar(path, senha) == true) {
+            ipc.send('arquivo:ler');
+        } else {
+            log.info("Erro! Possivelmente a senha esta incorreta. Tente novamente!");
+            alert("Erro! Possivelmente a senha está incorreta. Tente novamente!");
+        }
+    } catch (error){
+        log.info("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
+        alert("Erro! Possivelmente a senha está incorreta. Tente novamente! " + error);
     }
-
-    dialog.showOpenDialog(WIN, options).then((arquivo) => {
-        log.info(arquivo.filePaths);
-        store.set("pathChaveReserva", arquivo.filePaths);
-        receiveChaveReserva(arquivo.filePaths);
-    }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
-    });
-}
-
-function arquivo(){
-    let options = {
-        title: "SimpleKeys - Abrir Arquivo Já Existente",
-        defaultPath: "%USERPROFILE%/" || "$HOME/",
-        buttonLabel: "Abrir",
-        filters: [
-            {name: 'Banco de Dados', extensions: ['db']},
-            {name: 'All Files', extensions: ['*']}
-        ],
-        properties: ['openFile']
-    }
-
-    dialog.showOpenDialog(WIN, options).then((arquivo) => {
-        log.info(arquivo.filePaths);
-        store.set("pathArquivo", arquivo.filePaths);
-        receivePath(arquivo.filePaths);
-    }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
-    });
 }
 
 function validar(lerPath){
     let senha = inpPassword.value;
 
-    (senha == ("" || null || undefined)) ? alert("Digite a senha para acessar o arquivo!") : ipc.send('arquivo:ler', lerPath, senha); 
+    (senha == ("" || null || undefined)) ? alert("Digite a senha para acessar o arquivo!") : lerArquivo(lerPath, senha); 
 }
 
 okButton.addEventListener("click", () => {

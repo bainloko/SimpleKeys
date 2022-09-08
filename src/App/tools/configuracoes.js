@@ -9,6 +9,10 @@ const { ipcRenderer: ipc } = require('electron-better-ipc');
 const fse = require('fs-extra');
 const Path = require('path');
 
+const Sequelize = require('sequelize');
+const Database = require('../../database/Database.js');
+const { Settings } = require('../../model/Entradas.js');
+
 const Store = require('electron-store');
 const store = new Store();
 
