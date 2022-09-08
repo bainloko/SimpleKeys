@@ -56,4 +56,4 @@ const Entradas = database.define('Entradas', {
     freezeTableName: true
 });
 
-export { settings, Entradas };
+module.exports = { settings, Entradas };

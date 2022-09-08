@@ -26,4 +26,4 @@ async function restaurarPadrao(){
     // path? copiar para a pasta do usuário? lookup json e edição?
 }
 
-export { lerConfiguracoes, alterarConfiguracoes, restaurarPadrao };
+module.exports = { lerConfiguracoes, alterarConfiguracoes, restaurarPadrao };

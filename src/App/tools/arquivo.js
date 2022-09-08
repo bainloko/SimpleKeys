@@ -19,35 +19,27 @@ const log = require('electron-log');
 const { or } = Sequelize.Op;
 
 //revisar este, o código das outras ferramentas, do main, do preload e fazer conforme o prof. Emílio disse. sanear os nomes das variáveis, criar o banco no próprio processo novoArquivo.html e etc., comparar com a master branch.
-async function novoArquivo(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra){
-    let path = store.get('novoPath');
+async function novoArquivo(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra){
+    let path = store.get("pathArquivo");
 
     try {
-        if (consultarBanco(path)) {
-            log.info("Este arquivo " + nomeArquivo + " já existe! Feche esta janela e acesse-o por lá.");
+        if (consultarBanco(path) == true) {
+            log.info("Este arquivo " + nomeArquivo + " ja existe! Feche esta janela e acesse-o por la.");
             alert("Este arquivo " + nomeArquivo + " já existe! Feche esta janela e acesse-o por lá.");
 
             return false;
         } else {
-            if (database.criar(nomeArquivo, descArquivo, expira, chaveReserva, senhaMestra)) {
-                lerEntradas();
+            await database.criar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra);
+            lerEntradas(); //
 
-                log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
-                alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
+            log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
+            alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
 
-                return true;
-            } else {
-                database.close();
-
-                log.error("Houve um problema no salvamento do Banco, tente novamente!");
-                alert("Houve um problema no salvamento do Banco, tente novamente!");
-
-                return false;
-            }
+            return true;
         }
     } catch (error){
-        log.error("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
-        alert("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
+        log.error("Houve um problema na criacao do Banco, tente novamente! " + error);
+        alert("Houve um problema na criação do Banco, tente novamente! " + error);
 
         return false;
     }
@@ -57,31 +49,21 @@ async function lerArquivo(nomeArquivo, senhaMestra){
     let path = Path.join(__dirname, nomeArquivo.toString());
 
     try {
-        if (database.conectar(path, senhaMestra)) {
-            const arqNome = "nome" + nomeArquivo;
-            const arqDesc = "desc" + nomeArquivo;
-            const arqExpira = "expira?" + nomeArquivo;
-            const arqChaveReserva = "chaveReserva?" + nomeArquivo;
-
-            store.get(arqNome);
-            store.get(arqDesc);
-            store.get(arqExpira);
-            store.get(arqChaveReserva);
-            
+        if (database.conectar(path, nomeArquivo, senhaMestra) == true) {
             lerEntradas();
             log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
 
             return true;
         } else {
-            database.close(dbConfig);
+            database.close();
 
-            log.error("Houve um problema na abertura do Banco, tente novamente! Será que a senha está errada?");
+            log.error("Houve um problema na abertura do Banco, tente novamente! Sera que a senha esta errada?");
             alert("Houve um problema na abertura do Banco, tente novamente! Será que a senha está errada?");
 
             return false;
         }
     } catch (error){
-        log.error("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
+        log.error("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome ja exista.");
         alert("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
 
         return false;
@@ -108,8 +90,8 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, login
 
         return true;
     } catch (error){
-        log.error("Ocorreu um erro no cadastramento de novas entradas, " + error + "!");
-        alert("Ocorreu um erro no cadastramento de novas entradas, " + error + "!");
+        log.error("Ocorreu um erro no cadastro de novas entradas, " + error + "!");
+        alert("Ocorreu um erro no cadastro de novas entradas, " + error + "!");
 
         return false;
     }
@@ -170,7 +152,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
             const resultadoUpdate = entradas.save();
             log.info(resultadoUpdate);
         }).catch((error) => {
-            log.error("Ocorreu um erro na atualização das entradas, " + error + "!");
+            log.error("Ocorreu um erro na atualizacao das entradas, " + error + "!");
             alert("Ocorreu um erro na atualização das entradas, " + error + "!");
 
             return false;
@@ -180,7 +162,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
         
         return true;
     } catch (error){
-        log.error("Ocorreu um erro na atualização das entradas, " + error + "!");
+        log.error("Ocorreu um erro na atualizacao das entradas, " + error + "!");
         alert("Ocorreu um erro na atualização das entradas, " + error + "!");
 
         return false;
@@ -193,7 +175,7 @@ async function apagarEntradas(selecaoAtual){
 
         return true;
     } catch (error){
-        log.error("Ocorreu um erro aqui, " + error + "!\nTalvez esta entrada não exista, ou já tenha sido apagada.");
+        log.error("Ocorreu um erro aqui, " + error + "!\nTalvez esta entrada nao exista, ou ja tenha sido apagada.");
         alert("Ocorreu um erro aqui, " + error + "!\nTalvez esta entrada não exista, ou já tenha sido apagada."); 
 
         return false;
@@ -205,17 +187,17 @@ async function consultarBanco(nomeArquivo){
         if (fse.existsSync(nomeArquivo)){
             return true;
         } else {
-            log.error("Este arquivo não existe!");
+            log.error("Este arquivo nao existe!");
             alert("Este arquivo não existe!");
 
             return false;
         }
     } catch (error){
-        log.error("Ocorreu um erro aqui! Talvez este Banco de Dados ainda não exista.");
+        log.error("Ocorreu um erro aqui! Talvez este Banco de Dados ainda nao exista.");
         alert("Ocorreu um erro aqui! Talvez este Banco de Dados ainda não exista.");
 
         return false;
     }
 }
 
-export { novoArquivo, cadastrarEntradas, lerEntradas, pesquisarEntradas, editarEntradas, apagarEntradas, lerArquivo, consultarBanco };
+module.exports = { novoArquivo, cadastrarEntradas, lerEntradas, pesquisarEntradas, editarEntradas, apagarEntradas, lerArquivo, consultarBanco };

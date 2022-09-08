@@ -51,7 +51,7 @@
             <span class="ler-arquivo-text07">&ensp;&ensp;Chaveiro em: <span id="localChaveiro" wrap="hard"></span></span>
             <br />
           </span>
-          <button type="button" class="ler-arquivo-ajuda button" onClick="ipc.send('opcao:sobre');">
+          <button type="button" class="ler-arquivo-ajuda button" onclick="ipc.send('opcao:sobre');">
             <span>
               <span>Ajuda</span>
               <br />
@@ -84,7 +84,7 @@
               <img
                 src="public/playground_assets/folder-200h.png"
                 class="ler-arquivo-image2"
-                onClick="ipc.send('arquivo:ler:chaveReserva');"
+                onclick="chaveReserva();"
               />
               <br />
               <span class="ler-arquivo-text14">
@@ -93,11 +93,11 @@
               <img
                 src="public/playground_assets/folder-200h.png"
                 class="ler-arquivo-image3"
-                onClick="ipc.send('arquivo:ler:path');"
+                onclick="arquivo();"
               />
             </div>
             <button type="submit" id="okButton" class="ler-arquivo-o-k button">OK</button>
-            <button type="button" class="ler-arquivo-cancelar button" onClick="ipc.send('arquivo:ler:cancelar');">
+            <button type="button" class="ler-arquivo-cancelar button" onclick="ipc.send('arquivo:ler:cancelar');">
               <span>
                 <span>Cancelar</span>
                 <br />

@@ -14,14 +14,12 @@ const store = new Store();
 //store.log.append? um log numa chave só
 
 const log = require('electron-log');
-window.log = log.functions;
 
 const lock = app.requestSingleInstanceLock();
 (!lock) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
 
 let telaInicial = null;
 let lerArquivo = null;
-let WIN = null;
 
 let opcoesMenu = [
     {
@@ -29,9 +27,7 @@ let opcoesMenu = [
     }
 ];
 
-async function criarTelaInicial(){
-    await app.whenReady();
-
+function criarTelaInicial(){
     // Cria o template do menu
     const menu = Menu.buildFromTemplate(opcoesMenu);
 
@@ -49,7 +45,7 @@ async function criarTelaInicial(){
     });
 
     // Insere o menu
-    Menu.setApplicationMenu(menu);
+    // Menu.setApplicationMenu(menu);
 
     // Abre a tela
     telaInicial.loadFile('src/views/index.html');
@@ -57,6 +53,65 @@ async function criarTelaInicial(){
 
     telaInicial.on('closed', () => {
         app.quit();
+    });
+}
+
+function criarNovoArquivo(){
+    telaInicial.loadFile('src/views/novoArquivo.html');
+}
+
+function criarLerArquivo(){
+    lerArquivo = new BrowserWindow({
+        width: 538,
+        height: 409,
+        resizable: false,
+        parent: telaInicial,
+        title: "SimpleKeys - Abrir Arquivo Já Existente",
+        webPreferences: {
+            devTools: !app.isPackaged,
+            contextIsolation: false,
+            nodeIntegration: true
+        }
+    });
+    
+    lerArquivo.loadFile('src/views/lerArquivo.html');
+
+    lerArquivo.on('closed', () => {
+        app.focus();
+    });
+}
+
+ipc.on('arquivo:ler:cancelar', (e) => {
+    lerArquivo.close();
+    app.focus();
+});
+
+function criarNovaEntrada(){
+    telaInicial.loadFile('src/views/novaEntrada.html');
+}
+
+function criarEditarEntrada(){
+    telaInicial.loadFile('src/views/editarEntrada.html');
+}
+
+function criarGerador(){
+    telaInicial.loadFile('src/views/gerador.html');
+}
+
+function criarBackup(){
+    telaInicial.loadFile('src/views/backup.html');
+}
+
+function criarConfiguracoes(){
+    telaInicial.loadFile('src/views/configuracoes.html');
+}
+
+function criarSobre(){
+    showAboutWindow({
+        icon: 'src/views/public/favicon/favicon-48x48.png',
+        copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
+        text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n\nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\n\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
+        website: 'https://github.com/bainloko/SimpleKeys'
     });
 }
 
@@ -90,102 +145,6 @@ ipc.on('opcao:sobre', (e) => {
     } catch (error){
         log.info("Houve um erro no carregamento da tela sobre, " + error);
     }
-});
-
-function criarNovoArquivo(){
-    telaInicial.loadFile('src/views/novoArquivo.html');
-}
-
-ipc.on('arquivo:novo:salvar', (e) => {
-    let options = {
-        title: "SimpleKeys - Criar Um Novo Arquivo",
-        defaultPath: "%USERPROFILE%/" || "$HOME/",
-        buttonLabel: "Salvar",
-        filters: [
-            {name: 'Banco de Dados', extensions: ['db']},
-            {name: 'All Files', extensions: ['*']}
-        ]
-    }
-
-    dialog.showSaveDialog(WIN, options).then((arquivo) => {
-        if (arquivo != ("" || null || undefined)) {
-            log.info(arquivo.filePath);
-            store.set("pathArquivo", arquivo.filePath);
-        } else {
-            alert("Selecione um local válido para salvar o arquivo!");
-        }
-    }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
-    });
-})
-
-ipc.on('arquivo:criar', (e, nomeArq, descArq, expira, chaveReserva, senhaArq) => {
-    arquivo.novoArquivo(nomeArq, descArq, expira, chaveReserva, senhaArq); //
-    criarListaEntradas();
-});
-
-function criarLerArquivo(){
-    lerArquivo = new BrowserWindow({
-        width: 538,
-        height: 409,
-        resizable: false,
-        parent: telaInicial,
-        title: "SimpleKeys - Abrir Arquivo Já Existente",
-        webPreferences: {
-            devTools: !app.isPackaged,
-            contextIsolation: false,
-            nodeIntegration: true
-        }
-    });
-    
-    lerArquivo.loadFile('src/views/lerArquivo.html');
-}
-
-ipc.on('arquivo:ler:chaveReserva', (e) => {
-    let options = {
-        title: "SimpleKeys - Abrir Arquivo Já Existente",
-        defaultPath: "%USERPROFILE%/" || "$HOME/",
-        buttonLabel: "Abrir",
-        filters: [
-            {name: 'Chave Reserva', extensions: ['key']},
-            {name: 'All Files', extensions: ['*']}
-        ],
-        properties: ['openFile']
-    }
-
-    dialog.showOpenDialog(WIN, options).then((arquivo) => {
-        log.info(arquivo.filePaths);
-        store.set("pathChaveReserva", arquivo.filePaths);
-        ipc.sendToRenderers('arquivo:ler:receiveChaveReserva', arquivo.filePaths);
-    }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
-    });
-});
-
-ipc.on('arquivo:ler:path', (e) => {
-    let options = {
-        title: "SimpleKeys - Abrir Arquivo Já Existente",
-        defaultPath: "%USERPROFILE%/" || "$HOME/",
-        buttonLabel: "Abrir",
-        filters: [
-            {name: 'Banco de Dados', extensions: ['db']},
-            {name: 'All Files', extensions: ['*']}
-        ],
-        properties: ['openFile']
-    }
-
-    dialog.showOpenDialog(WIN, options).then((arquivo) => {
-        log.info(arquivo.filePaths);
-        store.set("pathArquivo", arquivo.filePaths);
-        ipc.sendToRenderers('arquivo:ler:receivePath', arquivo.filePaths);
-    }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
-    });
-});
-
-ipc.on('arquivo:ler:cancelar', (e) => {
-    lerArquivo.close();
-    app.focus();
 });
 
 function criarListaEntradas(){
@@ -362,34 +321,9 @@ function criarListaEntradas(){
     telaInicial.loadFile('src/views/listaEntradas.html');
 }
 
-function criarNovaEntrada(){
-    telaInicial.loadFile('src/views/novaEntrada.html');
-}
-
-function criarEditarEntrada(){
-    telaInicial.loadFile('src/views/editarEntrada.html');
-}
-
-function criarGerador(){
-    telaInicial.loadFile('src/views/gerador.html');
-}
-
-function criarBackup(){
-    telaInicial.loadFile('src/views/backup.html');
-}
-
-function criarConfiguracoes(){
-    telaInicial.loadFile('src/views/configuracoes.html');
-}
-
-function criarSobre(){
-    showAboutWindow({
-        icon: 'src/views/public/favicon/favicon-48x48.png',
-        copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-        text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n\nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\n\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
-        website: 'https://github.com/bainloko/SimpleKeys'
-    });
-}
+ipc.on('arquivo:criar', (e) => {
+    criarListaEntradas();
+})
 
 app.on('ready', (e) => {
     criarTelaInicial();
