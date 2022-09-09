@@ -15,7 +15,7 @@ const store = new Store();
 const log = require('electron-log');
 
 const lock = app.requestSingleInstanceLock();
-(!lock) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
+(!lock == true) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
 
 let telaInicial = null;
 let lerArquivo = null;
@@ -236,6 +236,7 @@ function criarListaEntradas(){
 
 ipc.on('arquivo:novo:criar', (e, database) => {
     criarListaEntradas();
+    database = database;
 });
 
 ipc.on('arquivo:novo:salvar', (e, path) => {
@@ -291,16 +292,17 @@ function criarLerArquivo(){
     });
 }
 
-ipc.on('arquivo:ler', (e) => {
+ipc.on('arquivo:ler', (e, database) => {
     lerArquivo.close();
     criarListaEntradas();
+    database = database;
 });
 
 ipc.on('arquivo:ler:cancelar', (e) => {
     lerArquivo.close();
 });
 
-ipc.on('arquivo:ler:chaveReserva', (e, path) => {
+ipc.on('arquivo:ler:chaveReserva', (e) => {
     let options = {
         title: "SimpleKeys - Abrir Arquivo Já Existente",
         defaultPath: "%USERPROFILE%/" || "$HOME/",

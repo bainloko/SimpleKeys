@@ -8,7 +8,7 @@ const fse = require('fs-extra');
 const Path = require('path');
 
 const Sequelize = require('sequelize');
-const Database = require('../../database/Database.js');
+const { conectar } = require('../../database/Database.js');
 const Entradas = require('../../model/Entradas.js');
 
 const log = require('electron-log');
@@ -17,35 +17,11 @@ const { or } = Sequelize.Op;
 
 let database;
 
-async function novoArquivo(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra){
-    try {
-        if (consultarBanco(path) == true) {
-            log.info("Este arquivo " + nomeArquivo + " ja existe! Feche esta janela e acesse-o por la.");
-            alert("Este arquivo " + nomeArquivo + " já existe! Feche esta janela e acesse-o por lá.");
-
-            return false;
-        } else {
-            database = Database.criar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra);
-            lerEntradas();
-
-            log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
-            alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
-
-            return database;
-        }
-    } catch (error){
-        log.error("Houve um problema na criacao do Banco, tente novamente! " + error);
-        alert("Houve um problema na criação do Banco, tente novamente! " + error);
-
-        return false;
-    }
-}
-
 async function lerArquivo(nomeArquivo, senhaMestra){
     let path = Path.join(__dirname, nomeArquivo.toString());
 
     try {
-        database = Database.conectar(path, nomeArquivo, senhaMestra);
+        database = conectar(path, nomeArquivo, senhaMestra);
         lerEntradas();
 
         log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
@@ -80,7 +56,7 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, login
         log.error("Ocorreu um erro no cadastro de novas entradas, " + error + "!");
         alert("Ocorreu um erro no cadastro de novas entradas, " + error + "!");
 
-        return false;
+        return null;
     }
 }
 
@@ -94,7 +70,7 @@ async function lerEntradas(){
         log.info("Ocorreu um erro na leitura das entradas, " + error + "!");
         alert("Ocorreu um erro na leitura das entradas, " + error + "!");
 
-        return false;
+        return null;
     }
 }
 
@@ -139,7 +115,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
             log.error("Ocorreu um erro na edicao das entradas, " + error + "!");
             alert("Ocorreu um erro na edição das entradas, " + error + "!");
 
-            return false;
+            return null;
         });
 
         log.info(entradas);
@@ -148,7 +124,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
         log.error("Ocorreu um erro na edicao das entradas, " + error + "!");
         alert("Ocorreu um erro na edição das entradas, " + error + "!");
 
-        return false;
+        return null;
     }
 }
 
@@ -185,4 +161,4 @@ async function consultarBanco(path){
     }
 }
 
-module.exports = { novoArquivo, cadastrarEntradas, lerEntradas, pesquisarEntradas, editarEntradas, apagarEntradas, lerArquivo, consultarBanco };
+module.exports = { lerArquivo, cadastrarEntradas, lerEntradas, pesquisarEntradas, editarEntradas, apagarEntradas, consultarBanco };

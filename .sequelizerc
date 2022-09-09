@@ -6,6 +6,6 @@
 
 const { resolve } = require('path');
 
-export default {
+module.exports = {
     "models-path": resolve("src", "model")
 };

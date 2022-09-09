@@ -6,7 +6,7 @@
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 
-const Database = require('../database/Database.js');
+const { conectar } = require('../database/Database.js');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -80,9 +80,11 @@ ipc.on('arquivo:ler:receiveArquivo', (e, path) => {
 });
 
 function lerArquivo(path, senha){
+    let lerPath = path.substr((path.lastIndexOf("/") + 1));
+
     try {
-        Database.conectar(path, null, senha);
-        ipc.send('arquivo:ler');
+        let database = conectar(path, lerPath, senha);
+        ipc.send('arquivo:ler', database);
     } catch (error){
         log.info("Erro! Possivelmente a senha esta incorreta ou a conexão ao Banco de Dados falhou. Tente novamente! " + error);
         alert("Erro! Possivelmente a senha esta incorreta ou a conexão ao Banco de Dados falhou. Tente novamente! " + error);
