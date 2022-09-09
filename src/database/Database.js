@@ -5,11 +5,10 @@
 */
 
 const Sequelize = require('sequelize');
-const { Entradas } = require('../model/Entradas.js');
+const Entradas = require('../model/Entradas.js');
+const Settings = require('../model/Settings.js');
 
 const log = require('electron-log');
-
-let database;
 
 //outra função pra trocar a senha mestra?
 async function conectar(path, nomeArquivo, senhaMestra){
@@ -17,21 +16,18 @@ async function conectar(path, nomeArquivo, senhaMestra){
         let database = new Sequelize(nomeArquivo, null, senhaMestra, {
             dialect: 'sqlite',
             dialectModule: require('@journeyapps/sqlcipher'),
-            logging: msg => log.info(msg),
-            storage: path,
-            define: { timestamps: true }
+            logging: (msg) => { const log = require('electron-log'); log.info(msg); },
+            storage: path
         });
-
-        await database.authenticate('PRAGMA key = "' + senhaMestra + '"');
+    
+        database.authenticate('PRAGMA key = "' + senhaMestra + '"');
+        Settings.init(database);
         Entradas.init(database);
-        
-        await Entradas.findAll();
         log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!");
 
         return database;
     } catch (error){
         log.error("Erro ao conectar ao Banco de Dados: " + error + "!");
-        database.close();
         
         return false;
     }
@@ -42,25 +38,18 @@ async function criar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva
         let database = new Sequelize(nomeArquivo, null, senhaMestra, {
             dialect: 'sqlite',
             dialectModule: require('@journeyapps/sqlcipher'),
-            logging: msg => log.info(msg),
-            storage: path,
-            define: { timestamps: true }
+            logging: (msg) => { const log = require('electron-log'); log.info(msg); },
+            storage: path
         });
 
-        await database.authenticate('PRAGMA key = "' + senhaMestra + '"');
+        database.authenticate('PRAGMA key = "' + senhaMestra + '"');
+        Settings.init(database, descArquivo, expiraArquivo, chaveReserva);
         Entradas.init(database);
-
-        await Entradas.bulkInsert('settings', { 
-            descricao: descArquivo, 
-            expira: expiraArquivo, 
-            chaveReserva: chaveReserva 
-        }).then(() => {
-            log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!");
-            return database;
-        });
+        log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!");
+        
+        return database;
     } catch (error){
         log.error("Erro ao criar um Banco de Dados: " + error + "!");
-        database.close();
 
         return false;
     }

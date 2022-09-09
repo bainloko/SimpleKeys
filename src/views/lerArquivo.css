@@ -80,12 +80,16 @@ body {
   left: 80px;
   font-size: 14px;
   position: absolute;
+  width: 100%;
+  text-overflow: clip ellipsis;
 }
 #localChaveiro {
   top: 50px;
   left: 97px;
   font-size: 14px;
   position: absolute;
+  width: 100%;
+  text-overflow: clip ellipsis;
 }
 .ler-arquivo-o-k {
   right: 38px;

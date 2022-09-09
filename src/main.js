@@ -29,6 +29,7 @@ function criarTelaInicial(){
         resizable: false,
         show: false,
         title: "SimpleKeys",
+        backgroundColor: "#5096fa",
         icon: __dirname + './views/public/icon/icon.png',
         webPreferences: {
             devTools: !app.isPackaged,
@@ -41,10 +42,10 @@ function criarTelaInicial(){
 
     telaInicial.loadFile('src/views/index.html');
 
-    telaInicial.on('ready-to-show', (e) => {
+    telaInicial.on('ready-to-show', () => {
         telaInicial.show();
         app.focus();
-        log.info("Tela aberta! Evento: " + e);
+        log.info("Tela aberta!");
     });
 
     telaInicial.on('closed', () => {
@@ -55,180 +56,6 @@ function criarTelaInicial(){
 function criarNovoArquivo(){
     telaInicial.loadFile('src/views/novoArquivo.html');
 }
-
-ipc.on('arquivo:novo:salvar', (e) => {
-    let options = {
-        title: "SimpleKeys - Criar Um Novo Arquivo",
-        defaultPath: "%USERPROFILE%/" || "$HOME/",
-        buttonLabel: "Salvar",
-        filters: [
-            {name: 'Banco de Dados', extensions: ['db']},
-            {name: 'All Files', extensions: ['*']}
-        ]
-    }
-
-    dialog.showSaveDialog(WIN, options).then((arquivo) => {
-        if (arquivo != ("" || null || undefined)) {
-            log.info(arquivo.filePath);
-            store.set("pathArquivo", arquivo.filePath);
-            ipc.sendToRenderers('arquivo:novo:receiveArquivo', arquivo.filePath);
-        } else {
-            alert("Selecione um local válido para salvar o arquivo!");
-        }
-    }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
-    });
-});
-
-function criarLerArquivo(){
-    lerArquivo = new BrowserWindow({
-        width: 538,
-        height: 409,
-        resizable: false,
-        show: false,
-        parent: telaInicial,
-        title: "SimpleKeys - Abrir Arquivo Já Existente",
-        icon: __dirname + './views/public/icon/icon.png',
-        webPreferences: {
-            devTools: !app.isPackaged,
-            contextIsolation: false,
-            nodeIntegration: true
-        }
-    });
-    
-    lerArquivo.loadFile('src/views/lerArquivo.html');
-
-    lerArquivo.on('ready-to-show', (e) => {
-        lerArquivo.show();
-        app.focus();
-    });
-
-    lerArquivo.on('closed', () => {
-        app.focus();
-    });
-}
-
-ipc.on('arquivo:ler', (e) => {
-    lerArquivo.close();
-    criarListaEntradas();
-});
-
-ipc.on('arquivo:criar', (e) => {
-    criarListaEntradas();
-})
-
-ipc.on('arquivo:ler:cancelar', (e) => {
-    lerArquivo.close();
-});
-
-ipc.on('arquivo:ler:chaveReserva', (e) => {
-    let options = {
-        title: "SimpleKeys - Criar Um Novo Arquivo",
-        defaultPath: "%USERPROFILE%/" || "$HOME/",
-        buttonLabel: "Salvar",
-        filters: [
-            {name: 'Chave Reserva', extensions: ['key']},
-            {name: 'All Files', extensions: ['*']}
-        ]
-    }
-
-    dialog.showOpenDialog(WIN, options).then((arquivo) => {
-        if (arquivo != ("" || null || undefined || [])) {
-            log.info(arquivo.filePaths);
-            store.set("pathChaveReserva", arquivo.filePaths);
-            ipc.sendToRenderers('arquivo:ler:receiveChaveReserva', arquivo.filePaths);
-        } else {
-            alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
-        }
-    }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
-    });
-});
-
-ipc.on('arquivo:ler:path', (e) => {
-    let options = {
-        title: "SimpleKeys - Criar Um Novo Arquivo",
-        defaultPath: "%USERPROFILE%/" || "$HOME/",
-        buttonLabel: "Salvar",
-        filters: [
-            {name: 'Banco de Dados', extensions: ['db']},
-            {name: 'All Files', extensions: ['*']}
-        ]
-    }
-
-    dialog.showOpenDialog(WIN, options).then((arquivo) => {
-        if (arquivo != ("" || null || undefined || [])) {
-            log.info(arquivo.filePaths);
-            store.set("pathArquivo", arquivo.filePaths);
-            ipc.sendToRenderers('arquivo:ler:receiveArquivo', arquivo.filePaths);
-        } else {
-            alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
-        }
-    }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
-    });
-});
-
-function criarNovaEntrada(){
-    telaInicial.loadFile('src/views/novaEntrada.html');
-}
-
-function criarEditarEntrada(){
-    telaInicial.loadFile('src/views/editarEntrada.html');
-}
-
-function criarGerador(){
-    telaInicial.loadFile('src/views/gerador.html');
-}
-
-function criarBackup(){
-    telaInicial.loadFile('src/views/backup.html');
-}
-
-function criarConfiguracoes(){
-    telaInicial.loadFile('src/views/configuracoes.html');
-}
-
-function criarSobre(){
-    showAboutWindow({
-        icon: __dirname + './views/public/icon/icon.ico',
-        copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-        text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n\nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\n\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
-        website: 'https://github.com/bainloko/SimpleKeys'
-    });
-}
-
-ipc.on('opcao:criar', (e) => {
-    try {
-        criarNovoArquivo();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela novoArquivo, " + error);
-    }
-});
-
-ipc.on('opcao:abrir', (e) => {
-    try {
-        criarLerArquivo();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela lerArquivo, " + error);
-    }
-});
-
-ipc.on('opcao:config', (e) => {
-    try {
-        criarConfiguracoes();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela configuracoes, " + error);
-    }
-});
-
-ipc.on('opcao:sobre', (e) => {
-    try {
-        criarSobre();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela sobre, " + error);
-    }
-});
 
 function criarListaEntradas(){
     // Cria o template do menu
@@ -401,10 +228,186 @@ function criarListaEntradas(){
     Menu.setApplicationMenu(menu);
 
     // Abre a tela
-    telaInicial.loadFile('src/views/listaEntradas.html');
+    telaInicial.loadFile('src/views/listarEntradas.html');
+    ipc.sendToRenderers('arquivo:novo:receiveCriar');
     
     app.focus();
 }
+
+ipc.on('arquivo:novo:criar', (e, database) => {
+    criarListaEntradas();
+});
+
+ipc.on('arquivo:novo:salvar', (e, path) => {
+    let options = {
+        title: "SimpleKeys - Criar Um Novo Arquivo",
+        defaultPath: "%USERPROFILE%/" + path || "$HOME/" + path,
+        buttonLabel: "Salvar",
+        filters: [
+            {name: 'Banco de Dados', extensions: ['db']},
+            {name: 'All Files', extensions: ['*']}
+        ]
+    }
+
+    dialog.showSaveDialog(WIN, options).then((arquivo) => {
+        if (arquivo != ("" || null || undefined)) {
+            log.info(arquivo.filePath);
+            store.set("pathArquivo", arquivo.filePath);
+            ipc.sendToRenderers('arquivo:novo:receiveArquivo', arquivo.filePath);
+        } else {
+            alert("Selecione um local válido para salvar o arquivo!");
+        }
+    }).catch((error) => {
+        log.info("Houve um erro aqui! " + error);
+    });
+});
+
+function criarLerArquivo(){
+    lerArquivo = new BrowserWindow({
+        width: 538,
+        height: 409,
+        resizable: false,
+        show: false,
+        parent: telaInicial,
+        title: "SimpleKeys - Abrir Arquivo Já Existente",
+        backgroundColor: "#5096fa",
+        icon: __dirname + './views/public/icon/icon.png',
+        webPreferences: {
+            devTools: !app.isPackaged,
+            contextIsolation: false,
+            nodeIntegration: true
+        }
+    });
+    
+    lerArquivo.loadFile('src/views/lerArquivo.html');
+
+    lerArquivo.on('ready-to-show', () => {
+        lerArquivo.show();
+        app.focus();
+    });
+
+    lerArquivo.on('closed', () => {
+        app.focus();
+    });
+}
+
+ipc.on('arquivo:ler', (e) => {
+    lerArquivo.close();
+    criarListaEntradas();
+});
+
+ipc.on('arquivo:ler:cancelar', (e) => {
+    lerArquivo.close();
+});
+
+ipc.on('arquivo:ler:chaveReserva', (e, path) => {
+    let options = {
+        title: "SimpleKeys - Abrir Arquivo Já Existente",
+        defaultPath: "%USERPROFILE%/" || "$HOME/",
+        buttonLabel: "Abrir",
+        filters: [
+            {name: 'Chave Reserva', extensions: ['key']},
+            {name: 'All Files', extensions: ['*']}
+        ]
+    }
+
+    dialog.showOpenDialog(WIN, options).then((arquivo) => {
+        if (arquivo != ("" || null || undefined || [])) {
+            log.info(arquivo.filePaths);
+            store.set("pathChaveReserva", arquivo.filePaths);
+            ipc.sendToRenderers('arquivo:ler:receiveChaveReserva', arquivo.filePaths);
+        } else {
+            alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
+        }
+    }).catch((error) => {
+        log.info("Houve um erro aqui! " + error);
+    });
+});
+
+ipc.on('arquivo:ler:path', (e) => {
+    let options = {
+        title: "SimpleKeys - Abrir Arquivo Já Existente",
+        defaultPath: "%USERPROFILE%/" || "$HOME/",
+        buttonLabel: "Abrir",
+        filters: [
+            {name: 'Banco de Dados', extensions: ['db']},
+            {name: 'All Files', extensions: ['*']}
+        ]
+    }
+
+    dialog.showOpenDialog(WIN, options).then((arquivo) => {
+        if (arquivo != ("" || null || undefined || [])) {
+            log.info(arquivo.filePaths);
+            store.set("pathArquivo", arquivo.filePaths);
+            ipc.sendToRenderers('arquivo:ler:receiveArquivo', arquivo.filePaths);
+        } else {
+            alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
+        }
+    }).catch((error) => {
+        log.info("Houve um erro aqui! " + error);
+    });
+});
+
+function criarNovaEntrada(){
+    telaInicial.loadFile('src/views/novaEntrada.html');
+}
+
+function criarEditarEntrada(){
+    telaInicial.loadFile('src/views/editarEntrada.html');
+}
+
+function criarGerador(){
+    telaInicial.loadFile('src/views/gerador.html');
+}
+
+function criarBackup(){
+    telaInicial.loadFile('src/views/backup.html');
+}
+
+function criarConfiguracoes(){
+    telaInicial.loadFile('src/views/configuracoes.html');
+}
+
+function criarSobre(){
+    showAboutWindow({
+        icon: __dirname + './views/public/icon/icon.ico',
+        copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
+        text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n\nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\n\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
+        website: 'https://github.com/bainloko/SimpleKeys'
+    });
+}
+
+ipc.on('opcao:criar', (e) => {
+    try {
+        criarNovoArquivo();
+    } catch (error){
+        log.info("Houve um erro no carregamento da tela novoArquivo, " + error);
+    }
+});
+
+ipc.on('opcao:abrir', (e) => {
+    try {
+        criarLerArquivo();
+    } catch (error){
+        log.info("Houve um erro no carregamento da tela lerArquivo, " + error);
+    }
+});
+
+ipc.on('opcao:config', (e) => {
+    try {
+        criarConfiguracoes();
+    } catch (error){
+        log.info("Houve um erro no carregamento da tela configuracoes, " + error);
+    }
+});
+
+ipc.on('opcao:sobre', (e) => {
+    try {
+        criarSobre();
+    } catch (error){
+        log.info("Houve um erro no carregamento da tela sobre, " + error);
+    }
+});
 
 app.on('ready', (e) => {
     criarTelaInicial();

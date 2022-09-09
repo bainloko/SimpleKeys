@@ -12,9 +12,6 @@ const Path = require('path');
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 
-const Store = require('electron-store');
-const store = new Store();
-
 const log = require('electron-log');
 
 function realizarBackup(nomeArquivo, senhaMestra, configBanco, imprimir){

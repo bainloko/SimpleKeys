@@ -174,9 +174,9 @@
                     <br />
                 </span>
                 <div class="editar-entrada-slider">
-                    <input id="intervalo" title="6 meses" type="range" min="0" max="36" value="6" onInput="(this.value > 0) ? (intervalo.title = this.value + ' meses') : intervalo.title = 'Desligado.'" />
+                    <input id="expira" title="6 meses" type="range" min="0" max="36" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
                 </div>
-                <button type="submit" class="editar-entrada-button button" onclick="ipc.send('entrada:editar', inputNomeEnt.value, inputDescEnt.value, inpSite, inputLoginEnt, inpPassword, intervalo.value);">
+                <button type="submit" class="editar-entrada-button button" onclick="ipc.send('entrada:editar', inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value);">
                 <span class="editar-entrada-text01">
                     <span>Editar</span>
                     <br />

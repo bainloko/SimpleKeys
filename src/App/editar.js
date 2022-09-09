@@ -9,5 +9,5 @@ const ContextMenu = require('secure-electron-context-menu').default;
 
 ipc.on('entrada:editar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
     //alerts e checks de verificação após editar (are you sure?)
-    arquivo.editarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt); //
+    editarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt); //
 });

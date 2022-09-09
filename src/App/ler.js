@@ -61,6 +61,7 @@ ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
     if (chavePath != ("" || null || undefined || [])) {
         store.set("pathChaveReserva", chavePath);
         localChave.innerText = chavePath;
+        localChave.title = chavePath;
     } else {
         alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
     }
@@ -72,6 +73,7 @@ ipc.on('arquivo:ler:receiveArquivo', (e, path) => {
     if (lerPath != ("" || null || undefined || [])) {
         store.set("pathArquivo", lerPath);
         localChaveiro.innerText = lerPath;
+        localChaveiro.title = lerPath;
     } else {
         alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
     }
@@ -79,7 +81,7 @@ ipc.on('arquivo:ler:receiveArquivo', (e, path) => {
 
 function lerArquivo(path, senha){
     try {
-        Database.conectar(path, senha);
+        Database.conectar(path, null, senha);
         ipc.send('arquivo:ler');
     } catch (error){
         log.info("Erro! Possivelmente a senha esta incorreta ou a conexão ao Banco de Dados falhou. Tente novamente! " + error);
@@ -90,7 +92,7 @@ function lerArquivo(path, senha){
 function validar(lerPath){
     let senha = inpPassword.value;
 
-    (senha == ("" || null || undefined || [])) ? alert("Digite a senha para acessar o arquivo!") : lerArquivo(lerPath, senha);
+    (senha != ("" || null || undefined || [])) ? lerArquivo(lerPath, senha) : alert("Digite a senha para acessar o arquivo!");
 }
 
 okButton.addEventListener("click", () => {

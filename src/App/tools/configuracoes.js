@@ -10,17 +10,12 @@ const fse = require('fs-extra');
 const Path = require('path');
 
 const Sequelize = require('sequelize');
-const Database = require('../database/Database.js');
-const { Settings } = require('../model/Entradas.js');
-
-const Store = require('electron-store');
-const store = new Store();
+const Database = require('../../database/Database.js');
+const Settings = require('../../model/Settings.js');
 
 const log = require('electron-log');
 
 const { or } = Sequelize.Op;
-
-let database;
 
 async function lerConfiguracoes(configBanco){
     // path? copiar para a pasta do usuário? lookup json e edição?

@@ -1,13 +1,13 @@
 /*
 * SimpleKeys
-* listaEntradas.css
+* listarEntradas.css
 * 02/set/2022
 */
 
 body {
   background-image: linear-gradient(0deg, rgb(255, 255, 255) 0.00%,rgb(80, 150, 250) 100.00%);
 }
-.listaEntradas-container {
+.listarEntradas-container {
   height: 720px;
   display: flex;
   opacity: 1;
@@ -17,7 +17,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
 }
-.listaEntradas-text {
+.listarEntradas-text {
   top: var(--dl-space-space-halfunit);
   left: var(--dl-space-space-twounits);
   color: var(--dl-color-gray-black);
@@ -26,20 +26,20 @@ body {
   font-style: italic;
   text-decoration: underline;
 }
-.listaEntradas-text1 {
+.listarEntradas-text1 {
   left: var(--dl-space-space-twounits);
   bottom: var(--dl-space-space-twounits);
   position: absolute;
   align-self: flex-start;
 }
-.listaEntradas-text2 {
+.listarEntradas-text2 {
   color: #000000;
   right: var(--dl-space-space-twounits);
   bottom: var(--dl-space-space-twounits);
   position: absolute;
   font-size: 28px;
 }
-.listaEntradas-container1 {
+.listarEntradas-container1 {
   flex: 0 0 auto;
   left: 64px;
   width: 23%;
@@ -52,7 +52,7 @@ body {
   border-style: inset;
   border-width: 1px;
 }
-.listaEntradas-container2 {
+.listarEntradas-container2 {
   top: 13.9%;
   flex: 0 0 auto;
   left: 28.5%;
@@ -66,7 +66,7 @@ body {
   border-width: 1px;
   background-color: #fdfdfd;
 }
-.listaEntradas-container3 {
+.listarEntradas-container3 {
   flex: 0 0 auto;
   left: 28.5%;
   width: 66%;
@@ -82,20 +82,20 @@ body {
   justify-content: center;
   background-color: #e6e6e6;
 }
-.listaEntradas-icon {
+.listarEntradas-icon {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-image {
+.listarEntradas-image {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   object-fit: cover;
   cursor: pointer;
 }
-.listaEntradas-icon02 {
+.listarEntradas-icon02 {
   top: 30px;
   right: var(--dl-space-space-fourunits);
   width: var(--dl-size-size-small);
@@ -103,7 +103,7 @@ body {
   position: absolute;
   cursor: pointer;
 }
-.listaEntradas-icon03 {
+.listarEntradas-icon03 {
   top: 30px;
   right: var(--dl-space-space-unit);
   width: var(--dl-size-size-small);
@@ -111,67 +111,67 @@ body {
   position: absolute;
   cursor: pointer;
 }
-.listaEntradas-icon06 {
+.listarEntradas-icon06 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon08 {
+.listarEntradas-icon08 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon10 {
+.listarEntradas-icon10 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon12 {
+.listarEntradas-icon12 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon14 {
+.listarEntradas-icon14 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon16 {
+.listarEntradas-icon16 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon18 {
+.listarEntradas-icon18 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon20 {
+.listarEntradas-icon20 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon25 {
+.listarEntradas-icon25 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon27 {
+.listarEntradas-icon27 {
   width: 48px;
   height: 48px;
   align-self: flex-start;
   cursor: pointer;
 }
-.listaEntradas-icon29 {
+.listarEntradas-icon29 {
   width: 48px;
   height: 48px;
   align-self: flex-start;

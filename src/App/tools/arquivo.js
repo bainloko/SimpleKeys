@@ -8,11 +8,8 @@ const fse = require('fs-extra');
 const Path = require('path');
 
 const Sequelize = require('sequelize');
-const Database = require('../database/Database.js');
-const { Entradas } = require('../model/Entradas.js');
-
-const Store = require('electron-store');
-const store = new Store();
+const Database = require('../../database/Database.js');
+const Entradas = require('../../model/Entradas.js');
 
 const log = require('electron-log');
 
@@ -21,8 +18,6 @@ const { or } = Sequelize.Op;
 let database;
 
 async function novoArquivo(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra){
-    let path = store.get("pathArquivo");
-
     try {
         if (consultarBanco(path) == true) {
             log.info("Este arquivo " + nomeArquivo + " ja existe! Feche esta janela e acesse-o por la.");
@@ -30,17 +25,15 @@ async function novoArquivo(path, nomeArquivo, descArquivo, expiraArquivo, chaveR
 
             return false;
         } else {
-            database = await Database.criar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra);
+            database = Database.criar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra);
             lerEntradas();
 
             log.info("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
             alert("O Banco " + nomeArquivo + " foi criado e salvo com sucesso no local " + path + " !");
 
-            return true;
+            return database;
         }
     } catch (error){
-        database.close();
-
         log.error("Houve um problema na criacao do Banco, tente novamente! " + error);
         alert("Houve um problema na criação do Banco, tente novamente! " + error);
 
@@ -52,15 +45,13 @@ async function lerArquivo(nomeArquivo, senhaMestra){
     let path = Path.join(__dirname, nomeArquivo.toString());
 
     try {
-        database = await Database.conectar(path, nomeArquivo, senhaMestra)
+        database = Database.conectar(path, nomeArquivo, senhaMestra);
         lerEntradas();
 
         log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
 
-        return true;
+        return database;
     } catch (error){
-        database.close();
-
         log.error("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome ja exista.");
         alert("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
 
@@ -70,7 +61,7 @@ async function lerArquivo(nomeArquivo, senhaMestra){
 
 async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
-        const resultado = await database.sync();
+        const resultado = await database.sync({ force: true });
         log.info(resultado);
     
         const resultadoCreate = await Entradas.create({
@@ -82,11 +73,9 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, login
             expira: expira,
             // grupoImg: grupoImg,
             // grupoLista: grupoLista 
-        });
+        }); log.info(resultadoCreate);
 
-        log.info(resultadoCreate);
-
-        return true;
+        return resultadoCreate;
     } catch (error){
         log.error("Ocorreu um erro no cadastro de novas entradas, " + error + "!");
         alert("Ocorreu um erro no cadastro de novas entradas, " + error + "!");
@@ -100,7 +89,7 @@ async function lerEntradas(){
         const entradas = await Entradas.findAll();
         log.info(entradas);
 
-        return true;
+        return entradas;
     } catch (error){
         log.info("Ocorreu um erro na leitura das entradas, " + error + "!");
         alert("Ocorreu um erro na leitura das entradas, " + error + "!");
@@ -122,9 +111,7 @@ async function pesquisarEntradas(pesquisa){
                     {grupoLista: pesquisa}
                 ]
             }
-        });
-
-        log.info(entradas);
+        }); log.info(entradas);
 
         return entradas;
     } catch (error){
@@ -147,8 +134,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
             // entradas.grupoImg = grupoImg;
             // entradas.grupoLista = grupoLista;
             
-            const resultadoUpdate = entradas.save();
-            log.info(resultadoUpdate);
+            entradas.save();
         }).catch((error) => {
             log.error("Ocorreu um erro na edicao das entradas, " + error + "!");
             alert("Ocorreu um erro na edição das entradas, " + error + "!");
@@ -157,8 +143,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
         });
 
         log.info(entradas);
-        
-        return true;
+        return entradas;
     } catch (error){
         log.error("Ocorreu um erro na edicao das entradas, " + error + "!");
         alert("Ocorreu um erro na edição das entradas, " + error + "!");
@@ -170,6 +155,8 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
 async function apagarEntradas(selecaoAtual){
     try {
         await Entradas.destroy({ where: { id: selecaoAtual }});
+        log.error("Entrada(s) apagadas com sucesso! id: " + selecaoAtual);
+        alert("Entrada(s) apagadas com sucesso! id: " + selecaoAtual);
 
         return true;
     } catch (error){

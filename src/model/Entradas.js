@@ -6,18 +6,8 @@
 
 const { Model, DataTypes } = require('sequelize');
 
-class Settings extends Model {
-    static init(database){
-        super.init({
-            descricao: DataTypes.TEXT,
-            expira: DataTypes.TEXT,
-            chaveReserva: DataTypes.BOOLEAN,
-        }, { database, freezeTableName: true });
-    }
-}
-
 class Entradas extends Model {
-    static init(database){
+    static init(sequelize){
         super.init({
             id: {
                 type: DataTypes.INTEGER,
@@ -53,9 +43,9 @@ class Entradas extends Model {
                 defaultValue: "S;2025/08/08",
             },
             grupoImg: DataTypes.BLOB,
-            grupoLista: DataTypes.TEXT,
-        }, { database, freezeTableName: true });
+            grupoLista: DataTypes.TEXT
+        }, { sequelize, freezeTableName: true });
     }
 }
 
-module.exports = { Settings, Entradas };
+module.exports = Entradas;

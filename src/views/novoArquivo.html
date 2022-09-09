@@ -98,7 +98,7 @@
                   <span>Onde você vai salvar o arquivo?</span>
                   <br />
               </span>
-              <button type="button" class="novo-arquivo-button1 button" onclick="ipc.send('arquivo:novo:salvar');">
+              <button type="button" class="novo-arquivo-button1 button" onclick="ipc.send('arquivo:novo:salvar', inputNomeArq.value);">
                   <span id="s">Navegar...</span>
               </button>
               <span class="novo-arquivo-text18">
@@ -108,7 +108,7 @@
                   <br />
               </span>
               <div class="novo-arquivo-slider">
-                  <input id="intervalo" title="6 meses" type="range" min="0" max="12" value="6" oninput="(this.value > 0) ? (intervalo.title = this.value + ' meses') : intervalo.title = 'Desligado.'" />
+                  <input id="expira" title="6 meses" type="range" min="0" max="12" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
               </div>
               <span
                 title="Uma chave reserva é uma sequência longa de letras e números gerados aleatoriamente que serve para a aumentar a segurança das senhas contidas no seu chaveiro digital. Você vai precisar da sua senha mestra e da sua chave JUNTAS para abrir o arquivo."
@@ -116,7 +116,7 @@
               >
                 Deseja gerar uma chave reserva? (S ou N)
               </span>
-              <input type="checkbox" id="expira" class="novo-arquivo-checkbox" />
+              <input type="checkbox" id="chaveReserva" class="novo-arquivo-checkbox" />
               <form id="password">
                   <span title="A senha mestra do chaveiro é a única senha que você precisará lembrar na vida caso use o gerenciador de senhas SimpleKeys. Com ela, o programa irá criptografar o arquivo, lembrando de todas as suas senhas, de forma segura, de modo a impedir acesso não autorizado. Por isso, escolha muito bem sua senha mestra! Ela que protege os seus dados!" class="novo-arquivo-text24">
                     Senha Mestra:
@@ -165,7 +165,7 @@
                       </svg>
                     </span>
                   </div>
-                  <button type="submit" class="novo-arquivo-button button" onsubmit="novoCriar(inputNomeArq.value, inputDescArq.value, expira.checked, inpPassword.value);">
+                  <button type="submit" class="novo-arquivo-button button" onsubmit="(inpPassword.value === inpTestPassword.value) ? novoCriar(inputNomeArq.value, inputDescArq.value, expira.value, chaveReserva.checked, inpPassword.value) : alert('Verifique se ambas as senhas são iguais!');">
                       <span class="novo-arquivo-text01">
                           <span>Criar</span>
                           <br />

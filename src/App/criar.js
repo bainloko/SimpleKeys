@@ -14,6 +14,7 @@ const store = new Store();
 
 const log = require('electron-log');
 
+
 ipc.on('arquivo:novo:receiveArquivo', (e, path) => {
     let criarPath = path.toString().replace("[\\]", "&#92;");
 
@@ -25,15 +26,16 @@ ipc.on('arquivo:novo:receiveArquivo', (e, path) => {
 });
 
 function novoCriar(nomeArq, descArq, expiraArq, chaveReserva, senhaArq){
-    path = store.get("pathArquivo");
-
+    let path = store.get("pathArquivo");
+    
     try {
         Database.criar(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
-        ipc.send('arquivo:criar');
     } catch (error){
         log.error("Houve um problema na criacao do Banco, tente novamente! " + error);
         alert("Houve um problema na criação do Banco, tente novamente! " + error);
     }
+
+    ipc.send('arquivo:novo:criar');
 }
 
 module.exports = { novoCriar };
