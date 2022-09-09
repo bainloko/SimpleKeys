@@ -234,9 +234,8 @@ function criarListaEntradas(){
     app.focus();
 }
 
-ipc.on('arquivo:novo:criar', (e, database) => {
+ipc.on('arquivo:novo:criar', (e) => {
     criarListaEntradas();
-    database = database;
 });
 
 ipc.on('arquivo:novo:salvar', (e, path) => {
@@ -292,10 +291,9 @@ function criarLerArquivo(){
     });
 }
 
-ipc.on('arquivo:ler', (e, database) => {
+ipc.on('arquivo:ler', (e) => {
     lerArquivo.close();
     criarListaEntradas();
-    database = database;
 });
 
 ipc.on('arquivo:ler:cancelar', (e) => {

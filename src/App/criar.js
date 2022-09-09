@@ -28,8 +28,8 @@ function novoCriar(nomeArq, descArq, expiraArq, chaveReserva, senhaArq){
     let path = store.get("pathArquivo");
     
     try {
-        let database = criar(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
-        ipc.send('arquivo:novo:criar', database);
+        criar(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
+        ipc.send('arquivo:novo:criar');
     } catch (error){
         log.error("Houve um problema na criacao do Banco, tente novamente! " + error);
         alert("Houve um problema na criação do Banco, tente novamente! " + error);
