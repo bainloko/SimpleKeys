@@ -5,37 +5,13 @@
 */
 
 const fse = require('fs-extra');
-const Path = require('path');
 
-const Sequelize = require('sequelize');
-const { conectar } = require('../../database/Database.js');
+const { Op } = require('sequelize');
 const Entradas = require('../../model/Entradas.js');
 
 const log = require('electron-log');
 
-const { or } = Sequelize.Op;
-
-let database;
-
-async function lerArquivo(nomeArquivo, senhaMestra){
-    let path = Path.join(__dirname, nomeArquivo.toString());
-
-    try {
-        database = conectar(path, nomeArquivo, senhaMestra);
-        lerEntradas();
-
-        log.info("O Banco " + nomeArquivo + " foi acessado com sucesso!");
-
-        return database;
-    } catch (error){
-        log.error("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome ja exista.");
-        alert("Ocorreu um erro aqui, " + error + "! Talvez um arquivo com o mesmo nome já exista.");
-
-        return false;
-    }
-}
-
-async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+async function cadastrarEntradas(database, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
         const resultado = await database.sync({ force: true });
         log.info(resultado);
@@ -60,7 +36,7 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, login
     }
 }
 
-async function lerEntradas(){
+async function lerEntradas(database){
     try {
         const entradas = await Entradas.findAll();
         log.info(entradas);
@@ -74,12 +50,12 @@ async function lerEntradas(){
     }
 }
 
-async function pesquisarEntradas(pesquisa){
+async function pesquisarEntradas(database, pesquisa){
     try {
         const entradas = await Entradas.findAll({
             where: {
                 nome: pesquisa,
-                [or]: [
+                [Op.or]: [
                     {descricao: pesquisa},
                     {site: pesquisa},
                     {usuario: pesquisa},
@@ -98,7 +74,7 @@ async function pesquisarEntradas(pesquisa){
     }
 }
 
-async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+async function editarEntradas(database, selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
         const entradas = await Entradas.findByPk(selecaoAtual).then(() => {
             entradas.nome = nomeEntradas;
@@ -128,7 +104,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
     }
 }
 
-async function apagarEntradas(selecaoAtual){
+async function apagarEntradas(database, selecaoAtual){
     try {
         await Entradas.destroy({ where: { id: selecaoAtual }});
         log.error("Entrada(s) apagadas com sucesso! id: " + selecaoAtual);
@@ -161,4 +137,4 @@ async function consultarBanco(path){
     }
 }
 
-module.exports = { lerArquivo, cadastrarEntradas, lerEntradas, pesquisarEntradas, editarEntradas, apagarEntradas, consultarBanco };
+module.exports = { cadastrarEntradas, lerEntradas, pesquisarEntradas, editarEntradas, apagarEntradas, consultarBanco };

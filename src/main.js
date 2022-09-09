@@ -5,9 +5,11 @@
 */
 
 // Módulos para controlar o ciclo de vida da aplicação e criar a janela nativa do Browser
-const { app, BrowserWindow, Menu, dialog } = require('electron');
+const { app, BrowserWindow, Menu, Notification, dialog } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
 const { showAboutWindow } = require('electron-util');
+
+const { conectar } = require('./database/Database.js');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -51,10 +53,6 @@ function criarTelaInicial(){
     telaInicial.on('closed', () => {
         app.quit();
     });
-}
-
-function criarNovoArquivo(){
-    telaInicial.loadFile('src/views/novoArquivo.html');
 }
 
 function criarListaEntradas(){
@@ -229,14 +227,13 @@ function criarListaEntradas(){
 
     // Abre a tela
     telaInicial.loadFile('src/views/listarEntradas.html');
-    ipc.sendToRenderers('arquivo:novo:receiveCriar');
     
     app.focus();
 }
 
-ipc.on('arquivo:novo:criar', (e) => {
-    criarListaEntradas();
-});
+function criarNovoArquivo(){
+    telaInicial.loadFile('src/views/novoArquivo.html');
+}
 
 ipc.on('arquivo:novo:salvar', (e, path) => {
     let options = {
@@ -253,13 +250,18 @@ ipc.on('arquivo:novo:salvar', (e, path) => {
         if (arquivo != ("" || null || undefined)) {
             log.info(arquivo.filePath);
             store.set("pathArquivo", arquivo.filePath);
-            ipc.sendToRenderers('arquivo:novo:receiveArquivo', arquivo.filePath);
+            ipc.sendToRenderers('arquivo:novo:pathArquivo', arquivo.filePath);
         } else {
             alert("Selecione um local válido para salvar o arquivo!");
         }
     }).catch((error) => {
         log.info("Houve um erro aqui! " + error);
     });
+});
+
+ipc.on('arquivo:novo:criar', (e, path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq) => {
+    criarListaEntradas();
+    ipc.sendToRenderers('arquivo:novo:receive', conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq));
 });
 
 function criarLerArquivo(){
@@ -290,15 +292,6 @@ function criarLerArquivo(){
         app.focus();
     });
 }
-
-ipc.on('arquivo:ler', (e) => {
-    lerArquivo.close();
-    criarListaEntradas();
-});
-
-ipc.on('arquivo:ler:cancelar', (e) => {
-    lerArquivo.close();
-});
 
 ipc.on('arquivo:ler:chaveReserva', (e) => {
     let options = {
@@ -339,13 +332,23 @@ ipc.on('arquivo:ler:path', (e) => {
         if (arquivo != ("" || null || undefined || [])) {
             log.info(arquivo.filePaths);
             store.set("pathArquivo", arquivo.filePaths);
-            ipc.sendToRenderers('arquivo:ler:receiveArquivo', arquivo.filePaths);
+            ipc.sendToRenderers('arquivo:ler:pathArquivo', arquivo.filePaths);
         } else {
             alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
         }
     }).catch((error) => {
         log.info("Houve um erro aqui! " + error);
     });
+});
+
+ipc.on('arquivo:ler:cancelar', (e) => {
+    lerArquivo.close();
+});
+
+ipc.on('arquivo:ler', (e, path, nomeArq, senhaArq) => {
+    lerArquivo.close();
+    criarListaEntradas();
+    ipc.sendToRenderers('arquivo:ler:receive', conectar(path, nomeArq, "", "", false, senhaArq));
 });
 
 function criarNovaEntrada(){

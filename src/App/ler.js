@@ -6,8 +6,6 @@
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 
-const { conectar } = require('../database/Database.js');
-
 const Store = require('electron-store');
 const store = new Store();
 
@@ -67,7 +65,7 @@ ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
     }
 });
 
-ipc.on('arquivo:ler:receiveArquivo', (e, path) => {
+ipc.on('arquivo:ler:pathArquivo', (e, path) => {
     let lerPath = path.toString().replace("[\\]", "&#92;");
 
     if (lerPath != ("" || null || undefined || [])) {
@@ -83,8 +81,7 @@ function lerArquivo(path, senha){
     let lerPath = path.substr((path.lastIndexOf("/") + 1));
 
     try {
-        conectar(path, lerPath, senha);
-        ipc.send('arquivo:ler');
+        ipc.send('arquivo:ler', path, lerPath, senha);
     } catch (error){
         log.info("Erro! Possivelmente a senha esta incorreta ou a conexão ao Banco de Dados falhou. Tente novamente! " + error);
         alert("Erro! Possivelmente a senha esta incorreta ou a conexão ao Banco de Dados falhou. Tente novamente! " + error);
