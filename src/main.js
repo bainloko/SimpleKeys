@@ -57,7 +57,7 @@ function criarTelaInicial(){
 
 function criarListaEntradas(){
     // Cria o template do menu
-    opcoesMenu = [
+    let opcoesMenu = [
         // Cada objeto é um dropdown
         {
             label: 'Arquivo',
