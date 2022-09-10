@@ -7,19 +7,15 @@
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default;
 
+const { conectar } = require('../database/Database.js');
+
 const Arquivo = require('../App/tools/Arquivo.js');
 
-ipc.on('arquivo:novo:receive', (e) => {
-    try {
-        Arquivo.lerEntradas();
-    } catch (error){
-        log.info("Erro na listagem das entradas. Tente novamente! " + error);
-        alert("Erro na listagem das entradas. Tente novamente! " + error);
-    }
-});
+let database;
 
-ipc.on('arquivo:ler:receive', (e) => {
+ipc.on('arquivo:receive', (e, path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq) => {
     try {
+        database = conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
         Arquivo.lerEntradas();
     } catch (error){
         log.info("Erro na listagem das entradas. Tente novamente! " + error);

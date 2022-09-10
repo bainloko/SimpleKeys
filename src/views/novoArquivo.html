@@ -165,7 +165,7 @@
                       </svg>
                     </span>
                   </div>
-                  <button type="submit" class="novo-arquivo-button button" onsubmit="(inpPassword.value === inpTestPassword.value) ? novoCriar(inputNomeArq.value, inputDescArq.value, expira.value, chaveReserva.checked, inpPassword.value) : alert('Verifique se ambas as senhas são iguais!');">
+                  <button type="submit" class="novo-arquivo-button button" onsubmit="(inpPassword.value === inpTestPassword.value) ? ipc.send('arquivo:novo:criar', inputNomeArq.value, inputDescArq.value, expira.value, chaveReserva.checked, inpPassword.value) : alert('Verifique se ambas as senhas são iguais!');">
                       <span class="novo-arquivo-text01">
                           <span>Criar</span>
                           <br />

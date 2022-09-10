@@ -21,19 +21,21 @@ const conectar = (path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, s
     
         Settings.init(database, descArquivo, expiraArquivo, chaveReserva);
         Entradas.init(database);
-        
-        if (database.authenticate('PRAGMA key = "' + senhaMestra + '"') == true) {
+
+        database.authenticate('PRAGMA key = "' + senhaMestra + '"').then(() => {
             log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!");
-        } else {
-            database.close();
-            log.error("Erro ao conectar ao Banco de Dados!");
-        }
         
-        return database;
+            return database;
+        }).catch((error) => {
+            database.close();
+            log.error("Erro ao criar um Banco de Dados: " + error + "!");
+        
+            return null;
+        });
     } catch (error){
         log.error("Erro ao criar um Banco de Dados: " + error + "!");
-        
-        return false;
+
+        return null;
     }
 }
 
