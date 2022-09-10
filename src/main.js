@@ -55,7 +55,7 @@ function criarTelaInicial(){
     });
 }
 
-function criarListaEntradas(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq){
+function criarListaEntradas(){
     // Cria o template do menu
     opcoesMenu = [
         // Cada objeto é um dropdown
@@ -227,7 +227,6 @@ function criarListaEntradas(path, nomeArq, descArq, expiraArq, chaveReserva, sen
 
     // Abre a tela
     telaInicial.loadFile('src/views/listarEntradas.html');
-    ipc.sendToRenderers('arquivo:receive', path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
     
     app.focus();
 }
@@ -260,9 +259,8 @@ ipc.on('arquivo:novo:salvar', (e, path) => {
     });
 });
 
-ipc.on('arquivo:novo:criar', (e, nomeArq, descArq, expiraArq, chaveReserva, senhaArq) => {
-    let path = store.get("pathArquivo");
-    criarListaEntradas(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
+ipc.on('arquivo:novo:criar', (e) => {
+    criarListaEntradas();
 });
 
 function criarLerArquivo(){
@@ -346,10 +344,9 @@ ipc.on('arquivo:ler:cancelar', (e) => {
     lerArquivo.close();
 });
 
-ipc.on('arquivo:ler', (e, path, senhaArq) => {
+ipc.on('arquivo:ler', (e) => {
     lerArquivo.close();
-    let lerPath = path.substr((path.lastIndexOf("/") + 1));
-    criarListaEntradas(path, lerPath, "", 0, false, senhaArq);
+    criarListaEntradas();
 });
 
 function criarNovaEntrada(){

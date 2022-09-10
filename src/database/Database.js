@@ -8,11 +8,11 @@ const Sequelize = require('sequelize');
 const log = require('electron-log');
 
 //outra função pra trocar a senha mestra?
-const conectar = (path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senhaMestra) => {
+const conectar = (path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senha) => {
     try {
         const Settings = require('../model/Settings.js');
         const Entradas = require('../model/Entradas.js');
-        const database = new Sequelize(nomeArquivo, null, senhaMestra, {
+        const database = new Sequelize(nomeArquivo, null, senha, {
             dialect: 'sqlite',
             dialectModule: require('@journeyapps/sqlcipher'),
             logging: (msg) => { log; log.info(msg); },
@@ -22,7 +22,7 @@ const conectar = (path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, s
         Settings.init(database, descArquivo, expiraArquivo, chaveReserva);
         Entradas.init(database);
 
-        database.authenticate('PRAGMA key = "' + senhaMestra + '"').then(() => {
+        database.authenticate('PRAGMA key = "' + senha + '"').then(() => {
             log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!");
         
             return database;

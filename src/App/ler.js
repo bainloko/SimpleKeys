@@ -75,14 +75,14 @@ ipc.on('arquivo:ler:pathArquivo', (e, path) => {
     }
 });
 
-function validar(path){
-    let senha = inpPassword.value;
-
-    (senha != ("" || null || undefined || [])) ? ipc.send('arquivo:ler', path, senha) : alert("Digite a senha para acessar o arquivo!");
+function validar(path, nomeArq, senha){
+    (senha != ("" || null || undefined || [])) ? () => { store.set("pathArquivo", path); store.set("nomeArquivo", nomeArq); store.set("senhaArquivo", senha); ipc.send('arquivo:ler'); } : alert("Digite a senha para acessar o arquivo!");
 }
 
 okButton.addEventListener("click", () => {
     let lerPath = localChaveiro.innerText;
+    let nomeArq = lerPath.slice(0, (path.length - 3)).substring((path.lastIndexOf("/") + 1));
+    let senha = inpPassword.value;
 
-    (lerPath != ("" || null || undefined || [])) ? validar(lerPath) : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+    (lerPath != ("" || null || undefined || [])) ? validar(lerPath, nomeArq, senha) : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
 });
