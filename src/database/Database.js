@@ -19,7 +19,6 @@ const conectar = (path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, s
             storage: path
         });
 
-        // database.sync();
         Settings.init(database, descArquivo, expiraArquivo, chaveReserva);
         Entradas.init(database);
         database.sync();
@@ -29,7 +28,7 @@ const conectar = (path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, s
             return database;
         }).catch((error) => {
             database.close();
-            log.error("Erro ao criar um Banco de Dados: " + error + "!");
+            log.error("Erro ao conectar ao Banco de Dados: " + error + "!");
         
             return null;
         });

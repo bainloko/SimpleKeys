@@ -75,12 +75,10 @@ ipc.on('arquivo:ler:pathArquivo', (e, path) => {
     }
 });
 
-function validar(path, nomeArq, senha){
+function setar(path, nomeArq, senha){
     store.set("pathArquivo", path);
     store.set("nomeArquivo", nomeArq);
     store.set("senhaArquivo", senha);
-
-    (senha != ("" || null || undefined || [])) ? ipc.send('arquivo:ler') : alert("Digite a senha para acessar o arquivo!");
 }
 
 okButton.addEventListener("click", () => {
@@ -88,5 +86,5 @@ okButton.addEventListener("click", () => {
     let nomeArq = lerPath.slice(0, (path.length - 3)).substring((path.lastIndexOf("/") + 1));
     let senha = passwordInput.value;
 
-    (lerPath != ("" || null || undefined || [])) ? validar(lerPath, nomeArq, senha) : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+    (lerPath != ("" || null || undefined || [])) ? setar(lerPath, nomeArq, senha) : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
 });

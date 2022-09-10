@@ -343,8 +343,8 @@ ipc.on('arquivo:ler:cancelar', (e) => {
 });
 
 ipc.on('arquivo:ler', (e) => {
-    criarListaEntradas();
     lerArquivo.close();
+    criarListaEntradas();
 });
 
 function criarNovaEntrada(){

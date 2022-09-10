@@ -94,7 +94,7 @@
                 onclick="ipc.send('arquivo:ler:path');"
               />
             </div>
-            <button type="submit" id="okButton" class="ler-arquivo-o-k button">OK</button>
+            <button type="submit" id="okButton" class="ler-arquivo-o-k button" onclick="(inpPassword.value != ('' || null || undefined || [])) ? ipc.send('arquivo:ler') : alert('Digite a senha para acessar o arquivo!');">OK</button>
             <button type="button" class="ler-arquivo-cancelar button" onclick="ipc.send('arquivo:ler:cancelar');">
               <span>
                 <span>Cancelar</span>
