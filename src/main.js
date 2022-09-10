@@ -227,8 +227,6 @@ function criarListaEntradas(){
 
     // Abre a tela
     telaInicial.loadFile('src/views/listarEntradas.html');
-    
-    app.focus();
 }
 
 function criarNovoArquivo(){
@@ -345,8 +343,8 @@ ipc.on('arquivo:ler:cancelar', (e) => {
 });
 
 ipc.on('arquivo:ler', (e) => {
-    lerArquivo.close();
     criarListaEntradas();
+    lerArquivo.close();
 });
 
 function criarNovaEntrada(){

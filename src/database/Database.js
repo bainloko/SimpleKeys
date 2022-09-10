@@ -18,10 +18,11 @@ const conectar = (path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, s
             logging: (msg) => { log; log.info(msg); },
             storage: path
         });
-    
+
+        // database.sync();
         Settings.init(database, descArquivo, expiraArquivo, chaveReserva);
         Entradas.init(database);
-
+        database.sync();
         database.authenticate('PRAGMA key = "' + senha + '"').then(() => {
             log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!");
         
