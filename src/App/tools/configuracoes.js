@@ -9,13 +9,10 @@ const { ipcRenderer: ipc } = require('electron-better-ipc');
 const fse = require('fs-extra');
 const Path = require('path');
 
-const Sequelize = require('sequelize');
-const { conectar } = require('../../database/Database.js');
+const { Op } = require('sequelize');
 const Settings = require('../../model/Settings.js');
 
 const log = require('electron-log');
-
-const { or } = Sequelize.Op;
 
 async function lerConfiguracoes(configBanco){
     // path? copiar para a pasta do usuário? lookup json e edição?

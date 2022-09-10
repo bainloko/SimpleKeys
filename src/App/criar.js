@@ -7,6 +7,8 @@
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default;
 
+const { conectar } = require('../database/Database.js');
+
 const Store = require('electron-store');
 const store = new Store();
 
@@ -26,10 +28,15 @@ function novoCriar(nomeArq, descArq, expiraArq, chaveReserva, senhaArq){
     let path = store.get("pathArquivo");
     
     try {
-        ipc.send('arquivo:novo:criar', path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
+        const database = conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq);
+        ipc.send('arquivo:novo:criar');
+
+        return database;
     } catch (error){
         log.error("Houve um problema na criacao do Banco, tente novamente! " + error);
         alert("Houve um problema na criação do Banco, tente novamente! " + error);
+
+        return null;
     }
 }
 

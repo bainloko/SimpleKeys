@@ -7,6 +7,6 @@
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default;
 
-ipc.on('entrada:criar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
-    cadastrarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt); //
+ipc.on('entrada:criar', (e, [nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt]) => {
+    cadastrarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt);
 });

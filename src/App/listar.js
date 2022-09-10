@@ -9,9 +9,18 @@ const ContextMenu = require('secure-electron-context-menu').default;
 
 const Arquivo = require('../App/tools/Arquivo.js');
 
-ipc.on('arquivo:novo:receive', (e, database) => {
+ipc.on('arquivo:novo:receive', (e) => {
     try {
-        Arquivo.lerEntradas(database);
+        Arquivo.lerEntradas();
+    } catch (error){
+        log.info("Erro na listagem das entradas. Tente novamente! " + error);
+        alert("Erro na listagem das entradas. Tente novamente! " + error);
+    }
+});
+
+ipc.on('arquivo:ler:receive', (e) => {
+    try {
+        Arquivo.lerEntradas();
     } catch (error){
         log.info("Erro na listagem das entradas. Tente novamente! " + error);
         alert("Erro na listagem das entradas. Tente novamente! " + error);

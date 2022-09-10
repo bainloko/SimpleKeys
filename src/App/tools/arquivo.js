@@ -11,7 +11,7 @@ const Entradas = require('../../model/Entradas.js');
 
 const log = require('electron-log');
 
-async function cadastrarEntradas(database, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
         const resultado = await database.sync({ force: true });
         log.info(resultado);
@@ -36,7 +36,7 @@ async function cadastrarEntradas(database, nomeEntradas, descEntradas, siteEntra
     }
 }
 
-async function lerEntradas(database){
+async function lerEntradas(){
     try {
         const entradas = await Entradas.findAll();
         log.info(entradas);
@@ -50,7 +50,7 @@ async function lerEntradas(database){
     }
 }
 
-async function pesquisarEntradas(database, pesquisa){
+async function pesquisarEntradas(pesquisa){
     try {
         const entradas = await Entradas.findAll({
             where: {
@@ -74,7 +74,7 @@ async function pesquisarEntradas(database, pesquisa){
     }
 }
 
-async function editarEntradas(database, selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
         const entradas = await Entradas.findByPk(selecaoAtual).then(() => {
             entradas.nome = nomeEntradas;
@@ -104,7 +104,7 @@ async function editarEntradas(database, selecaoAtual, nomeEntradas, descEntradas
     }
 }
 
-async function apagarEntradas(database, selecaoAtual){
+async function apagarEntradas(selecaoAtual){
     try {
         await Entradas.destroy({ where: { id: selecaoAtual }});
         log.error("Entrada(s) apagadas com sucesso! id: " + selecaoAtual);

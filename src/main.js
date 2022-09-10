@@ -9,8 +9,6 @@ const { app, BrowserWindow, Menu, Notification, dialog } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
 const { showAboutWindow } = require('electron-util');
 
-const { conectar } = require('./database/Database.js');
-
 const Store = require('electron-store');
 const store = new Store();
 
@@ -39,7 +37,7 @@ function criarTelaInicial(){
             nodeIntegration: true
         }
     });
-
+    
     (app.isPackaged) ? Menu.setApplicationMenu(null) : log.info("Menu PROD aberto!");
 
     telaInicial.loadFile('src/views/index.html');
@@ -259,9 +257,8 @@ ipc.on('arquivo:novo:salvar', (e, path) => {
     });
 });
 
-ipc.on('arquivo:novo:criar', (e, path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq) => {
+ipc.on('arquivo:novo:criar', (e) => {
     criarListaEntradas();
-    ipc.sendToRenderers('arquivo:novo:receive', conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senhaArq));
 });
 
 function criarLerArquivo(){
@@ -345,10 +342,9 @@ ipc.on('arquivo:ler:cancelar', (e) => {
     lerArquivo.close();
 });
 
-ipc.on('arquivo:ler', (e, path, nomeArq, senhaArq) => {
+ipc.on('arquivo:ler', (e) => {
     lerArquivo.close();
     criarListaEntradas();
-    ipc.sendToRenderers('arquivo:ler:receive', conectar(path, nomeArq, "", "", false, senhaArq));
 });
 
 function criarNovaEntrada(){
