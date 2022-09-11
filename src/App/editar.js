@@ -8,7 +8,7 @@ const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default;
 
 const { conectar } = require('../database/Database.js');
-
+const database = require('../database/Database.js');
 const Arquivo = require('../App/tools/Arquivo.js');
 
 const Store = require('electron-store');

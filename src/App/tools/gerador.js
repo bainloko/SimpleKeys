@@ -35,7 +35,7 @@ function generate(size){
     return r;
 }
 
-export default function gerarSenhas(){
+function gerarSenhas(){
     let qtdSenhas = document.getElementById("qtdSenhas");
     let comprimentoSenha = document.getElementById("comprimentoSenha");
     let lowerCase = document.getElementById("lowerCase");
@@ -66,3 +66,5 @@ export default function gerarSenhas(){
         alert("Ocorreu um erro inesperado na geração das senhas! " + error);
     }
 }
+
+module.exports = { gerarSenhas };

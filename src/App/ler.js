@@ -50,6 +50,7 @@ eyeShown.addEventListener("click", () => {
 const okButton = document.getElementById("okButton");
 const localChave = document.getElementById("localChave");
 const localChaveiro = document.getElementById("localChaveiro");
+const localChaveiroCheckbox = document.getElementById("localChaveiroCheckbox");
 
 ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
     let chavePath = path.toString().replace("[\\]", "&#92;");
@@ -70,21 +71,24 @@ ipc.on('arquivo:ler:pathArquivo', (e, path) => {
         store.set("pathArquivo", lerPath);
         localChaveiro.innerText = lerPath;
         localChaveiro.title = lerPath;
+        localChaveiroCheckbox.checked = true;
     } else {
         alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
     }
 });
 
 function setar(path, nomeArq, senha){
-    store.set("pathArquivo", path);
-    store.set("nomeArquivo", nomeArq);
-    store.set("senhaArquivo", senha);
+    if ((path && nomeArq && senha) != ("" || null || undefined || [])) {
+        localChaveiroCheckbox.checked = true;
+    } else {
+        alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
+    }
 }
 
 okButton.addEventListener("click", () => {
-    let lerPath = localChaveiro.innerText;
-    let nomeArq = lerPath.slice(0, (path.length - 3)).substring((path.lastIndexOf("/") + 1));
-    let senha = passwordInput.value;
+    let lerPath = store.get("pathArquivo");
+    let nomeArq = lerPath.slice(0, (path.length - 3)).substring((path.lastIndexOf("/") + 1)); store.set("nomeArquivo", nomeArq);
+    let senha = passwordInput.value; store.set("senhaArquivo", senha);
 
     (lerPath != ("" || null || undefined || [])) ? setar(lerPath, nomeArq, senha) : alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");
 });

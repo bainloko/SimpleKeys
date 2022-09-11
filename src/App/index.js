@@ -5,3 +5,6 @@
 */
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
+
+const Store = require('electron-store');
+const store = new Store();

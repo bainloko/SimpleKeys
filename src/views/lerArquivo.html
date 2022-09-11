@@ -73,6 +73,13 @@
                 placeholder="..."
                 autocomplete="off"
                 class="ler-arquivo-textinput input"
+                onchange="store.set('senhaArquivo', inpPassword.value);"
+              />
+              <input 
+                id="localChaveiroCheckbox"
+                type="checkbox"
+                required
+                style="display: none;"
               />
               <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
               <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
@@ -94,7 +101,7 @@
                 onclick="ipc.send('arquivo:ler:path');"
               />
             </div>
-            <button type="submit" id="okButton" class="ler-arquivo-o-k button" onclick="(inpPassword.value != ('' || null || undefined || [])) ? ipc.send('arquivo:ler') : alert('Digite a senha para acessar o arquivo!');">OK</button>
+            <button type="submit" id="okButton" class="ler-arquivo-o-k button" onclick="((localChaveiro.innerText && inpPassword.value) != ('' || null || undefined || [])) ? ipc.send('arquivo:ler') : alert('Digite a senha para acessar o Arquivo!');">OK</button>
             <button type="button" class="ler-arquivo-cancelar button" onclick="ipc.send('arquivo:ler:cancelar');">
               <span>
                 <span>Cancelar</span>

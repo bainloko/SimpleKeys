@@ -10,7 +10,8 @@ const fse = require('fs-extra');
 const Path = require('path');
 
 const { Op } = require('sequelize');
-const Settings = require('../../model/Settings.js');
+const database = require('../database/Database.js');
+const Settings = require('../model/Settings.js');
 
 const log = require('electron-log');
 

@@ -8,7 +8,6 @@ const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default;
 
 const { conectar } = require('../database/Database.js');
-
 const Arquivo = require('../App/tools/Arquivo.js');
 
 const Store = require('electron-store');
@@ -24,14 +23,11 @@ const listar = () => {
         let expiraArq = store.get("expiraArquivo");
         let chaveReserva = store.get("chaveReserva");
         let senha = store.get("senhaArquivo");
-    
-        let conexao = conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha);
-        Arquivo.lerEntradas();
-    
-        return conexao;
+
+        return (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? Arquivo.lerEntradas() : () => { log.error("Erro na listagem das entradas! Tente novamente!"); alert("Erro na listagem das entradas! Tente novamente!"); }
     } catch (error){
-        log.info("Erro na listagem das entradas. Tente novamente! " + error);
-        alert("Erro na listagem das entradas. Tente novamente! " + error);
+        log.error("Erro na listagem das entradas: " + error + "! Tente novamente!"); 
+        alert("Erro na listagem das entradas: " + error + "! Tente novamente!");
     }
 }
 
@@ -43,4 +39,4 @@ const listar = () => {
 
 //criar outro strength.js mas com check senhas duplicadas e notifications
 
-module.exports = { listar };
+module.exports = { listar, Arquivo };

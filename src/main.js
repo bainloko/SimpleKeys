@@ -9,8 +9,6 @@ const { app, BrowserWindow, Menu, Notification, dialog } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
 const { showAboutWindow } = require('electron-util');
 
-require('./database/Database.js');
-
 const Store = require('electron-store');
 const store = new Store();
 
@@ -22,6 +20,23 @@ const lock = app.requestSingleInstanceLock();
 let telaInicial = null;
 let lerArquivo = null;
 let WIN = null;
+
+function fecharBanco(){
+    try {
+        store.set("pathArquivo", "");
+        store.set("nomeArquivo", "");
+        store.set("descArquivo", "");
+        store.set("expiraArquivo", 0);
+        store.set("chaveReserva", false);
+        store.set("senhaArquivo", "");
+        
+        Menu.setApplicationMenu(null);
+        telaInicial.loadFile('src/views/index.html');
+    } catch (error){
+        log.error("Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
+        alert("Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
+    }
+}
 
 function criarTelaInicial(){
     // Cria a tela inicial
@@ -72,14 +87,12 @@ function criarListaEntradas(){
                 },
                 {
                     label: 'Fechar Arquivo',
-                    click(){ /* Salvar, criptografar, limpar área de transferência e telaInicial.setBrowserView(telaInicial); */ }
+                    click(){ fecharBanco(); /* limpar área de transferência + Notificação */ }
                 },
-                {
-                    label: 'Salvar Como',
-                    submenu: [
-                        //Abrir explorer
-                    ],
-                },
+                // { FUNCIONALIDADE FUTURA
+                //     label: 'Salvar Como',
+                //     click(){  },
+                // },
                 {
                     label: 'Alterar Senha Mestra',
                     click(){ /* Salvar, navegar para alterarSenha e validar, criptografar banco, limpar área de transferência telaInicial.setBrowserView(telaInicial); */ },
@@ -98,7 +111,7 @@ function criarListaEntradas(){
                 // },
                 {
                     label: 'Trancar Arquivo',
-                    click(){ /* Salvar, criptografar, limpar área de transferência e telaInicial.setBrowserView(telaInicial); */ },
+                    click(){ fecharBanco(); /* limpar área de transferência + Notificação */ },
                 },
                 {
                     label: 'Sair',
@@ -112,22 +125,22 @@ function criarListaEntradas(){
             submenu: [
                 {
                     label: 'Copiar Usuário',
-                    click(){  },
+                    click(){ /* copiar para a área de transferência */ },
                 },
                 {
                     label: 'Copiar Senha',
-                    click(){  },
+                    click(){ /* copiar para a área de transferência */ },
                 },
                 {
                     label: 'Copiar Campos',
                     submenu: [
                         {
                             label: 'Copiar Link',
-                            click(){  },
+                            click(){ /* copiar para a área de transferência */ },
                         },
                         {
                             label: 'Copiar Descrição',
-                            click(){  },
+                            click(){ /* copiar para a área de transferência */ },
                         },
                     ]
                 },
@@ -166,7 +179,7 @@ function criarListaEntradas(){
                     click(){  },
                 },
                 {
-                    label: 'Senhas Duplicadas ou Similares',
+                    label: 'Senhas Duplicadas ou Similares', //Filtro senhas duplicadas ou similares
                     click(){  }
                 },
             ]
@@ -413,6 +426,13 @@ app.on('ready', (e) => {
 });
 
 app.on('window-all-closed', (e) => {
+    store.set("pathArquivo", "");
+    store.set("nomeArquivo", "");
+    store.set("descArquivo", "");
+    store.set("expiraArquivo", 0);
+    store.set("chaveReserva", false);
+    store.set("senhaArquivo", "");
+
     // Fecha o App
     app.quit();
 });

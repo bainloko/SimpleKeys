@@ -13,9 +13,6 @@ const log = require('electron-log');
 
 async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
-        const resultado = await database.sync({ force: true });
-        log.info(resultado);
-    
         const resultadoCreate = await Entradas.create({
             nome: nomeEntradas,
             descricao: descEntradas,
