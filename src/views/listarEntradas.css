@@ -27,10 +27,19 @@ body {
   text-decoration: underline;
 }
 .listarEntradas-text1 {
-  left: var(--dl-space-space-twounits);
+  left: 69px;
   bottom: var(--dl-space-space-twounits);
   position: absolute;
   align-self: flex-start;
+}
+#imgCadeado {
+  width: 36px;
+  height: 44px;
+  left: var(--dl-space-space-sixunits);
+  bottom: -12px;
+  object-fit: cover;
+  position: absolute;
+  cursor: pointer;
 }
 .listarEntradas-text2 {
   color: #000000;
@@ -41,10 +50,10 @@ body {
 }
 .listarEntradas-container1 {
   flex: 0 0 auto;
-  left: 64px;
-  width: 23%;
+  left: 56px;
+  width: 19.4%;
   bottom: 80px;
-  height: 75%;
+  height: 74%;
   display: flex;
   position: absolute;
   align-items: flex-start;
@@ -53,26 +62,41 @@ body {
   border-width: 1px;
 }
 .listarEntradas-container2 {
-  top: 13.9%;
+  top: 14.9%;
   flex: 0 0 auto;
-  left: 28.5%;
-  width: 66%;
+  left: 24.5%;
+  width: 70%;
   height: 5.1%;
-  display: flex;
   position: absolute;
-  align-items: flex-start;
+  align-items: center;
   border-color: #000000;
   border-style: inset;
   border-width: 1px;
+  flex-direction: column;
+  justify-content: center;
   background-color: #fdfdfd;
 }
+#textosTH {
+  top: 15.5%;
+  left: 24.5%;
+  position: absolute;
+  width: 69%;
+}
+#textosTH th:nth-child(1){ padding-left: 25px; width: 25px; }
+#textosTH th:nth-child(2){ padding-left: 40px; width: 100px; }
+#textosTH th:nth-child(3){ padding-left: 35px; width: 100px; }
+#textosTH th:nth-child(4){ padding-left: 50px; width: 120px; }
+#textosTH th:nth-child(5){ padding-left: 40px; width: 130px; }
+#textosTH th:nth-child(6){ padding-left: 25px; width: 100px; }
+#textosTH th:nth-child(7){ padding-left: 35px; }
+#textosTH th:nth-child(8){ padding-left: 10px; min-width: 25px; }
+#textosTH th:nth-child(9){ padding-left: 35px; min-width: 25px; }
 .listarEntradas-container3 {
   flex: 0 0 auto;
-  left: 28.5%;
-  width: 66%;
+  left: 24.5%;
+  width: 70%;
   bottom: 80px;
-  height: 70%;
-  display: flex;
+  height: 69%;
   position: absolute;
   align-items: center;
   border-color: #000000;
@@ -82,20 +106,22 @@ body {
   justify-content: center;
   background-color: #e6e6e6;
 }
-.listarEntradas-icon {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
-  cursor: pointer;
+#textosTD {
+  top: 21%;
+  left: 24.5%;
+  position: absolute;
+  width: 69%;
 }
-.listarEntradas-image {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
-  object-fit: cover;
-  cursor: pointer;
-}
-.listarEntradas-icon02 {
+#textosTD td:nth-child(1){ padding-left: 25px; min-width: 25px; text-align: center; }
+#textosTD td:nth-child(2){ padding-left: 20px; min-width: 100px; text-align: center; }
+#textosTD td:nth-child(3){ padding-left: 10px; max-width: 120px; word-wrap: break-word; text-align: center; padding-right: 10px; }
+#textosTD td:nth-child(4){ padding-left: 20px; max-width: 130px; word-wrap: break-word; text-align: center; }
+#textosTD td:nth-child(5){ padding-left: 20px; min-width: 110px; word-wrap: break-word; text-align: left; padding-right: 10px; }
+#textosTD td:nth-child(6){ padding-left: 10px; max-width: 110px; word-wrap: break-word; text-align: left; padding-right: 10px; }
+#textosTD td:nth-child(7){ padding-left: 25px; max-width: 80px; word-wrap: break-word; text-align: center; }
+#textosTD td:nth-child(8){ padding-left: 15px; min-width: 25px; }
+#textosTD td:nth-child(9){ width: 115px; word-wrap: break-word; text-align: center; }
+.listarEntradas-iconConfig {
   top: 30px;
   right: var(--dl-space-space-fourunits);
   width: var(--dl-size-size-small);
@@ -103,7 +129,7 @@ body {
   position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon03 {
+.listarEntradas-iconSobre {
   top: 30px;
   right: var(--dl-space-space-unit);
   width: var(--dl-size-size-small);
@@ -111,69 +137,119 @@ body {
   position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon06 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+.listarEntradas-icon svg {
+  width: 45px;
+  height: 45px;
+  top: 40px;
+  left: 65px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon08 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+.listarEntradas-icon2 svg {
+  width: 54px;
+  height: 54px;
+  top: 40px;
+  left: 120px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon10 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+.listarEntradas-icon3 svg {
+  width: 50px;
+  height: 50px;
+  top: 39px;
+  left: 180px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon12 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+#barra1 {
+  font-size: 42px;
+  top: 39px;
+  left: 235px;
+  position: absolute;
+}
+.listarEntradas-icon4 svg {
+  width: 50px;
+  height: 50px;
+  top: 40px;
+  left: 253px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon14 {
+.listarEntradas-icon5 svg {
   width: 48px;
   height: 48px;
-  align-self: flex-start;
+  top: 41px;
+  left: 305px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon16 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+.listarEntradas-icon10 svg {
+  width: 54px;
+  height: 54px;
+  top: 40px;
+  left: 350px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon18 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+.listarEntradas-icon6 svg {
+  width: 44px;
+  height: 44px;
+  top: 44px;
+  left: 720px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon20 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+.listarEntradas-icon7 svg {
+  width: 44px;
+  height: 42px;
+  top: 46px;
+  left: 776px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon25 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+#barra2 {
+  font-size: 42px;
+  top: 42px;
+  left: 830px;
+  position: absolute;
+}
+.listarEntradas-icon8 svg {
+  width: 52px;
+  height: 52px;
+  top: 43px;
+  left: 855px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon27 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+.listarEntradas-icon9 svg {
+  width: 42px;
+  height: 40px;
+  top: 48px;
+  left: 915px;
+  position: absolute;
   cursor: pointer;
 }
-.listarEntradas-icon29 {
-  width: 48px;
-  height: 48px;
-  align-self: flex-start;
+.listarEntradas-icon11 svg {
+  width: 44px;
+  height: 44px;
+  top: 45px;
+  left: 962px;
+  position: absolute;
+  cursor: pointer;
+}
+.listarEntradas-image {
+  width: 38px;
+  height: 52px;
+  top: 38px;
+  left: 1015px;
+  position: absolute;
+  cursor: pointer;
+}
+.listarEntradas-icon12 svg {
+  width: 52px;
+  height: 52px;
+  top: 44px;
+  left: 1055px;
+  position: absolute;
   cursor: pointer;
 }

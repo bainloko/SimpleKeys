@@ -17,6 +17,7 @@ const store = new Store();
 const log = require('electron-log');
 
 ipc.on('entrada:editar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
-    //alerts e checks de verificação após editar (are you sure?)
-    editarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt);
+    store.set("conn", true);
+    //alerts e checks de verificação antes de editar (are you sure?)
+    Arquivo.editarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt);
 });

@@ -23,6 +23,7 @@ let WIN = null;
 
 function fecharBanco(){
     try {
+        store.set("conn", false);
         store.set("pathArquivo", "");
         store.set("nomeArquivo", "");
         store.set("descArquivo", "");
@@ -426,6 +427,7 @@ app.on('ready', (e) => {
 });
 
 app.on('window-all-closed', (e) => {
+    store.set("conn", false);
     store.set("pathArquivo", "");
     store.set("nomeArquivo", "");
     store.set("descArquivo", "");

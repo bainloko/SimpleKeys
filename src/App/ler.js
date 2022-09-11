@@ -79,6 +79,7 @@ ipc.on('arquivo:ler:pathArquivo', (e, path) => {
 
 function setar(path, nomeArq, senha){
     if ((path && nomeArq && senha) != ("" || null || undefined || [])) {
+        store.set("conn", true);
         localChaveiroCheckbox.checked = true;
     } else {
         alert("Selecione um arquivo para abrir clicando na pasta abaixo da senha!");

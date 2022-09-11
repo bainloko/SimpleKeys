@@ -17,6 +17,7 @@ const log = require('electron-log');
 
 const listar = () => {
     try {
+        let conn = store.get("conn");
         let path = store.get("pathArquivo");
         let nomeArq = store.get("nomeArquivo");
         let descArq = store.get("descArquivo");
@@ -24,7 +25,7 @@ const listar = () => {
         let chaveReserva = store.get("chaveReserva");
         let senha = store.get("senhaArquivo");
 
-        return (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? Arquivo.lerEntradas() : () => { log.error("Erro na listagem das entradas! Tente novamente!"); alert("Erro na listagem das entradas! Tente novamente!"); }
+        return (conectar(conn, path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? Arquivo.lerEntradas() : () => { log.error("Erro na listagem das entradas! Tente novamente!"); alert("Erro na listagem das entradas! Tente novamente!"); }
     } catch (error){
         log.error("Erro na listagem das entradas: " + error + "! Tente novamente!"); 
         alert("Erro na listagem das entradas: " + error + "! Tente novamente!");
