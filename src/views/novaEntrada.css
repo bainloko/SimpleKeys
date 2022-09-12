@@ -108,7 +108,7 @@ body {
   top: -16px;
   flex: 0 0 auto;
   left: 720px;
-  width: 520px;
+  width: 490px;
   border: 2px solid black;
   bottom: 0px;
   height: 430px;
@@ -125,16 +125,16 @@ body {
   text-align: center;
 }
 .nova-entrada-icon {
-  top: 30px;
-  right: var(--dl-space-space-fourunits);
+  top: 50px;
+  right: 117px;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
   position: absolute;
   cursor: pointer;
 }
 .nova-entrada-icon2 {
-  top: 30px;
-  right: var(--dl-space-space-unit);
+  top: 50px;
+  right: 69px;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
   position: absolute;

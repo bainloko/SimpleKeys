@@ -7,10 +7,9 @@
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 
 const fse = require('fs-extra');
-const Path = require('path');
 
-const Sequelize = require('sequelize');
-const database = require('../database/Database.js');
+const { Op } = require('sequelize');
+const Entradas = require('../model/Entradas.js');
 const bcrypt = require('bcrypt');
 
 const log = require('electron-log');

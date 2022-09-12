@@ -5,7 +5,7 @@
         * SimpleKeys
         * listarEntradas.html
         * 02/set/2022
-	-->
+  -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="twitter:card" content="summary_large_image" />
@@ -36,6 +36,18 @@
     <link rel="stylesheet" href="./style.css" />
     <title>SimpleKeys - Lista das Entradas</title>
     <script src="../App/tools/zxcvbn.js"></script>
+    <script src="../App/listar.js"></script>
+    <script>
+      const $ = require('../jquery-3.6.1.min.js');
+      let res = "", lista; listar();
+      $(document).ready(async () => {
+        const entradas = Arquivo.lerEntradas();
+        lista = await entradas;
+        lista.forEach((entrada) => {
+          res += ` <tr id="textosTD${entrada.id}"><td style="min-width: var(--id); max-width: var(--id); word-wrap: break-word; text-align: center;">${entrada.id}</td><td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.nome}</td><td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.descricao}</td><td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); padding-left: 5px; word-wrap: break-word; text-align: center;">${entrada.site}</td><td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.login}</td><td style="min-width: var(--senha); max-width: var(--senha); word-wrap: break-word; text-align: center;"><input type="password" id="idP${entrada.id}" value="${entrada.senha}" disabled /></td><td style="min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); word-wrap: break-word; text-align: center;">${entrada.expira}</td><td style="min-width: var(--vb); max-width: var(--vb); word-wrap: break-word; text-align: center;">&#124;</td><td style="min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); padding-right: 5px; word-wrap: break-word; text-align: center;"><input type="checkbox" id="idC${entrada.id}" class="listarEntradas-checkbox" title="Clique Aqui Para Selecionar Esta Entrada" onchange="disableIfChecked(event, ${entrada.id});" /></td></tr> `;
+        }); document.getElementById('container3').innerHTML = res;
+      });
+    </script>
   </head>
   <body>
     <div>
@@ -57,9 +69,9 @@
             grupoImg, grupoLista
           </span>
         </div>
-        <table>
-          <tbody>
-            <div class="listarEntradas-container2">
+        <div>
+          <table>
+            <span class="listarEntradas-container2">
               <tr id="textosTH">
                 <th>ID</th>
                 <th>Nome</th>
@@ -71,22 +83,13 @@
                 <th>&#124;</th>
                 <th>Ações</th>
               </tr>
-            </div>
-            <div class="listarEntradas-container3">
-              <tr id="textosTD">
-                <td>1</td>
-                <td>Kaua M Cousillas</td>
-                <td id="ejsDescricao">Entrada Teste BD</td>
-                <td>kaua.cousillas@outlook.com</td>
-                <td>testeeeeee</td>
-                <td>testeeeeee</td>
-                <td>S;2021/08/08</td>
-                <td>&#124;</td>
-                <td>Selecione Para Alterar</td>
-              </tr>
-            </div>
-          </tbody>
-        </table>
+            </span>
+            <span class="listarEntradas-container3">
+              <tbody id="container3">
+              </tbody>
+            </span>
+          </table>
+        </div>
         <svg viewBox="0 0 1024 1024" class="listarEntradas-iconConfig" onclick="ipc.send('opcao:config');">
           <path
             d="M512 662q62 0 106-44t44-106-44-106-106-44-106 44-44 106 44 106 106 44zM830 554l90 70q14 10 4 28l-86 148q-8 14-26 8l-106-42q-42 30-72 42l-16 112q-4 18-20 18h-172q-16 0-20-18l-16-112q-38-16-72-42l-106 42q-18 6-26-8l-86-148q-10-18 4-28l90-70q-2-14-2-42t2-42l-90-70q-14-10-4-28l86-148q8-14 26-8l106 42q42-30 72-42l16-112q4-18 20-18h172q16 0 20 18l16 112q38 16 72 42l106-42q18-6 26 8l86 148q10 18-4 28l-90 70q2 14 2 42t-2 42z"
@@ -217,10 +220,5 @@
         <div cm-template="alertTemplate"></div>
       </article>
     </div>
-    <script src="../App/listar.js"></script>
-    <script>
-      const database = () => listar();
-      database();
-    </script>
   </body>
 </html>

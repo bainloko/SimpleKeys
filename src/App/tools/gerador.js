@@ -7,6 +7,8 @@
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default;
 
+const { randomInt } = require('node:crypto');
+
 const log = require('electron-log');
 
 const lowerCaseChr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -19,10 +21,10 @@ function generate(size){
 
     for (let i = 0; i < size; i++){
         while (size > r.length){
-            (lowerCase.checked === true) ? l = lowerCaseChr[Math.floor(Math.random() * lowerCaseChr.length)] : log.info("Letra minuscula usada!");
-            (upperCase.checked === true) ? u = upperCaseChr[Math.floor(Math.random() * upperCaseChr.length)] : log.info("Letra maiuscula usada!");
-            (numbers.checked === true) ? n = numbersChr[Math.floor(Math.random() * numbersChr.length)] : log.info("Numero usado!");
-            (symbols.checked === true) ? s = symbolsChr[Math.floor(Math.random() * symbolsChr.length)] : log.info("Simbolo usado!");
+            (lowerCase.checked === true) ? l = lowerCaseChr[randomInt((lowerCaseChr.length + 1))] : log.info("Letra minuscula usada!");
+            (upperCase.checked === true) ? u = upperCaseChr[randomInt((upperCaseChr.length + 1))] : log.info("Letra maiuscula usada!");
+            (numbers.checked === true) ? n = numbersChr[randomInt((numbersChr.length + 1))] : log.info("Numero usado!");
+            (symbols.checked === true) ? s = symbolsChr[randomInt((symbolsChr.length + 1))] : log.info("Simbolo usado!");
 
             (size > r.length) ? r += l : r.slice(0, size - 1);
             (size > r.length) ? r += u : r.slice(0, size - 1);
@@ -31,7 +33,7 @@ function generate(size){
         }
     }
 
-    r = [...r].sort(() => Math.random() - .5).join('');
+    r = [...r].sort(() => randomInt(2) - .5).join('');
     return r;
 }
 

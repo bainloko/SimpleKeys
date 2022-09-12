@@ -22,7 +22,7 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, login
             expira: expira,
             // grupoImg: grupoImg,
             // grupoLista: grupoLista 
-        }); log.info(resultadoCreate);
+        });
 
         return resultadoCreate;
     } catch (error){
@@ -36,7 +36,6 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, login
 async function lerEntradas(){
     try {
         const entradas = await Entradas.findAll();
-        log.info(entradas);
 
         return entradas;
     } catch (error){
@@ -134,4 +133,4 @@ async function consultarBanco(path){
     }
 }
 
-module.exports = { cadastrarEntradas, lerEntradas, pesquisarEntradas, editarEntradas, apagarEntradas, consultarBanco };
+module.exports = { cadastrarEntradas, lerEntradas, Entradas, pesquisarEntradas, editarEntradas, apagarEntradas, consultarBanco };

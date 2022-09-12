@@ -23,7 +23,6 @@ ipc.on('arquivo:novo:pathArquivo', (e, path) => {
 const criarButton = document.getElementById("criarButton");
 
 criarButton.addEventListener("click", () => {
-    store.set("conn", true);
     store.set("nomeArquivo", inputNomeArq.value);
     store.set("descArquivo", inputDescArq.value);
     store.set("expiraArquivo", expira.value);

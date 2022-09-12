@@ -84,7 +84,7 @@ body {
   top: -16px;
   flex: 0 0 auto;
   left: 720px;
-  width: 520px;
+  width: 490px;
   border: 2px solid black;
   bottom: 0px;
   height: 430px;
@@ -101,7 +101,7 @@ body {
   text-align: center;
 }
 .gerador-icon {
-  top: 30px;
+  top: 50px;
   right: var(--dl-space-space-fourunits);
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
@@ -109,7 +109,7 @@ body {
   cursor: pointer;
 }
 .gerador-icon2 {
-  top: 30px;
+  top: 50px;
   right: var(--dl-space-space-unit);
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);

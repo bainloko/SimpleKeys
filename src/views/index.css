@@ -123,7 +123,7 @@ body {
   object-fit: cover;
 }
 .desktop-icon {
-  top: 36px;
+  top: 50px;
   right: var(--dl-space-space-fourunits);
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
@@ -131,7 +131,7 @@ body {
   cursor: pointer;
 }
 .desktop-icon2 {
-  top: 36px;
+  top: 50px;
   right: var(--dl-space-space-unit);
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);

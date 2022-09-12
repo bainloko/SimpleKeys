@@ -15,9 +15,10 @@ const store = new Store();
 
 const log = require('electron-log');
 
-const listar = () => {
+let selecionada;
+
+function listar(){
     try {
-        let conn = store.get("conn");
         let path = store.get("pathArquivo");
         let nomeArq = store.get("nomeArquivo");
         let descArq = store.get("descArquivo");
@@ -25,11 +26,22 @@ const listar = () => {
         let chaveReserva = store.get("chaveReserva");
         let senha = store.get("senhaArquivo");
 
-        return (conectar(conn, path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? Arquivo.lerEntradas() : () => { log.error("Erro na listagem das entradas! Tente novamente!"); alert("Erro na listagem das entradas! Tente novamente!"); }
+        (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!") : () => { log.error("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); alert("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); }
     } catch (error){
         log.error("Erro na listagem das entradas: " + error + "! Tente novamente!"); 
         alert("Erro na listagem das entradas: " + error + "! Tente novamente!");
     }
+}
+
+function disableIfChecked(event, entrada){
+    let target = event.target;
+    Array.from(document.querySelectorAll('input.listarEntradas-checkbox')).filter(
+        el => el !== target
+    ).forEach(
+        el => el.disabled = target.checked
+    );
+
+    return selecionada = entrada;
 }
 
 //ipc redirecionar adicionar
@@ -40,4 +52,4 @@ const listar = () => {
 
 //criar outro strength.js mas com check senhas duplicadas e notifications
 
-module.exports = { listar, Arquivo };
+module.exports = { listar, disableIfChecked };

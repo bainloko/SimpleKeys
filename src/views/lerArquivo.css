@@ -111,7 +111,7 @@ body {
   cursor: pointer;
 }
 .ler-arquivo-image {
-  top: 0px;
+  top: 5px;
   left: 0px;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
@@ -122,11 +122,11 @@ body {
   margin-bottom: auto;
 }
 .ler-arquivo-image1 {
-  width: 52px;
+  width: 38px;
   height: 52px;
   margin-top: var(--dl-space-space-unit);
   object-fit: cover;
-  margin-right: var(--dl-space-space-unit);
+  margin-right: var(--dl-space-space-oneandhalfunits);
 }
 .ler-arquivo-container4 {
   top: 115px;

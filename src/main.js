@@ -21,24 +21,6 @@ let telaInicial = null;
 let lerArquivo = null;
 let WIN = null;
 
-function fecharBanco(){
-    try {
-        store.set("conn", false);
-        store.set("pathArquivo", "");
-        store.set("nomeArquivo", "");
-        store.set("descArquivo", "");
-        store.set("expiraArquivo", 0);
-        store.set("chaveReserva", false);
-        store.set("senhaArquivo", "");
-        
-        Menu.setApplicationMenu(null);
-        telaInicial.loadFile('src/views/index.html');
-    } catch (error){
-        log.error("Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
-        alert("Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
-    }
-}
-
 function criarTelaInicial(){
     // Cria a tela inicial
     telaInicial = new BrowserWindow({
@@ -69,6 +51,23 @@ function criarTelaInicial(){
     telaInicial.on('closed', () => {
         app.quit();
     });
+}
+
+function fecharBanco(){
+    try {
+        store.set("pathArquivo", "");
+        store.set("nomeArquivo", "");
+        store.set("descArquivo", "");
+        store.set("expiraArquivo", 0);
+        store.set("chaveReserva", false);
+        store.set("senhaArquivo", "");
+        
+        Menu.setApplicationMenu(null);
+        telaInicial.loadFile('src/views/index.html');
+    } catch (error){
+        log.error("Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
+        alert("Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
+    }
 }
 
 function criarListaEntradas(){
@@ -146,7 +145,7 @@ function criarListaEntradas(){
                     ]
                 },
                 {
-                    label: 'Adicionar Entrada',
+                    label: 'Cadastrar Entrada',
                     click(){ criarNovaEntrada(); }
                 },
                 {
@@ -235,7 +234,7 @@ function criarListaEntradas(){
             ]
         },
     ]; const menu = Menu.buildFromTemplate(opcoesMenu);
-    
+
     // Insere o menu
     Menu.setApplicationMenu(menu);
 
@@ -427,7 +426,6 @@ app.on('ready', (e) => {
 });
 
 app.on('window-all-closed', (e) => {
-    store.set("conn", false);
     store.set("pathArquivo", "");
     store.set("nomeArquivo", "");
     store.set("descArquivo", "");
