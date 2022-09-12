@@ -6,9 +6,10 @@
 
 :root {
   --id: 60px;
-  --nomeDescSiteLogin: 125px;
-  --senha: 135px;
-  --expiraAcoes: 80px;
+  --nomeDescSiteLogin: 130px;
+  --senha: 155px;
+  --senhaInp: 115px;
+  --expiraAcoes: 70px;
   --vb: 20px;
 }
 body {
@@ -58,7 +59,7 @@ body {
 .listarEntradas-container1 {
   flex: 0 0 auto;
   left: 56px;
-  width: 19.4%;
+  width: 17.4%;
   bottom: 80px;
   height: 73.9%;
   display: flex;
@@ -71,8 +72,8 @@ body {
 .listarEntradas-container2 {
   top: 15%;
   flex: 0 0 auto;
-  left: 24.5%;
-  width: 70.1%;
+  left: 22.5%;
+  width: 72.1%;
   height: 5.1%;
   position: absolute;
   align-items: center;
@@ -85,23 +86,22 @@ body {
 }
 #textosTH {
   top: 15.5%;
-  left: 24.5%;
+  left: 22%;
   position: absolute;
-  width: 895px;
 }
-#textosTH th:nth-child(1){ min-width: var(--id); max-width: var(--id); }
-#textosTH th:nth-child(2){ min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); }
-#textosTH th:nth-child(3){ min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); }
-#textosTH th:nth-child(4){ min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); }
-#textosTH th:nth-child(5){ min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); }
-#textosTH th:nth-child(6){ min-width: var(--senha); max-width: var(--senha); }
-#textosTH th:nth-child(7){ min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); }
-#textosTH th:nth-child(8){ min-width: var(--vb); max-width: var(--vb); }
-#textosTH th:nth-child(9){ min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); padding-right: 5px; }
+#textosTH th:nth-child(1){ padding-left: 15px; min-width: var(--id); max-width: var(--id); }
+#textosTH th:nth-child(2){ padding-left: 15px; min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); }
+#textosTH th:nth-child(3){ padding-left: 15px; min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); }
+#textosTH th:nth-child(4){ padding-left: 15px; min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); }
+#textosTH th:nth-child(5){ padding-left: 15px; min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); }
+#textosTH th:nth-child(6){ padding-left: 25px; min-width: var(--senha); max-width: var(--senha); }
+#textosTH th:nth-child(7){ padding-left: 60px; min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); }
+#textosTH th:nth-child(8){ padding-left: 53px; min-width: var(--vb); max-width: var(--vb); }
+#textosTH th:nth-child(9){ padding-left: 10px; min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); padding-right: 15px; }
 .listarEntradas-container3 {
   flex: 0 0 auto;
-  left: 24.5%;
-  width: 70.1%;
+  left: 22.5%;
+  width: 72.1%;
   bottom: 80px;
   height: 69%;
   position: absolute;
@@ -116,22 +116,21 @@ body {
 }
 #container3 {
   top: 21%;
-  left: 24.5%;
+  left: 22.5%;
+  margin-left: 5px;
   position: absolute;
   width: 69%;
 }
-/* #textosTD td:nth-child(1){ min-width: var(--id); max-width: var(--id); word-wrap: break-word; text-align: center; }
-#textosTD td:nth-child(2){ min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center; }
-#textosTD td:nth-child(3){ min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center; }
-#textosTD td:nth-child(4){ min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); padding-left: 5px; word-wrap: break-word; text-align: center; }
-#textosTD td:nth-child(5){ min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center; }
-#textosTD td:nth-child(6){ min-width: var(--senha); max-width: var(--senha); word-wrap: break-word; text-align: center; }
-#textosTD td:nth-child(7){ min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); word-wrap: break-word; text-align: center; }
-#textosTD td:nth-child(8){ min-width: var(--vb); max-width: var(--vb); word-wrap: break-word; text-align: center; }
-#textosTD td:nth-child(9){ min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); padding-right: 5px; word-wrap: break-word; text-align: center; } */
+table {
+  border-collapse: collapse;
+}
+td {
+  border: 1px solid black;
+}
 .listarEntradas-checkbox {
   width: 23px;
   height: 23px;
+  margin-right: 10px;
   cursor: pointer;
 }
 .listarEntradas-iconConfig {

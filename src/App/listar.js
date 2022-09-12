@@ -9,6 +9,7 @@ const ContextMenu = require('secure-electron-context-menu').default;
 
 const { conectar } = require('../database/Database.js');
 const Arquivo = require('../App/tools/Arquivo.js');
+const zxcvbn = require('../App/tools/zxcvbn.js');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -36,20 +37,52 @@ function listar(){
 function disableIfChecked(event, entrada){
     let target = event.target;
     Array.from(document.querySelectorAll('input.listarEntradas-checkbox')).filter(
-        el => el !== target
+        element => element !== target
     ).forEach(
-        el => el.disabled = target.checked
+        element => { element.disabled = target.checked }
     );
 
     return selecionada = entrada;
 }
 
-//ipc redirecionar adicionar
+async function copiar(texto){
+    try {
+        await navigator.clipboard.writeText(texto);
+        log.info("Login copiado!");
+        alert("Login copiado!");
+    } catch (err){
+        log.error("A cópia falhou: " + err + "! Tente novamente!");
+        alert("A cópia falhou: " + err + "! Tente novamente!");
+    }
+}
 
-//ipc redirecionar editar
+function verF(senha){
+    let result = zxcvbn(senha);
+    switch (result.score){
+        case 0:
+            alert("Esta senha é muito fraca! Considere trocá-la imediatamente!");
+            break;
+        case 1:
+            alert("Esta senha é fraca! Considere trocá-la imediatamente!");
+            break;
+        case 2:
+            alert("Esta senha é razoável! Considere trocá-la em no máximo 6 meses.");
+            break;
+        case 3:
+            alert("Esta senha é forte! Considere trocá-la daqui, no mínimo, dois anos.");
+            break;
+        case 4:
+            alert("Esta senha é muito forte! Troque-a quando julgar necessário.");
+            break;
+        default:
+            alert("Erro na análise da senha!");
+            break;
+    }
+}
 
-//ipc on entrada deletar
+ipc.on('entrada:apagar', (e) => {
+    let selecaoAtual = store.get('selecionada');
+    Arquivo.apagarEntradas(selecaoAtual);
+});
 
-//criar outro strength.js mas com check senhas duplicadas e notifications
-
-module.exports = { listar, disableIfChecked };
+module.exports = { listar, disableIfChecked, copiar, verF };

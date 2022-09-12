@@ -21,10 +21,10 @@ function generate(size){
 
     for (let i = 0; i < size; i++){
         while (size > r.length){
-            (lowerCase.checked === true) ? l = lowerCaseChr[randomInt((lowerCaseChr.length + 1))] : log.info("Letra minuscula usada!");
-            (upperCase.checked === true) ? u = upperCaseChr[randomInt((upperCaseChr.length + 1))] : log.info("Letra maiuscula usada!");
-            (numbers.checked === true) ? n = numbersChr[randomInt((numbersChr.length + 1))] : log.info("Numero usado!");
-            (symbols.checked === true) ? s = symbolsChr[randomInt((symbolsChr.length + 1))] : log.info("Simbolo usado!");
+            (lowerCase.checked === true) ? l = lowerCaseChr[randomInt((lowerCaseChr.length + 1))] : log.info("Letra minuscula NAO foi usada!");
+            (upperCase.checked === true) ? u = upperCaseChr[randomInt((upperCaseChr.length + 1))] : log.info("Letra maiuscula NAO foi usada!");
+            (numbers.checked === true) ? n = numbersChr[randomInt((numbersChr.length + 1))] : log.info("Numero NAO foi usado!");
+            (symbols.checked === true) ? s = symbolsChr[randomInt((symbolsChr.length + 1))] : log.info("Simbolo NAO foi usado!");
 
             (size > r.length) ? r += l : r.slice(0, size - 1);
             (size > r.length) ? r += u : r.slice(0, size - 1);
@@ -33,7 +33,7 @@ function generate(size){
         }
     }
 
-    r = [...r].sort(() => randomInt(2) - .5).join('');
+    r = [...r].sort(() => Math.random() - .5).join('');
     return r;
 }
 

@@ -7,15 +7,15 @@
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default;
 
-const { conectar } = require('../database/Database.js');
+const { listar } = require('./listar.js');
 const Arquivo = require('../App/tools/Arquivo.js');
-
-const Store = require('electron-store');
-const store = new Store();
 
 const log = require('electron-log');
 
-ipc.on('entrada:editar', (e, nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt) => {
-    //alerts e checks de verificação antes de editar (are you sure?)
-    Arquivo.editarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt);
-});
+async function editar(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt){
+    listar(); await Arquivo.editarEntradas(nomeEnt, descEnt, siteEnt, loginEnt, senhaEnt, expiraEnt);
+    log.info("Entrada editada com sucesso!");
+    alert("Entrada editada com sucesso!");
+}
+
+module.exports = { editar };

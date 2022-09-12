@@ -70,180 +70,187 @@ function fecharBanco(){
     }
 }
 
+ipc.on('opcao:inicial', (e) => {
+    fecharBanco();
+});
+
 function criarListaEntradas(){
-    // Cria o template do menu
-    let opcoesMenu = [
-        // Cada objeto é um dropdown
-        {
-            label: 'Arquivo',
-            submenu: [
-                {
-                    label: 'Novo Arquivo',
-                    click(){ criarNovoArquivo(); }
-                },
-                {
-                    label: 'Abrir Arquivo Já Existente',
-                    click(){ criarLerArquivo(); }
-                },
-                {
-                    label: 'Fechar Arquivo',
-                    click(){ fecharBanco(); /* limpar área de transferência + Notificação */ }
-                },
-                // { FUNCIONALIDADE FUTURA
-                //     label: 'Salvar Como',
-                //     click(){  },
-                // },
-                {
-                    label: 'Alterar Senha Mestra',
-                    click(){ /* Salvar, navegar para alterarSenha e validar, criptografar banco, limpar área de transferência telaInicial.setBrowserView(telaInicial); */ },
-                },
-                {
-                    label: 'Backup',
-                    click(){ criarBackup(); },
-                },
-                // { FUNCIONALIDADE FUTURA
-                //     label: 'Importar',
-                //     click(){  },
-                // },
-                // {
-                //     label: 'Exportar',
-                //     click(){  },
-                // },
-                {
-                    label: 'Trancar Arquivo',
-                    click(){ fecharBanco(); /* limpar área de transferência + Notificação */ },
-                },
-                {
-                    label: 'Sair',
-                    click(){ app.quit(); },
-                },
-            ]
-        },
+    try {
+        // Cria o template do menu
+        let opcoesMenu = [
+            // Cada objeto é um dropdown
+            {
+                label: 'Arquivo',
+                submenu: [
+                    {
+                        label: 'Novo Arquivo',
+                        click(){ ipc.send('opcao:criar'); }
+                    },
+                    {
+                        label: 'Abrir Arquivo Já Existente',
+                        click(){ ipc.send('opcao:abrir'); }
+                    },
+                    {
+                        label: 'Fechar Arquivo',
+                        click(){ fecharBanco(); /* limpar área de transferência + Notificação */ }
+                    },
+                    {
+                        label: 'Alterar Senha Mestra',
+                        click(){ /* Salvar, navegar para alterarSenha e validar, criptografar banco, limpar área de transferência telaInicial.setBrowserView(telaInicial); */ },
+                    },
+                    {
+                        label: 'Backup',
+                        click(){ },
+                    },
+                    // { FUNCIONALIDADE FUTURA
+                    //     label: 'Importar',
+                    //     click(){  },
+                    // },
+                    // {
+                    //     label: 'Exportar',
+                    //     click(){  },
+                    // },
+                    {
+                        label: 'Trancar Arquivo',
+                        click(){ fecharBanco(); /* limpar área de transferência + Notificação */ },
+                    },
+                    {
+                        label: 'Sair',
+                        click(){ app.quit(); },
+                    },
+                ]
+            },
 
-        {
-            label: 'Entradas',
-            submenu: [
-                {
-                    label: 'Copiar Usuário',
-                    click(){ /* copiar para a área de transferência */ },
-                },
-                {
-                    label: 'Copiar Senha',
-                    click(){ /* copiar para a área de transferência */ },
-                },
-                {
-                    label: 'Copiar Campos',
-                    submenu: [
-                        {
-                            label: 'Copiar Link',
-                            click(){ /* copiar para a área de transferência */ },
-                        },
-                        {
-                            label: 'Copiar Descrição',
-                            click(){ /* copiar para a área de transferência */ },
-                        },
-                    ]
-                },
-                {
-                    label: 'Cadastrar Entrada',
-                    click(){ criarNovaEntrada(); }
-                },
-                {
-                    label: 'Editar Entrada',
-                    click(){ criarEditarEntrada(); },
-                },
-                {
-                    label: 'Deletar Entrada(s)',
-                    click(){ /* to add: Are you sure? */ },
-                },
-                {
-                    label: 'Selecionar Tudo',
-                    click(){  },
-                },
-            ]
-        },
+            {
+                label: 'Entradas',
+                submenu: [
+                    {
+                        label: 'Copiar Usuário',
+                        click(){ },
+                    },
+                    {
+                        label: 'Copiar Senha',
+                        click(){ },
+                    },
+                    {
+                        label: 'Copiar Campos',
+                        submenu: [
+                            {
+                                label: 'Copiar Link',
+                                click(){ },
+                            },
+                            {
+                                label: 'Copiar Descrição',
+                                click(){ },
+                            },
+                        ]
+                    },
+                    {
+                        label: 'Cadastrar Entrada',
+                        click(){ }
+                    },
+                    {
+                        label: 'Editar Entrada',
+                        click(){ },
+                    },
+                    {
+                        label: 'Deletar Entrada(s)',
+                        click(){ },
+                    },
+                    // { FUNCIONALIDADE FUTURA
+                    //     label: 'Selecionar Tudo',
+                    //     click(){  },
+                    // },
+                ]
+            },
 
-        {
-            label: 'Encontrar',
-            submenu: [
-                {
-                    label: 'Encontrar', //Barra de pesquisa
-                    click(){  },
-                },
-                {
-                    label: 'Expiradas', //Filtro expiradas
-                    click(){  },
-                },
-                {
-                    label: 'Recentemente Modificadas', //Filtro recentemente modificadas
-                    click(){  },
-                },
-                {
-                    label: 'Senhas Duplicadas ou Similares', //Filtro senhas duplicadas ou similares
-                    click(){  }
-                },
-            ]
-        },
+            // { FUNCIONALIDADE FUTURA
+            //     label: 'Encontrar',
+            //     submenu: [
+            //         {
+            //             label: 'Encontrar', //Barra de pesquisa
+            //             click(){  },
+            //         },
+            //         {
+            //             label: 'Expiradas', //Filtro expiradas
+            //             click(){  },
+            //         },
+            //         {
+            //             label: 'Recentemente Modificadas', //Filtro recentemente modificadas
+            //             click(){  },
+            //         },
+            //         {
+            //             label: 'Senhas Duplicadas ou Similares', //Filtro senhas duplicadas ou similares
+            //             click(){  }
+            //         },
+            //     ]
+            // },
+            // {
+            //     label: 'Ver',
+            //     submenu: [
+            //         { 
+            //             label: 'Alterar Idioma', //Abre nova janelinha idiomas.html
+            //             click(){  },
+            //         },
+            //         {
+            //             label: 'Grupos',
+            //             click(){  },
+            //         },
+            //         {
+            //             label: 'Configurar Colunas',
+            //             click(){  },
+            //         },
+            //         {
+            //             label: 'Reordenar, Filtrar...',
+            //             click(){  },
+            //         },
+            //     ]
+            // },
 
-        {
-            label: 'Ver',
-            submenu: [
-                // { FUNCIONALIDADE FUTURA
-                //     label: 'Alterar Idioma', //Abre nova janelinha idiomas.html
-                //     click(){  },
-                // },
-                // { FUNCIONALIDADE FUTURA
-                //     label: 'Grupos',
-                //     click(){  },
-                // },
-                {
-                    label: 'Configurar Colunas',
-                    click(){  },
-                },
-                {
-                    label: 'Reordenar, Filtrar...',
-                    click(){  },
-                },
-            ]
-        },
+            {
+                label: 'Ferramentas',
+                submenu: [
+                    {
+                        label: 'Gerar Senhas',
+                        click(){ },
+                    },
+                    {
+                        label: 'Configurações',
+                        click(){ },
+                    },
+                    {
+                        label: 'Ajuda',
+                        submenu: [
+                            {
+                                label: 'Verificar novas Atualizações',
+                                click(){ },
+                            },
+                            {
+                                label: 'Sobre o SimpleKeys, Links de Ajuda',
+                                click(){ criarSobre(); },
+                            },
+                        ]
+                    },
+                ]
+            },
+        ]; const menu = Menu.buildFromTemplate(opcoesMenu);
 
-        {
-            label: 'Ferramentas',
-            submenu: [
-                {
-                    label: 'Gerar Senhas',
-                    click(){ criarGerador(); },
-                },
-                {
-                    label: 'Configurações',
-                    click(){ criarConfiguracoes(); },
-                },
-                {
-                    label: 'Ajuda',
-                    submenu: [
-                        {
-                            label: 'Verificar novas Atualizações',
-                            click(){  },
-                        },
-                        {
-                            label: 'Sobre o SimpleKeys, Links de Ajuda',
-                            click(){ criarSobre(); },
-                        },
-                    ]
-                },
-            ]
-        },
-    ]; const menu = Menu.buildFromTemplate(opcoesMenu);
+        // Insere o menu
+        Menu.setApplicationMenu(menu);
 
-    // Insere o menu
-    Menu.setApplicationMenu(menu);
-
-    // Abre a tela
-    telaInicial.loadFile('src/views/listarEntradas.html');
+        // Abre a tela
+        telaInicial.loadFile('src/views/listarEntradas.html');
+    } catch (error){
+        log.error("Houve um erro no carregamento da tela listaEntradas, " + error);
+    }
 }
 
 function criarNovoArquivo(){
-    telaInicial.loadFile('src/views/novoArquivo.html');
+    try {
+        telaInicial.loadFile('src/views/novoArquivo.html');
+    } catch (error){
+        log.error("Houve um erro no carregamento da tela novoArquivo, " + error);
+    }
 }
 
 ipc.on('arquivo:novo:salvar', (e, path) => {
@@ -266,7 +273,7 @@ ipc.on('arquivo:novo:salvar', (e, path) => {
             alert("Selecione um local válido para salvar o arquivo!");
         }
     }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
+        log.error("Houve um erro aqui! " + error);
     });
 });
 
@@ -275,32 +282,36 @@ ipc.on('arquivo:novo:criar', (e) => {
 });
 
 function criarLerArquivo(){
-    lerArquivo = new BrowserWindow({
-        width: 538,
-        height: 409,
-        resizable: false,
-        show: false,
-        parent: telaInicial,
-        title: "SimpleKeys - Abrir Arquivo Já Existente",
-        backgroundColor: "#5096fa",
-        icon: __dirname + './views/public/icon/icon.png',
-        webPreferences: {
-            devTools: !app.isPackaged,
-            contextIsolation: false,
-            nodeIntegration: true
-        }
-    });
+    try {
+        lerArquivo = new BrowserWindow({
+            width: 538,
+            height: 409,
+            resizable: false,
+            show: false,
+            parent: telaInicial,
+            title: "SimpleKeys - Abrir Arquivo Já Existente",
+            backgroundColor: "#5096fa",
+            icon: __dirname + './views/public/icon/icon.png',
+            webPreferences: {
+                devTools: !app.isPackaged,
+                contextIsolation: false,
+                nodeIntegration: true
+            }
+        });
+
+        lerArquivo.loadFile('src/views/lerArquivo.html');
+        
+        lerArquivo.on('ready-to-show', () => {
+            lerArquivo.show();
+            app.focus();
+        });
     
-    lerArquivo.loadFile('src/views/lerArquivo.html');
-
-    lerArquivo.on('ready-to-show', () => {
-        lerArquivo.show();
-        app.focus();
-    });
-
-    lerArquivo.on('closed', () => {
-        app.focus();
-    });
+        lerArquivo.on('closed', () => {
+            app.focus();
+        });
+    } catch (error){
+        log.error("Houve um erro no carregamento da tela lerArquivo, " + error);
+    }
 }
 
 ipc.on('arquivo:ler:chaveReserva', (e) => {
@@ -323,7 +334,7 @@ ipc.on('arquivo:ler:chaveReserva', (e) => {
             alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
         }
     }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
+        log.error("Houve um erro aqui! " + error);
     });
 });
 
@@ -347,7 +358,7 @@ ipc.on('arquivo:ler:path', (e) => {
             alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
         }
     }).catch((error) => {
-        log.info("Houve um erro aqui! " + error);
+        log.error("Houve um erro aqui! " + error);
     });
 });
 
@@ -361,64 +372,99 @@ ipc.on('arquivo:ler', (e) => {
 });
 
 function criarNovaEntrada(){
-    telaInicial.loadFile('src/views/novaEntrada.html');
+    try {
+        telaInicial.loadFile('src/views/novaEntrada.html');
+    } catch (error){
+        log.error("Houve um erro no carregamento da tela novaEntrada, " + error);
+    }
 }
+
+ipc.on('arquivo:nova', (e) => {
+    criarNovaEntrada();
+})
 
 function criarEditarEntrada(){
-    telaInicial.loadFile('src/views/editarEntrada.html');
+    try {
+        telaInicial.loadFile('src/views/editarEntrada.html');
+    } catch (error){
+        log.error("Houve um erro no carregamento da tela editarEntrada, " + error);
+    }
 }
+
+ipc.on('arquivo:editar', (e, selecionada) => {
+    store.set("selecionada", selecionada);
+    criarEditarEntrada();
+});
+
+ipc.on('arquivo:entrada:apagar', (e, selecionada) => {
+    store.set("selecionada", selecionada);
+    const resposta = await dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada?', type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1});
+    if (resposta == 0) {
+        ipc.sendToRenderers('entrada:apagar');
+    } else {
+        alert("Operação cancelada.");
+    }
+});
 
 function criarGerador(){
-    telaInicial.loadFile('src/views/gerador.html');
+    try {
+        telaInicial.loadFile('src/views/gerador.html');
+    } catch (error){
+        log.error("Houve um erro no carregamento da tela gerador, " + error);
+    }
 }
+
+ipc.on('arquivo:gerador', (e) => {
+    criarGerador();
+});
 
 function criarBackup(){
-    telaInicial.loadFile('src/views/backup.html');
+    try {
+        telaInicial.loadFile('src/views/backup.html');
+    } catch (error){
+        log.error("Houve um erro no carregamento da tela backup, " + error);
+    }
 }
 
+ipc.on('arquivo:backup', (e) => {
+    criarBackup();
+});
+
 function criarConfiguracoes(){
-    telaInicial.loadFile('src/views/configuracoes.html');
+    try {
+        telaInicial.loadFile('src/views/configuracoes.html');
+    } catch (error){
+        log.error("Houve um erro no carregamento da tela configuracoes, " + error);
+    }
 }
 
 function criarSobre(){
-    showAboutWindow({
-        icon: __dirname + './views/public/icon/icon.ico',
-        copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-        text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n\nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\n\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
-        website: 'https://github.com/bainloko/SimpleKeys'
-    });
+    try {
+        showAboutWindow({
+            icon: __dirname + './views/public/icon/icon.ico',
+            copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
+            text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n\nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\n\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
+            website: 'https://github.com/bainloko/SimpleKeys'
+        });
+    } catch (error){
+        log.error("Houve um erro no carregamento da tela sobre, " + error);
+    }
 }
 
 ipc.on('opcao:criar', (e) => {
-    try {
-        criarNovoArquivo();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela novoArquivo, " + error);
-    }
+    criarNovoArquivo();
 });
 
 ipc.on('opcao:abrir', (e) => {
-    try {
-        criarLerArquivo();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela lerArquivo, " + error);
-    }
+    criarLerArquivo();
 });
 
 ipc.on('opcao:config', (e) => {
-    try {
-        criarConfiguracoes();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela configuracoes, " + error);
-    }
+    criarConfiguracoes();
 });
 
 ipc.on('opcao:sobre', (e) => {
-    try {
-        criarSobre();
-    } catch (error){
-        log.info("Houve um erro no carregamento da tela sobre, " + error);
-    }
+    criarSobre();
 });
 
 app.on('ready', (e) => {
@@ -426,6 +472,8 @@ app.on('ready', (e) => {
 });
 
 app.on('window-all-closed', (e) => {
+    await navigator.clipboard.write(' ');
+    log.info(await navigator.clipboard.read());
     store.set("pathArquivo", "");
     store.set("nomeArquivo", "");
     store.set("descArquivo", "");

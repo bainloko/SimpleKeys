@@ -168,7 +168,7 @@
                 <div class="nova-entrada-slider">
                     <input id="expira" title="6 meses" type="range" min="0" max="36" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
                 </div>
-                <button type="submit" class="nova-entrada-button button" onclick="ipc.send('entrada:criar', inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value);">
+                <button type="submit" class="nova-entrada-button button" onsubmit="cadastrar(inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value);ipc.send('arquivo:novo:criar');">
                 <span class="nova-entrada-text01">
                     <span>Criar</span>
                     <br />
@@ -187,6 +187,6 @@
       </article>
     </div>
     <script src="../App/tools/strength.js"></script>
-    <script src="../App/adicionar.js"></script>
+    <script src="../App/cadastrar.js"></script>
   </body>
 </html>

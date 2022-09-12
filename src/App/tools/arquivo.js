@@ -17,7 +17,7 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, login
             nome: nomeEntradas,
             descricao: descEntradas,
             site: siteEntradas,
-            usuario: loginEntradas,
+            login: loginEntradas,
             senha: senhaEntradas,
             expira: expira,
             // grupoImg: grupoImg,
@@ -39,8 +39,21 @@ async function lerEntradas(){
 
         return entradas;
     } catch (error){
-        log.info("Ocorreu um erro na leitura das entradas, " + error + "!");
+        log.error("Ocorreu um erro na leitura das entradas, " + error + "!");
         alert("Ocorreu um erro na leitura das entradas, " + error + "!");
+
+        return null;
+    }
+}
+
+async function pesquisarByPk(selecaoAtual){
+    try {
+        const entradas = await Entradas.findByPk(selecaoAtual);
+
+        return entradas;
+    } catch (error){
+        log.error("Ocorreu um erro na pesquisa das entradas, " + error + "!");
+        alert("Ocorreu um erro na pesquisa das entradas, " + error + "!");
 
         return null;
     }
@@ -54,12 +67,12 @@ async function pesquisarEntradas(pesquisa){
                 [Op.or]: [
                     {descricao: pesquisa},
                     {site: pesquisa},
-                    {usuario: pesquisa},
+                    {login: pesquisa},
                     {expira: pesquisa},
                     {grupoLista: pesquisa}
                 ]
             }
-        }); log.info(entradas);
+        });
 
         return entradas;
     } catch (error){
@@ -76,7 +89,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
             entradas.nome = nomeEntradas;
             entradas.descricao = descEntradas;
             entradas.site = siteEntradas;
-            entradas.usuario = loginEntradas;
+            entradas.login = loginEntradas;
             entradas.senha = senhaEntradas;
             entradas.expira = expira;
             // entradas.grupoImg = grupoImg;
@@ -133,4 +146,4 @@ async function consultarBanco(path){
     }
 }
 
-module.exports = { cadastrarEntradas, lerEntradas, Entradas, pesquisarEntradas, editarEntradas, apagarEntradas, consultarBanco };
+module.exports = { cadastrarEntradas, lerEntradas, Entradas, pesquisarByPk, pesquisarEntradas, editarEntradas, apagarEntradas, consultarBanco };

@@ -10,7 +10,7 @@ class Entradas extends Model {
     static init(sequelize){
         super.init({
             id: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.NUMBER,
                 primaryKey: true,
                 autoIncrement: true,
                 allowNull: false
@@ -28,7 +28,7 @@ class Entradas extends Model {
                 type: DataTypes.TEXT,
                 defaultValue: "https://google.com",
             },
-            usuario: {
+            login: {
                 type: DataTypes.TEXT,
                 defaultValue: "fulanodetal@gmail.com",
                 allowNull: false
@@ -39,8 +39,8 @@ class Entradas extends Model {
                 allowNull: false,
             },
             expira: {
-                type: DataTypes.TEXT,
-                defaultValue: "S;2025/08/08",
+                type: DataTypes.NUMBER,
+                defaultValue: 0,
             },
             grupoImg: DataTypes.BLOB,
             grupoLista: DataTypes.TEXT

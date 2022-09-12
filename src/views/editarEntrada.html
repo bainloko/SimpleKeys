@@ -36,6 +36,24 @@
     <link rel="stylesheet" href="./style.css" />
     <title>SimpleKeys - Editar Entrada</title>
     <script src="../App/tools/zxcvbn.js"></script>
+    <script>
+      let lista; listar();
+      async function popular(){
+        let selecaoAtual = store.get('selecionada');
+        const entradas = Arquivo.pesquisarByPk(selecaoAtual);
+        lista = await entradas;
+        lista.forEach((entrada) => {
+          document.getElementById('IDEnt').innerText = `${entrada.id}`;
+          document.getElementById('inputNomeEnt').value = `${entrada.nome}`;
+          document.getElementById('inputDescEnt').value = `${entrada.descricao}`;
+          document.getElementById('inpSite').value = `${entrada.site}`;
+          document.getElementById('inputLoginEnt').value = `${entrada.login}`;
+          document.getElementById('inpPassword').placeholder = `Senha antiga: ${entrada.senha}`;
+          document.getElementById('inpTestPassword').placeholder = `Senha antiga: ${entrada.senha}`;
+          document.getElementById('expira').value = `${entrada.expira}`;
+        });
+      }
+    </script>
   </head>
   <body>
     <div>
@@ -76,7 +94,7 @@
               </svg>
               <span class="editar-entrada-text09">v 0.1.0</span>
               <form>
-                <span class="editar-entrada-text10">Editar entrada...</span>
+                <span class="editar-entrada-text10">Editar entrada... ID: <span id="IDEnt"></span></span>
                 <span class="editar-entrada-text11">Nome:</span>
                 <input
                     type="text"
@@ -128,7 +146,7 @@
                     id="inpPassword"
                     type="password"
                     pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&-+=()]).{8,}$"
-                    placeholder="Qual é a sua senha?"
+                    placeholder=""
                     autocomplete="off"
                     required
                     class="editar-entrada-textinput4 input"
@@ -176,7 +194,7 @@
                 <div class="editar-entrada-slider">
                     <input id="expira" title="6 meses" type="range" min="0" max="36" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
                 </div>
-                <button type="submit" class="editar-entrada-button button" onclick="ipc.send('entrada:editar', inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value);">
+                <button type="submit" class="editar-entrada-button button" onclick="editar(inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value);ipc.send('arquivo:novo:criar');">
                 <span class="editar-entrada-text01">
                     <span>Editar</span>
                     <br />
@@ -196,5 +214,17 @@
     </div>
     <script src="../App/tools/strength.js"></script>
     <script src="../App/editar.js"></script>
+    <script>
+      const $ = require('../App/tools/jquery-3.6.1.min.js');
+      $(document).ready(
+        setTimeout(() => {
+          popular().then(() => {
+            log.info("Populacao dos Dados feita com sucesso!");
+          }).catch((error) => {
+            log.error("Erro na Populacao dos Dados!");
+          });
+        }, 2500)
+      );
+    </script>
   </body>
 </html>
