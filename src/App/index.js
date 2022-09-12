@@ -15,3 +15,4 @@ store.set("descArquivo", "");
 store.set("expiraArquivo", 0);
 store.set("chaveReserva", false);
 store.set("senhaArquivo", "");
+store.set("selecaoAtual", 0);

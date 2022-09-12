@@ -16,7 +16,7 @@ const store = new Store();
 
 const log = require('electron-log');
 
-let selecionada;
+let selecionada = 0;
 
 function listar(){
     try {
@@ -27,7 +27,7 @@ function listar(){
         let chaveReserva = store.get("chaveReserva");
         let senha = store.get("senhaArquivo");
 
-        (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!") : () => { log.error("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); alert("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); }
+        return (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!") : () => { log.error("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); alert("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); }
     } catch (error){
         log.error("Erro na listagem das entradas: " + error + "! Tente novamente!"); 
         alert("Erro na listagem das entradas: " + error + "! Tente novamente!");
@@ -42,16 +42,16 @@ function disableIfChecked(event, entrada){
         element => { element.disabled = target.checked }
     );
 
-    return selecionada = entrada;
+    selecionada = entrada;
+    store.set("selecaoAtual", selecionada);
+    return selecionada;
 }
 
 async function copiar(texto){
     try {
         await navigator.clipboard.writeText(texto);
-        log.info("Login copiado!");
-        alert("Login copiado!");
     } catch (err){
-        log.error("A cópia falhou: " + err + "! Tente novamente!");
+        log.error("A copia falhou: " + err + "! Tente novamente!");
         alert("A cópia falhou: " + err + "! Tente novamente!");
     }
 }
@@ -60,7 +60,7 @@ function verF(senha){
     let result = zxcvbn(senha);
     switch (result.score){
         case 0:
-            alert("Esta senha é muito fraca! Considere trocá-la imediatamente!");
+            alert("Esta senha é muito fraca! Considere trocá-la imediatamente!"); //work on that -> dialog, ContextMenu
             break;
         case 1:
             alert("Esta senha é fraca! Considere trocá-la imediatamente!");
@@ -81,7 +81,7 @@ function verF(senha){
 }
 
 ipc.on('entrada:apagar', (e) => {
-    let selecaoAtual = store.get('selecionada');
+    selecaoAtual = store.get("selecaoAtual");
     Arquivo.apagarEntradas(selecaoAtual);
 });
 

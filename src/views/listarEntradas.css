@@ -62,9 +62,9 @@ body {
   width: 17.4%;
   bottom: 80px;
   height: 73.9%;
-  display: flex;
+  text-align: center;
+  align-items: center;
   position: absolute;
-  align-items: flex-start;
   border-color: #000000;
   border-style: inset;
   border-width: 1px;

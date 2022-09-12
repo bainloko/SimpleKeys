@@ -20,7 +20,7 @@ class Settings extends Model {
                 defaultValue: descricao,
             },
             expira: {
-                type: DataTypes.NUMBER,
+                type: DataTypes.INTEGER,
                 defaultValue: expira,
             },
             chaveReserva: {

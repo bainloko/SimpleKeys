@@ -33,7 +33,7 @@ function conectar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, s
                 database.close();
 
                 log.error("Erro ao salvar ao Banco de Dados! Sera que a senha esta incorreta? " + error);
-                alert("Erro ao salvar ao Banco de Dados! Sera que a senha esta incorreta? " + error);
+                alert("Erro ao salvar ao Banco de Dados! Sera que a senha esta incorreta? " + error); //work on that -> dialog
 
                 return null;
             });

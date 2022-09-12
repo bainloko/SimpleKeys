@@ -4,8 +4,9 @@
 * 07/set/2022
 */
 
+const { dialog } = require('electron');
 const { ipcRenderer: ipc } = require('electron-better-ipc');
-const ContextMenu = require('secure-electron-context-menu').default;
+const ContextMenu = require('secure-electron-context-menu').default; //work on that -> ContextMenu
 
 const Store = require('electron-store');
 const store = new Store();
@@ -16,7 +17,8 @@ ipc.on('arquivo:novo:pathArquivo', (e, path) => {
     if (criarPath != ("" || null || undefined || [])) {
         store.set("pathArquivo", criarPath);
     } else {
-        alert("Selecione um local válido para salvar o Arquivo!");
+        log.error("Selecione um local valido para salvar o Arquivo!");
+        dialog.showErrorBox("Erro!", "Selecione um local válido para salvar o Arquivo!");
     }
 });
 

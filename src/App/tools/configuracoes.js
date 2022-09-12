@@ -4,7 +4,7 @@
 * 29/jun/2022
 */
 
-const { ipcRenderer: ipc } = require('electron-better-ipc');
+const { ipcRenderer: ipc } = require('electron-better-ipc'); //work on that -> Settings
 
 const fse = require('fs-extra');
 const Path = require('path');

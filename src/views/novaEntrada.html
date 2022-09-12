@@ -36,6 +36,9 @@
     <link rel="stylesheet" href="./style.css" />
     <title>SimpleKeys - Nova Entrada</title>
     <script src="../App/tools/zxcvbn.js"></script>
+    <script>
+      const { listar } = require('../App/listar.js'); listar();
+    </script>
   </head>
   <body>
     <div>
@@ -168,7 +171,7 @@
                 <div class="nova-entrada-slider">
                     <input id="expira" title="6 meses" type="range" min="0" max="36" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
                 </div>
-                <button type="submit" class="nova-entrada-button button" onsubmit="cadastrar(inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value);ipc.send('arquivo:novo:criar');">
+                <button type="submit" class="nova-entrada-button button" onsubmit="cadastrar(inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value);">
                 <span class="nova-entrada-text01">
                     <span>Criar</span>
                     <br />

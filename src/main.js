@@ -15,7 +15,7 @@ const store = new Store();
 const log = require('electron-log');
 
 const lock = app.requestSingleInstanceLock();
-(!lock == true) ? () => { dialog.showErrorBox("Erro", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
+(!lock == true) ? () => { dialog.showErrorBox("Erro!", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
 
 let telaInicial = null;
 let lerArquivo = null;
@@ -38,8 +38,7 @@ function criarTelaInicial(){
         }
     });
     
-    (app.isPackaged) ? Menu.setApplicationMenu(null) : log.info("Menu PROD aberto!");
-
+    Menu.setApplicationMenu(null);
     telaInicial.loadFile('src/views/index.html');
 
     telaInicial.on('ready-to-show', () => {
@@ -55,18 +54,11 @@ function criarTelaInicial(){
 
 function fecharBanco(){
     try {
-        store.set("pathArquivo", "");
-        store.set("nomeArquivo", "");
-        store.set("descArquivo", "");
-        store.set("expiraArquivo", 0);
-        store.set("chaveReserva", false);
-        store.set("senhaArquivo", "");
-        
-        Menu.setApplicationMenu(null);
+        Menu.setApplicationMenu(Menu.buildFromTemplate([{label: "Menu"}]));
         telaInicial.loadFile('src/views/index.html');
     } catch (error){
         log.error("Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
-        alert("Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
+        dialog.showErrorBox("Erro!", "Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
     }
 }
 
@@ -218,18 +210,19 @@ function criarListaEntradas(){
                         label: 'Configurações',
                         click(){ },
                     },
+                ]
+            },
+
+            {
+                label: 'Ajuda',
+                submenu: [
                     {
-                        label: 'Ajuda',
-                        submenu: [
-                            {
-                                label: 'Verificar novas Atualizações',
-                                click(){ },
-                            },
-                            {
-                                label: 'Sobre o SimpleKeys, Links de Ajuda',
-                                click(){ criarSobre(); },
-                            },
-                        ]
+                        label: 'Verificar novas Atualizações',
+                        click(){ },
+                    },
+                    {
+                        label: 'Sobre o SimpleKeys, Links de Ajuda',
+                        click(){ criarSobre(); },
                     },
                 ]
             },
@@ -242,6 +235,7 @@ function criarListaEntradas(){
         telaInicial.loadFile('src/views/listarEntradas.html');
     } catch (error){
         log.error("Houve um erro no carregamento da tela listaEntradas, " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela listaEntradas, " + error);
     }
 }
 
@@ -250,6 +244,7 @@ function criarNovoArquivo(){
         telaInicial.loadFile('src/views/novoArquivo.html');
     } catch (error){
         log.error("Houve um erro no carregamento da tela novoArquivo, " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela novoArquivo, " + error);
     }
 }
 
@@ -270,10 +265,11 @@ ipc.on('arquivo:novo:salvar', (e, path) => {
             store.set("pathArquivo", arquivo.filePath);
             ipc.sendToRenderers('arquivo:novo:pathArquivo', arquivo.filePath);
         } else {
-            alert("Selecione um local válido para salvar o arquivo!");
+            dialog.showErrorBox("Erro!", "Selecione um local válido para salvar o arquivo!");
         }
     }).catch((error) => {
         log.error("Houve um erro aqui! " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro aqui! " + error);
     });
 });
 
@@ -311,6 +307,7 @@ function criarLerArquivo(){
         });
     } catch (error){
         log.error("Houve um erro no carregamento da tela lerArquivo, " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela lerArquivo, " + error);
     }
 }
 
@@ -331,10 +328,11 @@ ipc.on('arquivo:ler:chaveReserva', (e) => {
             store.set("pathChaveReserva", arquivo.filePaths);
             ipc.sendToRenderers('arquivo:ler:receiveChaveReserva', arquivo.filePaths);
         } else {
-            alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
+            dialog.showErrorBox("Erro!", "Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
         }
     }).catch((error) => {
         log.error("Houve um erro aqui! " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro aqui! " + error);
     });
 });
 
@@ -355,10 +353,11 @@ ipc.on('arquivo:ler:path', (e) => {
             store.set("pathArquivo", arquivo.filePaths);
             ipc.sendToRenderers('arquivo:ler:pathArquivo', arquivo.filePaths);
         } else {
-            alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
+            dialog.showErrorBox("Erro!", "Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
         }
     }).catch((error) => {
         log.error("Houve um erro aqui! " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro aqui! " + error);
     });
 });
 
@@ -376,6 +375,7 @@ function criarNovaEntrada(){
         telaInicial.loadFile('src/views/novaEntrada.html');
     } catch (error){
         log.error("Houve um erro no carregamento da tela novaEntrada, " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela novaEntrada, " + error);
     }
 }
 
@@ -388,21 +388,21 @@ function criarEditarEntrada(){
         telaInicial.loadFile('src/views/editarEntrada.html');
     } catch (error){
         log.error("Houve um erro no carregamento da tela editarEntrada, " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela editarEntrada, " + error);
     }
 }
 
-ipc.on('arquivo:editar', (e, selecionada) => {
-    store.set("selecionada", selecionada);
+ipc.on('arquivo:editar', (e) => {
     criarEditarEntrada();
 });
 
-ipc.on('arquivo:entrada:apagar', (e, selecionada) => {
-    store.set("selecionada", selecionada);
-    const resposta = await dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada?', type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1});
+ipc.on('arquivo:entrada:apagar', (e) => {
+    const resposta = dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada?', type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1});
     if (resposta == 0) {
-        ipc.sendToRenderers('entrada:apagar');
+        ipc.sendToRenderers('entrada:apagar'); //work on that
     } else {
-        alert("Operação cancelada.");
+        log.error("Operacao cancelada.")
+        dialog.showErrorBox("Erro!", "Operação cancelada.");
     }
 });
 
@@ -411,6 +411,7 @@ function criarGerador(){
         telaInicial.loadFile('src/views/gerador.html');
     } catch (error){
         log.error("Houve um erro no carregamento da tela gerador, " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela gerador, " + error);
     }
 }
 
@@ -423,6 +424,7 @@ function criarBackup(){
         telaInicial.loadFile('src/views/backup.html');
     } catch (error){
         log.error("Houve um erro no carregamento da tela backup, " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela backup, " + error);
     }
 }
 
@@ -435,6 +437,7 @@ function criarConfiguracoes(){
         telaInicial.loadFile('src/views/configuracoes.html');
     } catch (error){
         log.error("Houve um erro no carregamento da tela configuracoes, " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela configurações, " + error);
     }
 }
 
@@ -448,6 +451,7 @@ function criarSobre(){
         });
     } catch (error){
         log.error("Houve um erro no carregamento da tela sobre, " + error);
+        dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela sobre, " + error);
     }
 }
 
@@ -472,14 +476,15 @@ app.on('ready', (e) => {
 });
 
 app.on('window-all-closed', (e) => {
-    await navigator.clipboard.write(' ');
-    log.info(await navigator.clipboard.read());
+    navigator.clipboard.write(' ');
+    log.info(navigator.clipboard.read());
     store.set("pathArquivo", "");
     store.set("nomeArquivo", "");
     store.set("descArquivo", "");
     store.set("expiraArquivo", 0);
     store.set("chaveReserva", false);
     store.set("senhaArquivo", "");
+    store.set("selecaoAtual", 0);
 
     // Fecha o App
     app.quit();

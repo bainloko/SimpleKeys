@@ -37,21 +37,20 @@
     <title>SimpleKeys - Editar Entrada</title>
     <script src="../App/tools/zxcvbn.js"></script>
     <script>
-      let lista; listar();
-      async function popular(){
-        let selecaoAtual = store.get('selecionada');
-        const entradas = Arquivo.pesquisarByPk(selecaoAtual);
-        lista = await entradas;
-        lista.forEach((entrada) => {
-          document.getElementById('IDEnt').innerText = `${entrada.id}`;
-          document.getElementById('inputNomeEnt').value = `${entrada.nome}`;
-          document.getElementById('inputDescEnt').value = `${entrada.descricao}`;
-          document.getElementById('inpSite').value = `${entrada.site}`;
-          document.getElementById('inputLoginEnt').value = `${entrada.login}`;
-          document.getElementById('inpPassword').placeholder = `Senha antiga: ${entrada.senha}`;
-          document.getElementById('inpTestPassword').placeholder = `Senha antiga: ${entrada.senha}`;
-          document.getElementById('expira').value = `${entrada.expira}`;
-        });
+      let lista;
+
+      const { listar } = require('../App/listar.js'); listar();
+
+      async function popular(selecaoAtual){
+        lista = await Arquivo.pesquisarByPk(selecaoAtual);
+        document.getElementById('IDEnt').innerText = lista['dataValues'].id;
+        document.getElementById('inputNomeEnt').value = lista['dataValues'].nome;
+        document.getElementById('inputDescEnt').value = lista['dataValues'].descricao;
+        document.getElementById('inpSite').value = lista['dataValues'].site;
+        document.getElementById('inputLoginEnt').value = lista['dataValues'].login;
+        document.getElementById('inpPassword').placeholder = "Senha antiga: " + lista['dataValues'].senha;
+        document.getElementById('inpTestPassword').placeholder = "Senha antiga: " + lista['dataValues'].senha;
+        document.getElementById('expira').value = lista['dataValues'].expira;
       }
     </script>
   </head>
@@ -218,10 +217,10 @@
       const $ = require('../App/tools/jquery-3.6.1.min.js');
       $(document).ready(
         setTimeout(() => {
-          popular().then(() => {
+          popular(selecaoAtual).then(() => {
             log.info("Populacao dos Dados feita com sucesso!");
           }).catch((error) => {
-            log.error("Erro na Populacao dos Dados!");
+            log.error("Erro na Populacao dos Dados! " + error);
           });
         }, 2500)
       );

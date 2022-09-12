@@ -4,8 +4,9 @@
 * 8/jun/2022
 */
 
+const { dialog } = require('electron');
 const { ipcRenderer: ipc } = require('electron-better-ipc');
-const ContextMenu = require('secure-electron-context-menu').default;
+const ContextMenu = require('secure-electron-context-menu').default; //work on that -> ContextMenu
 
 const { randomInt } = require('node:crypto');
 
@@ -21,15 +22,15 @@ function generate(size){
 
     for (let i = 0; i < size; i++){
         while (size > r.length){
-            (lowerCase.checked === true) ? l = lowerCaseChr[randomInt((lowerCaseChr.length + 1))] : log.info("Letra minuscula NAO foi usada!");
-            (upperCase.checked === true) ? u = upperCaseChr[randomInt((upperCaseChr.length + 1))] : log.info("Letra maiuscula NAO foi usada!");
-            (numbers.checked === true) ? n = numbersChr[randomInt((numbersChr.length + 1))] : log.info("Numero NAO foi usado!");
-            (symbols.checked === true) ? s = symbolsChr[randomInt((symbolsChr.length + 1))] : log.info("Simbolo NAO foi usado!");
+            (lowerCase.checked == true) ? l = lowerCaseChr[randomInt((lowerCaseChr.length))] : log.info("Letra minuscula NAO foi usada!");
+            (upperCase.checked == true) ? u = upperCaseChr[randomInt((upperCaseChr.length))] : log.info("Letra maiuscula NAO foi usada!");
+            (numbers.checked == true) ? n = numbersChr[randomInt((numbersChr.length))] : log.info("Numero NAO foi usado!");
+            (symbols.checked == true) ? s = symbolsChr[randomInt((symbolsChr.length))] : log.info("Simbolo NAO foi usado!");
 
-            (size > r.length) ? r += l : r.slice(0, size - 1);
-            (size > r.length) ? r += u : r.slice(0, size - 1);
-            (size > r.length) ? r += n : r.slice(0, size - 1);
-            (size > r.length) ? r += s : r.slice(0, size - 1);
+            ((size > r.length) == true) ? r += l : r.slice(0, size - 2);
+            ((size > r.length) == true) ? r += u : r.slice(0, size - 2);
+            ((size > r.length) == true) ? r += n : r.slice(0, size - 2);
+            ((size > r.length) == true) ? r += s : r.slice(0, size - 2);
         }
     }
 
@@ -61,11 +62,11 @@ function gerarSenhas(){
             document.getElementById("listaSenhas").innerHTML = Senhas.join("\n");
             return Senhas.join('\n');
         } else {
-            alert("Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
+            dialog.showErrorBox("Erro!", "Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
         }
     } catch (error){
         log.error("Ocorreu um erro inesperado na geracao das senhas! " + error);
-        alert("Ocorreu um erro inesperado na geração das senhas! " + error);
+        dialog.showErrorBox("Erro!", "Ocorreu um erro inesperado na geração das senhas! " + error);
     }
 }
 

@@ -27,7 +27,7 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, login
         return resultadoCreate;
     } catch (error){
         log.error("Ocorreu um erro no cadastro de novas entradas, " + error + "!");
-        alert("Ocorreu um erro no cadastro de novas entradas, " + error + "!");
+        alert("Ocorreu um erro no cadastro de novas entradas, " + error + "!"); //work on that -> dialog
 
         return null;
     }

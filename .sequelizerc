@@ -7,5 +7,7 @@
 const { resolve } = require('path');
 
 module.exports = {
-    "models-path": resolve("src", "model")
+    "models-path": resolve("src", "model"),
+    "migrations-path": resolve("src", "database", "migrations"),
+    "seeders-path": resolve("src", "database", "seeders")
 };

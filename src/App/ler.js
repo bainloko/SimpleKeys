@@ -60,7 +60,7 @@ ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
         localChave.innerText = chavePath;
         localChave.title = chavePath;
     } else {
-        alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
+        alert("Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!"); //work on that -> dialog
     }
 });
 
