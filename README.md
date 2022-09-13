@@ -2,11 +2,11 @@
 Um gerenciador de senhas leve, versátil e seguro.
 ...
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bainloko_simplekeys&metric=alert_status)](https://sonarcloud.io/dashboard?id=bainloko_simplekeys)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_simplekeys&metric=security_rating)](https://sonarcloud.io/dashboard?id=bainloko_simplekeys)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_simplekeys&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=bainloko_simplekeys)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bainloko_simplekeys&metric=bugs)](https://sonarcloud.io/dashboard?id=bainloko_simplekeys)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=bainloko_simplekeys&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=bainloko_simplekeys)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=alert_status)](https://sonarcloud.io/dashboard?id=bainloko_SimpleKeys)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=security_rating)](https://sonarcloud.io/dashboard?id=SimpleKeys)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=bainloko_SimpleKeys)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=bugs)](https://sonarcloud.io/dashboard?id=bainloko_SimpleKeys)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=SimpleKeys)
 
 # Começando
 _guiaDeUso_
