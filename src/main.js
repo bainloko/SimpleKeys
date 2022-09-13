@@ -52,7 +52,7 @@ function criarTelaInicial(){
     });
 }
 
-function fecharBanco(){
+function fecharERInicial(){
     try {
         Menu.setApplicationMenu(Menu.buildFromTemplate([{label: "Menu"}]));
         telaInicial.loadFile('src/views/index.html');
@@ -63,7 +63,7 @@ function fecharBanco(){
 }
 
 ipc.on('opcao:inicial', (e) => {
-    fecharBanco();
+    fecharERInicial();
 });
 
 function criarListaEntradas(){
@@ -83,18 +83,10 @@ function criarListaEntradas(){
                         click(){ ipc.send('opcao:abrir'); }
                     },
                     {
-                        label: 'Fechar Arquivo',
-                        click(){ fecharBanco(); /* limpar área de transferência + Notificação */ }
-                    },
-                    {
                         label: 'Alterar Senha Mestra',
-                        click(){ /* Salvar, navegar para alterarSenha e validar, criptografar banco, limpar área de transferência telaInicial.setBrowserView(telaInicial); */ },
+                        click(){ dialog.showErrorBox("Erro!", "Funcionalidade Futura! Desculpe!"); /* Arquivo.salvarBanco(); limpar área de transferência + Wizard ipc.send('opcao:alterarSenha') criptografar banco ipc.send('opcao:inicial'); */ },
                     },
-                    {
-                        label: 'Backup',
-                        click(){ },
-                    },
-                    // { FUNCIONALIDADE FUTURA
+                    // { //FUNCIONALIDADE FUTURA
                     //     label: 'Importar',
                     //     click(){  },
                     // },
@@ -104,7 +96,7 @@ function criarListaEntradas(){
                     // },
                     {
                         label: 'Trancar Arquivo',
-                        click(){ fecharBanco(); /* limpar área de transferência + Notificação */ },
+                        click(){ Arquivo.fecharConexao(); /* limpar área de transferência + Notificação */ ipc.send('opcao:inicial'); }
                     },
                     {
                         label: 'Sair',
@@ -117,46 +109,46 @@ function criarListaEntradas(){
                 label: 'Entradas',
                 submenu: [
                     {
-                        label: 'Copiar Usuário',
-                        click(){ },
+                        label: 'Copiar Login',
+                        click(){ if(selecionada != (0 || null || undefined || [])){const idL = document.getElementById('idL' + selecionada); copiar(idL.innerText); log.info('Login copiado!'); dialog.showMessageBox('Login copiado!');}else{dialog.showErrorBox('Erro!', 'Selecione um Login para copiar!');} },
                     },
                     {
                         label: 'Copiar Senha',
-                        click(){ },
+                        click(){ if(selecionada != (0 || null || undefined || [])){const idP = document.getElementById('idP' + selecionada); copiar(idP.value); log.info('Senha copiada!'); dialog.showMessageBox('Senha copiada!');}else{dialog.showErrorBox('Erro!', 'Selecione uma Senha para copiar!');} },
                     },
+                    // { //FUNCIONALIDADE FUTURA
+                    //     label: 'Copiar Campos',
+                    //     submenu: [
+                    //         {
+                    //             label: 'Copiar Link',
+                    //             click(){ },
+                    //         },
+                    //         {
+                    //             label: 'Copiar Descrição',
+                    //             click(){ },
+                    //         },
+                    //     ]
+                    // },
                     {
-                        label: 'Copiar Campos',
-                        submenu: [
-                            {
-                                label: 'Copiar Link',
-                                click(){ },
-                            },
-                            {
-                                label: 'Copiar Descrição',
-                                click(){ },
-                            },
-                        ]
-                    },
-                    {
-                        label: 'Cadastrar Entrada',
-                        click(){ }
+                        label: 'Cadastrar Nova Entrada',
+                        click(){ ipc.send('arquivo:nova'); }
                     },
                     {
                         label: 'Editar Entrada',
-                        click(){ },
+                        click(){ if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:editar');}else{dialog.showErrorBox('Erro!', 'Selecione uma Entrada para editar!');} },
                     },
                     {
                         label: 'Deletar Entrada(s)',
-                        click(){ },
+                        click(){ if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:entrada:apagar')}else{dialog.showErrorBox('Erro!', 'Selecione uma Entrada para apagar!');} },
                     },
-                    // { FUNCIONALIDADE FUTURA
+                    // { //FUNCIONALIDADE FUTURA
                     //     label: 'Selecionar Tudo',
                     //     click(){  },
                     // },
                 ]
             },
 
-            // { FUNCIONALIDADE FUTURA
+            // { //FUNCIONALIDADE FUTURA
             //     label: 'Encontrar',
             //     submenu: [
             //         {
@@ -181,8 +173,8 @@ function criarListaEntradas(){
             //     label: 'Ver',
             //     submenu: [
             //         { 
-            //             label: 'Alterar Idioma', //Abre nova janelinha idiomas.html
-            //             click(){  },
+            //             label: 'Alterar Idioma',
+            //             click(){ ipc.send('opcao:alterarIdioma'); },
             //         },
             //         {
             //             label: 'Grupos',
@@ -204,11 +196,15 @@ function criarListaEntradas(){
                 submenu: [
                     {
                         label: 'Gerar Senhas',
-                        click(){ },
+                        click(){ ipc.send('arquivo:gerador'); },
+                    },
+                    {
+                        label: 'Backup',
+                        click(){ ipc.send('arquivo:backup'); },
                     },
                     {
                         label: 'Configurações',
-                        click(){ },
+                        click(){ ipc.send('opcao:config'); },
                     },
                 ]
             },
@@ -218,11 +214,11 @@ function criarListaEntradas(){
                 submenu: [
                     {
                         label: 'Verificar novas Atualizações',
-                        click(){ },
+                        click(){ }, //work on that -> atualizacoes
                     },
                     {
                         label: 'Sobre o SimpleKeys, Links de Ajuda',
-                        click(){ criarSobre(); },
+                        click(){ ipc.send('opcao:sobre'); },
                     },
                 ]
             },
@@ -370,7 +366,7 @@ ipc.on('arquivo:ler', (e) => {
     criarListaEntradas();
 });
 
-function criarNovaEntrada(){
+function cadastrarNovaEntrada(){
     try {
         telaInicial.loadFile('src/views/novaEntrada.html');
     } catch (error){
@@ -380,7 +376,7 @@ function criarNovaEntrada(){
 }
 
 ipc.on('arquivo:nova', (e) => {
-    criarNovaEntrada();
+    cadastrarNovaEntrada();
 })
 
 function criarEditarEntrada(){
@@ -397,13 +393,15 @@ ipc.on('arquivo:editar', (e) => {
 });
 
 ipc.on('arquivo:entrada:apagar', (e) => {
-    const resposta = dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada?', type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1});
-    if (resposta == 0) {
-        ipc.sendToRenderers('entrada:apagar'); //work on that
-    } else {
-        log.error("Operacao cancelada.")
-        dialog.showErrorBox("Erro!", "Operação cancelada.");
-    }
+    const resposta = dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada?', type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1}).then(() => {
+        if (resposta.response == 0) {
+            ipc.sendToRenderers('entrada:apagar');
+        } else {
+            log.error("Operacao cancelada.")
+            dialog.showErrorBox("Erro!", "Operação cancelada.");
+        }
+    });
+    
 });
 
 function criarGerador(){
@@ -446,7 +444,7 @@ function criarSobre(){
         showAboutWindow({
             icon: __dirname + './views/public/icon/icon.ico',
             copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-            text: 'Beta Fechado\n\nLinks e instruções para aprender a usar o programa e se proteger melhor na internet: https://github.com/bainloko/SimpleKeys \n\nPara ver o histórico de um Banco de Dados, veja os registros na pasta Documentos no Windows e Home no Linux.\n\nEm caso de dúvida, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘊𝘢𝘮𝘱𝘶𝘴 Bagé.',
+            text: '𝘽𝙚𝙩𝙖 𝙁𝙚𝙘𝙝𝙖𝙙𝙤\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros. Ícones, Icons8 - 𝙝𝙩𝙩𝙥𝙨://𝙞𝙘𝙤𝙣𝙨8.𝙘𝙤𝙢, Licenças de Código Aberto e Bibliotecas utilizadas: @journeyapps/sqlcipher, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, secure-electron-context-menu, sequelize, update-electron-app, zxcvbn, jQuery, node:crypto\n\nAjuda, links e instruções para aprender a usar o SimpleKeys e se proteger melhor na internet: 𝙝𝙩𝙩𝙥𝙨://𝙜𝙞𝙩𝙝𝙪𝙗.𝙘𝙤𝙢/𝙗𝙖𝙞𝙣𝙡𝙤𝙠𝙤/𝙎𝙞𝙢𝙥𝙡𝙚𝙆𝙚𝙮𝙨 \n\nPara ver o histórico de um Chaveiro, veja os registros na pasta "%AppData%/simplekeys/" no Windows e "/home/[usuario]/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé.',
             website: 'https://github.com/bainloko/SimpleKeys'
         });
     } catch (error){

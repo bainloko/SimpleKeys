@@ -4,8 +4,9 @@
 * 07/set/2022
 */
 
+const { dialog } = require('electron');
 const { ipcRenderer: ipc } = require('electron-better-ipc');
-const ContextMenu = require('secure-electron-context-menu').default;
+const ContextMenu = require('secure-electron-context-menu').default; //work on that -> Notification, ContextMenu
 
 const { conectar } = require('../database/Database.js');
 const Arquivo = require('../App/tools/Arquivo.js');
@@ -27,10 +28,10 @@ function listar(){
         let chaveReserva = store.get("chaveReserva");
         let senha = store.get("senhaArquivo");
 
-        return (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!") : () => { log.error("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); alert("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); }
+        return (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!") : () => { log.error("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); dialog.showErrorBox("Erro!", "Erro ao abrir o Chaveiro! Sera que a senha esta incorreta?"); }
     } catch (error){
-        log.error("Erro na listagem das entradas: " + error + "! Tente novamente!"); 
-        alert("Erro na listagem das entradas: " + error + "! Tente novamente!");
+        log.error("Erro na listagem das Entradas: " + error + "! Tente novamente!"); 
+        dialog.showErrorBox("Erro!", "Erro na listagem das Entradas: " + error + "! Tente novamente!");
     }
 }
 
@@ -52,7 +53,7 @@ async function copiar(texto){
         await navigator.clipboard.writeText(texto);
     } catch (err){
         log.error("A copia falhou: " + err + "! Tente novamente!");
-        alert("A cópia falhou: " + err + "! Tente novamente!");
+        dialog.showErrorBox("Erro!", "A cópia falhou: " + err + "! Tente novamente!");
     }
 }
 
@@ -60,29 +61,29 @@ function verF(senha){
     let result = zxcvbn(senha);
     switch (result.score){
         case 0:
-            alert("Esta senha é muito fraca! Considere trocá-la imediatamente!"); //work on that -> dialog, ContextMenu
+            dialog.showMessageBox("Esta senha é muito fraca! Considere trocá-la imediatamente!");
             break;
         case 1:
-            alert("Esta senha é fraca! Considere trocá-la imediatamente!");
+            dialog.showMessageBox("Esta senha é fraca! Considere trocá-la imediatamente!");
             break;
         case 2:
-            alert("Esta senha é razoável! Considere trocá-la em no máximo 6 meses.");
+            dialog.showMessageBox("Esta senha é razoável! Considere trocá-la em no máximo 6 meses.");
             break;
         case 3:
-            alert("Esta senha é forte! Considere trocá-la daqui, no mínimo, dois anos.");
+            dialog.showMessageBox("Esta senha é forte! Considere trocá-la daqui, no mínimo, dois anos.");
             break;
         case 4:
-            alert("Esta senha é muito forte! Troque-a quando julgar necessário.");
+            dialog.showMessageBox("Esta senha é muito forte! Troque-a quando julgar necessário.");
             break;
         default:
-            alert("Erro na análise da senha!");
+            dialog.showErrorBox("Erro!", "Erro na análise da senha!");
             break;
     }
 }
 
-ipc.on('entrada:apagar', (e) => {
+ipc.on('entrada:apagar', async (e) => {
     selecaoAtual = store.get("selecaoAtual");
-    Arquivo.apagarEntradas(selecaoAtual);
+    await Arquivo.apagarEntradas(selecaoAtual);
 });
 
 module.exports = { listar, disableIfChecked, copiar, verF };

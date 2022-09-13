@@ -4,13 +4,12 @@
 * 22/jun/2022
 */
 
-const { ipcRenderer: ipc } = require('electron-better-ipc'); //work on that -> backup, ContextMenu
+const { ipcRenderer: ipc } = require('electron-better-ipc'); //work on that -> backup
 
 const fse = require('fs-extra');
 
 const { Op } = require('sequelize');
 const Entradas = require('../model/Entradas.js');
-const bcrypt = require('bcrypt');
 
 const log = require('electron-log');
 

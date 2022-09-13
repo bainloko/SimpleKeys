@@ -6,10 +6,12 @@
 
 const { dialog } = require('electron');
 const { ipcRenderer: ipc } = require('electron-better-ipc');
-const ContextMenu = require('secure-electron-context-menu').default; //work on that -> ContextMenu
+const ContextMenu = require('secure-electron-context-menu').default; //work on that -> Notification, ContextMenu
 
 const Store = require('electron-store');
 const store = new Store();
+
+const log = require('electron-log');
 
 ipc.on('arquivo:novo:pathArquivo', (e, path) => {
     let criarPath = path.toString().replace("[\\]", "&#92;");
@@ -17,8 +19,8 @@ ipc.on('arquivo:novo:pathArquivo', (e, path) => {
     if (criarPath != ("" || null || undefined || [])) {
         store.set("pathArquivo", criarPath);
     } else {
-        log.error("Selecione um local valido para salvar o Arquivo!");
-        dialog.showErrorBox("Erro!", "Selecione um local válido para salvar o Arquivo!");
+        log.error("Selecione um local valido para salvar o Chaveiro!");
+        dialog.showErrorBox("Erro!", "Selecione um local válido para salvar o Chaveiro!");
     }
 });
 

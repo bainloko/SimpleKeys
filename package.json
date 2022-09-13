@@ -1,7 +1,7 @@
 {
-  "name": "SimpleKeys",
+  "name": "simplekeys",
   "version": "0.1.0",
-  "description": "Um gerenciador de senhas leve e seguro.",
+  "description": "Um gerenciador de senhas leve, versátil e seguro.",
   "main": "src/main.js",
   "scripts": {
     "test": "electron .",
@@ -21,16 +21,15 @@
     "Generator",
     "Backup"
   ],
-  "author": "Kauã Maia (bainloko)",
+  "author": "Kauã Maia Cousillas",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/bainloko/SimpleKeys/issues"
+    "url": "https://github.com/bainloko/SimpleKeys/issues",
+    "email": "kaua.maia177@gmail.com"
   },
   "homepage": "https://github.com/bainloko/SimpleKeys#readme",
   "dependencies": {
     "@journeyapps/sqlcipher": "^5.3.1",
-    "bcrypt": "^5.0.1",
-    "csv": "^6.2.0",
     "electron": "^19.0.10",
     "electron-better-ipc": "^2.0.1",
     "electron-log": "^4.4.8",
@@ -43,7 +42,6 @@
   },
   "devDependencies": {
     "@doyensec/electronegativity": "^1.9.1",
-    "@types/fs-extra": "^9.0.13",
     "electron-packager": "^15.5.1"
   }
 }

@@ -101,7 +101,7 @@
                 onclick="ipc.send('arquivo:ler:path');"
               />
             </div>
-            <button type="submit" id="okButton" class="ler-arquivo-o-k button" onclick="((localChaveiro.innerText && inpPassword.value) != ('' || null || undefined || [])) ? ipc.send('arquivo:ler') : () => ((localChaveiro.innerText != ('' || null || undefined || []))) ? alert('Digite a senha para acessar o Arquivo!') : alert('Selecione um arquivo para abrir clicando na pasta abaixo da senha!');">OK</button>
+            <button type="submit" id="okButton" class="ler-arquivo-o-k button" onclick="((localChaveiro.innerText && inpPassword.value) != ('' || null || undefined || [])) ? ipc.send('arquivo:ler') : () => ((localChaveiro.innerText != ('' || null || undefined || []))) ? dialog.showErrorBox('Erro!', 'Digite a senha para acessar o Arquivo!') : dialog.showErrorBox('Erro!' ,'Selecione um arquivo para abrir clicando na pasta abaixo da senha!');">OK</button>
             <button type="button" class="ler-arquivo-cancelar button" onclick="ipc.send('arquivo:ler:cancelar');">
               <span>
                 <span>Cancelar</span>

@@ -4,11 +4,12 @@
 * 29/jun/2022
 */
 
+const { dialog } = require('electron');
+
 const Sequelize = require('sequelize');
 
 const log = require('electron-log');
 
-//outra função pra trocar a senha mestra?
 function conectar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, senha){
     try {
         const Settings = require('../model/Settings.js');
@@ -33,7 +34,7 @@ function conectar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, s
                 database.close();
 
                 log.error("Erro ao salvar ao Banco de Dados! Sera que a senha esta incorreta? " + error);
-                alert("Erro ao salvar ao Banco de Dados! Sera que a senha esta incorreta? " + error); //work on that -> dialog
+                dialog.showErrorBox("Erro!", "Erro ao salvar Entradas no Chaveiro! Sera que a senha esta incorreta? " + error);
 
                 return null;
             });
@@ -41,13 +42,13 @@ function conectar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, s
             database.close();
 
             log.error("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta? " + error);
-            alert("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta? " + error);
+            dialog.showErrorBox("Erro!", "Erro ao abrir o Chaveiro! Sera que a senha esta incorreta? " + error);
 
             return null;
         });
     } catch (error){
         log.error("Erro ao criar um Banco de Dados: " + error + "!");
-        alert("Erro ao criar um Banco de Dados: " + error + "!");
+        dialog.showErrorBox("Erro!", "Erro ao criar um Chaveiro: " + error + "!");
 
         return null;
     }
