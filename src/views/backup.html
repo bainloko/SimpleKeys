@@ -3,8 +3,8 @@
   <head>
   <!--
         * SimpleKeys
-        * configuracoes.html
-        * 31/ago/2022
+        * backup.html
+        * 13/set/2022
   -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,11 +34,11 @@
     <link rel="icon" type="image/png" sizes="48x48" href="./public/favicon/favicon-48x48.png">
     <link rel="stylesheet" href="./font.css" data-tag="font" />
     <link rel="stylesheet" href="./style.css" />
-    <title>SimpleKeys - Configurações</title>
+    <title>SimpleKeys - Backup e Imprimir</title>
   </head>
   <body>
     <div>
-      <link href="./configuracoes.css" rel="stylesheet" />
+      <link href="./backup.css" rel="stylesheet" />
       <noscript>
         <h1>SimpleKeys</h1>
         <p lang="pt-BR">
@@ -51,26 +51,27 @@
           Please, install or enable JavaScript to run this software.
         </p>
       </noscript>
-      <article class="configuracoes-container">
-        <div class="configuracoes-desktop">
-          <span class="configuracoes-text">SimpleKeys</span>
-          <div class="configuracoes-container1">
-            <button type="button" class="configuracoes-button button" onclick="window.history.back();">
-              <span class="configuracoes-text01">
+      <article class="backup-container">
+        <div class="backup-desktop">
+          <span class="backup-text">SimpleKeys</span>
+          <div class="backup-container1">
+            <button type="button" class="backup-button button" onclick="window.history.back();">
+              <span class="backup-text01">
                 <span>Voltar</span>
                 <br />
               </span>
             </button>
-            <img src="./public/playground_assets/IFSulVertical.jpg">
-            <span class="configuracoes-text02">
-              <span>Página de Configurações BANCO e SISTEMA, ideias:<br />menus, dropdowns, checkboxes? janela separada?</span>
+            <img src="./backup.png">
+            <span class="backup-text02">
+              <span>Página para Backup e Impressão das Entradas do Chaveiro <span id="nomeChaveiro"></span></span>
               <br />
             </span>
-            <span class="configuracoes-text09">v 0.1.0</span>
+            <span class="backup-text09">v 0.1.0</span>
           </div> 
+          <div cm-template="alertTemplate"></div>
         </div>
       </article>
     </div>
-    <script src="../App/tools/configuracoes.js"></script>
+    <script src="../App/tools/backup.js"></script>
   </body>
 </html>

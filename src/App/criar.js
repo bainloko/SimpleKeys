@@ -5,7 +5,6 @@
 */
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
-const ContextMenu = require('secure-electron-context-menu').default; //work on that -> Notification, ContextMenu
 
 const Store = require('electron-store');
 const store = new Store();
@@ -17,6 +16,7 @@ ipc.on('arquivo:novo:pathArquivo', (e, path) => {
 
     if (criarPath != ("" || null || undefined || [])) {
         store.set("pathArquivo", criarPath);
+        store.set("refArquivo", criarPath);
     } else {
         log.error("Selecione um local valido para salvar o Chaveiro!");
         ipc.send('mensagem:local:erro');

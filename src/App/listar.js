@@ -5,14 +5,10 @@
 */
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
-const ContextMenu = require('secure-electron-context-menu').default; //work on that -> Notification, ContextMenu
 
 const { conectar } = require('../database/Database.js');
 const Arquivo = require('../App/tools/Arquivo.js');
 const zxcvbn = require('../App/tools/zxcvbn.js');
-
-const { loading } = require('cli-loading-animation');
-const { start, stop } = loading("Carregando...");
 
 const Store = require('electron-store');
 const store = new Store();
@@ -85,7 +81,12 @@ function verF(senha){
 
 ipc.on('entrada:apagar', async (e) => {
     selecaoAtual = store.get("selecaoAtual");
-    await Arquivo.apagarEntradas(selecaoAtual);
+    await Arquivo.apagarEntrada(selecaoAtual);
+});
+
+ipc.on('repopular', (e) => {
+    store.set("selecaoAtual") = 0;
+    rePopular('');
 });
 
 module.exports = { listar, disableIfChecked, copiar, verF };

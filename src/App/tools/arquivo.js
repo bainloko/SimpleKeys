@@ -13,23 +13,21 @@ const Entradas = require('../../model/Entradas.js');
 
 const log = require('electron-log');
 
-async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+async function cadastrarEntrada(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
-        const resultadoCreate = await Entradas.create({
+        const resultadoEntrada = await Entradas.create({
             nome: nomeEntradas,
             descricao: descEntradas,
             site: siteEntradas,
             login: loginEntradas,
             senha: senhaEntradas,
-            expira: expira,
-            // grupoImg: grupoImg,
-            // grupoLista: grupoLista 
+            expira: parseInt(expira)
         });
 
         log.info("Entrada cadastrada com sucesso!");
         ipc.send('mensagem:entrada:sucesso');
 
-        return resultadoCreate;
+        return resultadoEntrada;
     } catch (error){
         log.error("Ocorreu um erro no cadastro da nova Entrada, " + error + "!");
         ipc.send('mensagem:entrada:erro');
@@ -53,9 +51,9 @@ async function lerEntradas(){
 
 async function pesquisarByPk(selecaoAtual){
     try {
-        const entradas = await Entradas.findByPk(selecaoAtual);
+        const entradasPesqPk = await Entradas.findByPk(selecaoAtual);
 
-        return entradas;
+        return entradasPesqPk;
     } catch (error){
         log.error("Ocorreu um erro na pesquisa das Entradas, " + error + "!");
         ipc.send('mensagem:pesquisa:erro');
@@ -66,20 +64,20 @@ async function pesquisarByPk(selecaoAtual){
 
 async function pesquisarEntradas(pesquisa){
     try {
-        const entradas = await Entradas.findAll({
+        const entradasPesq = await Entradas.findAll({
             where: {
-                nome: pesquisa,
                 [Op.or]: [
+                    {id: pesquisa},
+                    {nome: pesquisa},
                     {descricao: pesquisa},
                     {site: pesquisa},
                     {login: pesquisa},
-                    {expira: pesquisa},
-                    {grupoLista: pesquisa}
+                    {expira: pesquisa}
                 ]
             }
         });
 
-        return entradas;
+        return entradasPesq;
     } catch (error){
         log.error("Ocorreu um erro na pesquisa das Entradas, " + error + "!");
         ipc.send('mensagem:pesquisa:erro');
@@ -88,23 +86,21 @@ async function pesquisarEntradas(pesquisa){
     }
 }
 
-async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+async function editarEntrada(selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
-        const entradas = await Entradas.findByPk(selecaoAtual).then(() => {
-            entradas.nome = nomeEntradas;
-            entradas.descricao = descEntradas;
-            entradas.site = siteEntradas;
-            entradas.login = loginEntradas;
-            entradas.senha = senhaEntradas;
-            entradas.expira = expira;
-            // entradas.grupoImg = grupoImg;
-            // entradas.grupoLista = grupoLista;
+        const entradaEdicao = await Entradas.findByPk(selecaoAtual).then(() => {
+            entradaEdicao.nome = nomeEntradas;
+            entradaEdicao.descricao = descEntradas;
+            entradaEdicao.site = siteEntradas;
+            entradaEdicao.login = loginEntradas;
+            entradaEdicao.senha = senhaEntradas;
+            entradaEdicao.expira = expira;
             
-            entradas.save();
+            entradaEdicao.save();
             log.info("Entrada editada com sucesso!");
             ipc.send('mensagem:edicao:sucesso');
 
-            return entradas;
+            return entradaEdicao;
         }).catch((error) => {
             log.error("Ocorreu um erro na edicao da Entrada, " + error + "!");
             ipc.send('mensagem:edicao:erro');
@@ -119,7 +115,7 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
     }
 }
 
-async function apagarEntradas(selecaoAtual){
+async function apagarEntrada(selecaoAtual){
     try {
         await Entradas.destroy({ where: { id: selecaoAtual }});
 
@@ -185,4 +181,4 @@ async function consultarBanco(path){
     }
 }
 
-module.exports = { cadastrarEntradas, lerEntradas, Entradas, pesquisarByPk, pesquisarEntradas, editarEntradas, apagarEntradas, salvarBanco, fecharConexao, consultarBanco };
+module.exports = { cadastrarEntrada, lerEntradas, Entradas, pesquisarByPk, pesquisarEntradas, editarEntrada, apagarEntrada, salvarBanco, fecharConexao, consultarBanco };

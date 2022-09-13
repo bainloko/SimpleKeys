@@ -8,6 +8,7 @@
 const { app, BrowserWindow, Menu, Notification, dialog } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
 const { showAboutWindow } = require('electron-util');
+const ContextMenu = require('secure-electron-context-menu').default; //work on that -> ContextMenu, Tray
 
 const Store = require('electron-store');
 const store = new Store();
@@ -20,6 +21,7 @@ const lock = app.requestSingleInstanceLock();
 let telaInicial = null;
 let lerArquivo = null;
 let WIN = null;
+const isDev = process.env.NODE_ENV === "development";
 
 function criarTelaInicial(){
     // Cria a tela inicial
@@ -32,13 +34,27 @@ function criarTelaInicial(){
         backgroundColor: "#5096fa",
         icon: __dirname + './views/public/icon/icon.png',
         webPreferences: {
-            devTools: !app.isPackaged,
+            devTools: isDev,
             contextIsolation: false,
             nodeIntegration: true
         }
     });
     
     Menu.setApplicationMenu(null);
+
+    ContextMenu.mainBindings(ipc, telaInicial, Menu, isDev, {
+        "default": [
+            {
+                label: "Copiar",
+                role: "copy",
+            },
+            {
+                label: "Colar",
+                role: "paste",
+            }
+        ]
+    });
+
     telaInicial.loadFile('src/views/index.html');
 
     telaInicial.on('ready-to-show', () => {
@@ -54,7 +70,7 @@ function criarTelaInicial(){
 
 function fecharERInicial(){
     try {
-        Menu.setApplicationMenu(Menu.buildFromTemplate([{label: "Menu"}]));
+        Menu.setApplicationMenu(null);
         telaInicial.loadFile('src/views/index.html');
     } catch (error){
         log.error("Ocorreu um erro ao fechar o Banco de Dados! Encerre o SimpleKeys imediatamente! " + error);
@@ -68,6 +84,7 @@ ipc.on('opcao:inicial', (e) => {
 
 function criarListaEntradas(){
     try {
+
         // Cria o template do menu
         let opcoesMenu = [
             // Cada objeto é um dropdown
@@ -76,11 +93,11 @@ function criarListaEntradas(){
                 submenu: [
                     {
                         label: 'Novo Arquivo',
-                        click(){ ipc.send('opcao:criar'); }
+                        click(){ criarNovoArquivo(); }
                     },
                     {
                         label: 'Abrir Arquivo Já Existente',
-                        click(){ ipc.send('opcao:abrir'); }
+                        click(){ criarLerArquivo(); }
                     },
                     {
                         label: 'Alterar Senha Mestra',
@@ -95,8 +112,12 @@ function criarListaEntradas(){
                     //     click(){  },
                     // },
                     {
+                        label: 'Salvar Arquivo',
+                        click(){ Arquivo.salvarBanco(); }
+                    },
+                    {
                         label: 'Trancar Arquivo',
-                        click(){ Arquivo.fecharConexao(); /* limpar área de transferência + Notificação */ ipc.send('opcao:inicial'); }
+                        click(){ Arquivo.salvarBanco(); Arquivo.fecharConexao(); fecharERInicial(); }
                     },
                     {
                         label: 'Sair',
@@ -110,11 +131,11 @@ function criarListaEntradas(){
                 submenu: [
                     {
                         label: 'Copiar Login',
-                        click(){ if(selecionada != (0 || null || undefined || [])){const idL = document.getElementById('idL' + selecionada); copiar(idL.innerText); log.info('Login copiado!'); ipc.send('mensagem:copia:lc');}else{ipc.send('mensagem:selecao:lerr');} },
+                        click(){ selecionada = store.get("selecaoAtual"); if(selecionada != (0 || null || undefined || [])){const idL = document.getElementById('idL' + selecionada); copiar(idL.innerText); log.info('Login copiado!'); dialog.showMessageBox(telaInicial, { message: "Login copiado!" });}else{dialog.showErrorBox("Erro!", "Selecione um Login para copiar!");} },
                     },
                     {
                         label: 'Copiar Senha',
-                        click(){ if(selecionada != (0 || null || undefined || [])){const idP = document.getElementById('idP' + selecionada); copiar(idP.value); log.info('Senha copiada!'); ipc.send('mensagem:copia:sc');}else{ipc.send('mensagem:selecao:serr');} },
+                        click(){ selecionada = store.get("selecaoAtual"); if(selecionada != (0 || null || undefined || [])){const idP = document.getElementById('idP' + selecionada); copiar(idP.value); log.info('Senha copiada!'); dialog.showMessageBox(telaInicial, { message: "Senha copiada!" });}else{dialog.showErrorBox("Erro!", "Selecione uma Senha para copiar!");} },
                     },
                     // { //FUNCIONALIDADE FUTURA
                     //     label: 'Copiar Campos',
@@ -131,15 +152,15 @@ function criarListaEntradas(){
                     // },
                     {
                         label: 'Cadastrar Nova Entrada',
-                        click(){ ipc.send('arquivo:nova'); }
+                        click(){ cadastrarNovaEntrada(); }
                     },
                     {
                         label: 'Editar Entrada',
-                        click(){ if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:editar');}else{ipc.send('mensagem:selecao:eerr');} },
+                        click(){ selecionada = store.get("selecaoAtual"); if(selecionada != (0 || null || undefined || [])){criarEditarEntrada();}else{dialog.showErrorBox("Erro!", "Selecione uma Entrada para editar!");} },
                     },
                     {
                         label: 'Deletar Entrada(s)',
-                        click(){ if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:entrada:apagar')}else{ipc.send('mensagem:selecao:aerr');} },
+                        click(){ selecionada = store.get("selecaoAtual"); if(selecionada != (0 || null || undefined || [])){apagar();}else{dialog.showErrorBox("Erro!", "Selecione uma Entrada para apagar!");} },
                     },
                     // { //FUNCIONALIDADE FUTURA
                     //     label: 'Selecionar Tudo',
@@ -195,18 +216,19 @@ function criarListaEntradas(){
                 label: 'Ferramentas',
                 submenu: [
                     {
-                        label: 'Gerar Senhas',
-                        click(){ ipc.send('arquivo:gerador'); },
+                        label: 'Gerador de Senhas',
+                        click(){ criarGerador(); },
                     },
                     {
                         label: 'Backup',
-                        click(){ ipc.send('arquivo:backup'); },
-                    },
-                    {
-                        label: 'Configurações',
-                        click(){ ipc.send('opcao:config'); },
+                        click(){ criarBackup(); },
                     },
                 ]
+            },
+
+            {
+                label: 'Configurações',
+                click(){ criarConfiguracoes(); },
             },
 
             {
@@ -214,21 +236,23 @@ function criarListaEntradas(){
                 submenu: [
                     {
                         label: 'Verificar novas Atualizações',
-                        click(){ },
+                        click(){ dialog.showErrorBox("Erro!", "Funcionalidade Futura! Desculpe!"); },
                     },
                     {
                         label: 'Sobre o SimpleKeys, Links de Ajuda',
-                        click(){ ipc.send('opcao:sobre'); },
+                        click(){ criarSobre(); },
                     },
                 ]
             },
         ]; const menu = Menu.buildFromTemplate(opcoesMenu);
 
-        // Insere o menu
-        Menu.setApplicationMenu(menu);
-
         // Abre a tela
         telaInicial.loadFile('src/views/listarEntradas.html');
+
+        setTimeout(() => {
+            // Insere o menu
+            Menu.setApplicationMenu(menu);
+        }, 2500);
     } catch (error){
         log.error("Houve um erro no carregamento da tela listaEntradas, " + error);
         dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela listaEntradas, " + error);
@@ -289,6 +313,20 @@ function criarLerArquivo(){
                 contextIsolation: false,
                 nodeIntegration: true
             }
+        });
+
+        
+        ContextMenu.mainBindings(ipc, telaInicial, Menu, isDev, {
+            "default": [
+                {
+                    label: "Copiar",
+                    role: "copy",
+                },
+                {
+                    label: "Colar",
+                    role: "paste",
+                }
+            ]
         });
 
         lerArquivo.loadFile('src/views/lerArquivo.html');
@@ -392,7 +430,7 @@ ipc.on('arquivo:editar', (e) => {
     criarEditarEntrada();
 });
 
-ipc.on('arquivo:entrada:apagar', (e) => {
+function apagar(){
     const resposta = dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada?', type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1}).then(() => {
         if (resposta.response == 0) {
             ipc.sendToRenderers('entrada:apagar');
@@ -401,7 +439,10 @@ ipc.on('arquivo:entrada:apagar', (e) => {
             dialog.showErrorBox("Erro!", "Operação cancelada.");
         }
     });
-    
+}
+
+ipc.on('arquivo:entrada:apagar', (e) => {
+    apagar();
 });
 
 function criarGerador(){
@@ -444,7 +485,7 @@ function criarSobre(){
         showAboutWindow({
             icon: __dirname + './views/public/icon/icon.ico',
             copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-            text: '𝘽𝙚𝙩𝙖 𝙁𝙚𝙘𝙝𝙖𝙙𝙤\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros. Ícones, Icons8 - 𝙝𝙩𝙩𝙥𝙨://𝙞𝙘𝙤𝙣𝙨8.𝙘𝙤𝙢, Licenças de Código Aberto e Bibliotecas utilizadas: @journeyapps/sqlcipher, cli-loading-animation, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, secure-electron-context-menu, sequelize, update-electron-app, zxcvbn, jQuery, node:crypto\n\nAjuda, links e instruções para aprender a usar o SimpleKeys e se proteger melhor na internet: 𝙝𝙩𝙩𝙥𝙨://𝙜𝙞𝙩𝙝𝙪𝙗.𝙘𝙤𝙢/𝙗𝙖𝙞𝙣𝙡𝙤𝙠𝙤/𝙎𝙞𝙢𝙥𝙡𝙚𝙆𝙚𝙮𝙨 \n\nPara ver o histórico de um Chaveiro, veja os registros na pasta "%AppData%/simplekeys/" no Windows e "/home/[usuario]/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé.',
+            text: '𝘽𝙚𝙩𝙖 𝙁𝙚𝙘𝙝𝙖𝙙𝙤\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros.\n\nÍcones por Icons8 - 𝙝𝙩𝙩𝙥𝙨://𝙞𝙘𝙤𝙣𝙨8.𝙘𝙤𝙢, Licenças de Código Aberto e Bibliotecas utilizadas: @journeyapps/sqlcipher, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, secure-electron-context-menu, sequelize, update-electron-app, zxcvbn, jQuery, node:crypto, cli-loading-animation, @doyensec/electronegativity, electron-packager, SonarCloud, TeleportHQ\n\nAjuda, links e instruções para aprender a usar o SimpleKeys e se proteger melhor na internet: 𝙝𝙩𝙩𝙥𝙨://𝙜𝙞𝙩𝙝𝙪𝙗.𝙘𝙤𝙢/𝙗𝙖𝙞𝙣𝙡𝙤𝙠𝙤/𝙎𝙞𝙢𝙥𝙡𝙚𝙆𝙚𝙮𝙨\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para kaua.maia177@gmail.com\n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé.',
             website: 'https://github.com/bainloko/SimpleKeys'
         });
     } catch (error){
@@ -470,8 +511,8 @@ ipc.on('opcao:sobre', (e) => {
 });
 
 ipc.on('mensagem:entrada:sucesso', (e) => {
-    dialog.showMessageBox("Entrada cadastrada com sucesso!");
-    ipc.send('arquivo:novo:criar');
+    dialog.showMessageBox(telaInicial, { message: "Entrada cadastrada com sucesso!" });
+    criarListaEntradas();
 });
 
 ipc.on('mensagem:entrada:erro', (e) => {
@@ -487,8 +528,8 @@ ipc.on('mensagem:pesquisa:erro', (e) => {
 });
 
 ipc.on('mensagem:edicao:sucesso', (e) => {
-    dialog.showMessageBox("Entrada editada com sucesso!");
-    ipc.send('arquivo:novo:criar');
+    dialog.showMessageBox(telaInicial, { message: "Entrada editada com sucesso!" });
+    criarListaEntradas();
 });
 
 ipc.on('mensagem:edicao:erro', (e) => {
@@ -496,7 +537,8 @@ ipc.on('mensagem:edicao:erro', (e) => {
 });
 
 ipc.on('mensagem:apagar:sucesso', (e) => {
-    dialog.showMessageBox("Entrada apagada com sucesso, ");
+    dialog.showMessageBox(telaInicial, { message: "Entrada apagada com sucesso, " });
+    ipc.sendToRenderers('repopular');
 });
 
 ipc.on('mensagem:apagar:erro', (e) => {
@@ -504,7 +546,7 @@ ipc.on('mensagem:apagar:erro', (e) => {
 });
 
 ipc.on('mensagem:salvar:sucesso', (e) => {
-    dialog.showMessageBox("Chaveiro salvo com sucesso!");
+    dialog.showMessageBox(telaInicial, { message: "Chaveiro salvo com sucesso!" });
 });
 
 ipc.on('mensagem:salvar:erro', (e) => {
@@ -512,7 +554,7 @@ ipc.on('mensagem:salvar:erro', (e) => {
 });
 
 ipc.on('mensagem:fecharConexao:sucesso', (e) => {
-    dialog.showMessageBox("Chaveiro fechado com sucesso!");
+    dialog.showMessageBox(telaInicial, { message: "Chaveiro fechado com sucesso!" });
 });
 
 ipc.on('mensagem:fecharConexao:erro', (e) => {
@@ -560,23 +602,23 @@ ipc.on('mensagem:copia:erro', (e) => {
 });
 
 ipc.on('mensagem:analise:ppp', (e) => {
-    dialog.showMessageBox("Esta senha é muito fraca! Considere trocá-la imediatamente!");
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito fraca! Considere trocá-la imediatamente!" });
 });
 
 ipc.on('mensagem:analise:pp', (e) => {
-    dialog.showMessageBox("Esta senha é fraca! Considere trocá-la imediatamente!");
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é fraca! Considere trocá-la imediatamente!" });
 });
 
 ipc.on('mensagem:analise:r', (e) => {
-    dialog.showMessageBox("Esta senha é razoável! Considere trocá-la em no máximo 6 meses.");
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é razoável! Considere trocá-la em no máximo 6 meses." });
 });
 
 ipc.on('mensagem:analise:f', (e) => {
-    dialog.showMessageBox("Esta senha é forte! Considere trocá-la daqui, no mínimo, dois anos.");
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é forte! Considere trocá-la daqui, no mínimo, dois anos." });
 });
 
 ipc.on('mensagem:analise:ff', (e) => {
-    dialog.showMessageBox("Esta senha é muito forte! Troque-a quando julgar necessário.");
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito forte! Troque-a quando julgar necessário." });
 });
 
 ipc.on('mensagem:analise:erro', (e) => {
@@ -612,7 +654,7 @@ ipc.on('mensagem:selecao:ferr', (e) => {
 });
 
 ipc.on('mensagem:copia:lc', (e) => {
-    dialog.showErrorBox("Erro!", "Login copiado!");
+    dialog.showMessageBox(telaInicial, { message: "Login copiado!" });
 });
 
 ipc.on('mensagem:selecao:lerr', (e) => {
@@ -620,7 +662,7 @@ ipc.on('mensagem:selecao:lerr', (e) => {
 });
 
 ipc.on('mensagem:copia:sc', (e) => {
-    dialog.showErrorBox("Erro!", "Senha copiada!");
+    dialog.showMessageBox(telaInicial, { message: "Senha copiada!" });
 });
 
 ipc.on('mensagem:selecao:serr', (e) => {
@@ -635,9 +677,9 @@ ipc.on('mensagem:selecao:pesqerr', (e) => {
     dialog.showErrorBox("Erro!", "Digite algum termo para realizar a pesquisa!");
 });
 
-// ipc.on('mensagem:', (e) => {
-//     dialog.showErrorBox("Erro!", "");
-// });
+ipc.on('mensagem:', (e) => {
+    dialog.showErrorBox("Erro!", "Erro Não Identificado!");
+});
 
 app.on('ready', (e) => {
     criarTelaInicial();
@@ -648,6 +690,7 @@ app.on('window-all-closed', (e) => {
     log.info(navigator.clipboard.read());
     store.set("pathArquivo", "");
     store.set("nomeArquivo", "");
+    store.set("refArquivo", "");
     store.set("descArquivo", "");
     store.set("expiraArquivo", 0);
     store.set("chaveReserva", false);

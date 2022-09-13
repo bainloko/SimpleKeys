@@ -5,7 +5,6 @@
 */
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
-const ContextMenu = require('secure-electron-context-menu').default; //work on that -> ContextMenu
 
 const { randomInt } = require('node:crypto');
 

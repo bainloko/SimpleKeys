@@ -127,7 +127,7 @@
                     value=""
                 />
                 <span class="editar-entrada-text18">
-                    <span>Usuário/Login:</span>
+                    <span>Login:</span>
                     <br />
                 </span>
                 <input
@@ -145,7 +145,6 @@
                 <input
                     id="inpPassword"
                     type="password"
-                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&-+=()]).{8,}$"
                     placeholder=""
                     autocomplete="off"
                     required
@@ -154,7 +153,7 @@
                 />
                 <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
                 <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
-                <div id="password-strength" title="Esse é o marcador de segurança da sua senha mestra. Você precisa seguir a estes critérios aqui: No mínimo 8 caracteres, dos quais, uma letra minúscula, uma letra maiúscula, um número e um símbolo, em qualquer ordem.">
+                <div id="password-strength" title="Esse é o marcador de segurança desta senha.">
                   <span></span>
                 </div>
                 <span class="editar-entrada-text24">
@@ -164,7 +163,6 @@
                 <input
                     id="inpTestPassword"
                     type="password"
-                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&-+=()]).{8,}$"
                     placeholder="Repita a senha por segurança"
                     autocomplete="off"
                     required
@@ -208,7 +206,6 @@
                 </button>
               </form>
             </div>
-            <div cm-template="alertTemplate"></div>
         </div>
       </article>
     </div>
@@ -216,15 +213,17 @@
     <script src="../App/editar.js"></script>
     <script>
       const $ = require('../App/tools/jquery-3.6.1.min.js');
+
       $(document).ready(
         setTimeout(() => {
           popular(selecaoAtual).then(() => {
+            window.clearInterval(window.timer);
             log.info("Populacao dos Dados feita com sucesso!");
           }).catch((error) => {
             log.error("Erro na Populacao dos Dados! " + error);
             ipc.send('mensagem:populacao:erro');
           });
-        }, 5000)
+        }, 500)
       );
     </script>
   </body>

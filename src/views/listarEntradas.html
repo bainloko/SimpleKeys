@@ -38,19 +38,19 @@
     <script src="../App/tools/zxcvbn.js"></script>
     <script src="../App/listar.js"></script>
     <script>
-      let res = "", entradas, listaSeed;
+      let res = "", entradas, busca;
 
       listar();
 
       async function seed(){
-        listaSeed = await Arquivo.lerEntradas();
-        if (listaSeed.length == 0) {
-          Arquivo.cadastrarEntradas('Google', 'Exemplo', 'https://google.com', 'fulanodetal@gmail', '123456', 0, '', '');
+        busca = await Arquivo.lerEntradas();
+        if (busca.length == 0) {
+          Arquivo.cadastrarEntrada('Google', 'Exemplo', 'https://google.com', 'fulanodetal@gmail', '123456', 0, '', '');
           log.info("Foi preciso SEED! Apos seedado com sucesso, o programa ira carregar normalmente.");
-          listaSeed = "";
+          busca = "";
         } else {
           log.info("Nao foi preciso SEED! Carregando normalmente...");
-          listaSeed = "";
+          busca = "";
         }
       }
 
@@ -90,6 +90,51 @@
             `;
         }); document.getElementById('container3').innerHTML = res;
       }
+
+      async function rePopular(pesquisa){
+        res = "";
+        if (pesquisa != ('' || null || undefined || [])) {
+          //Repopula sem recarregar a página, mas nesse caso, só aparecerão os valores que se encaixam com a Pesquisa
+          busca = await Arquivo.pesquisarEntradas(pesquisa);
+          busca.forEach((entrada) => {
+            res += `
+                <tr id="textosTD${entrada.id}">
+                  <td style="min-width: var(--id); max-width: var(--id); word-wrap: break-word; text-align: center;">${entrada.id}</td>
+                  <td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.nome}</td>
+                  <td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.descricao}</td>
+                  <td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); padding-left: 5px; word-wrap: break-word; text-align: center;">${entrada.site}</td>
+                  <td id="idL${entrada.id}" style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.login}</td>
+                  <td style="min-width: var(--senha); max-width: var(--senha); word-wrap: break-word; text-align: center; border-right: 0px;">
+                    <input type="password" id="idP${entrada.id}" value="${entrada.senha}" style="max-width: var(--senhaInp); word-wrap: break-word; text-align: left; background-color: '#e6e6e6'" disabled />
+                    <td style="border-left: 0px;">
+                      <img
+                        src="./public/playground_assets/closedEyelid.png"
+                        style="width: 26px; height: 26px; display: block; cursor: pointer; margin-right: 5px;"
+                        id="eye${entrada.id}"
+                        onclick="if(idP${entrada.id}.type == 'password'){eye${entrada.id}.style.display='none';eye${entrada.id}Shown.style.display='block';idP${entrada.id}.setAttribute('type','text');}else{eye${entrada.id}.style.display='block';eye${entrada.id}Shown.style.display='none';idP${entrada.id}.setAttribute('type','password');}"
+                      />
+                      <img
+                        src="./public/playground_assets/openEyelid.png"
+                        style="width: 26px; height: 26px; display: none; cursor: pointer; margin-right: 5px;"
+                        id="eye${entrada.id}Shown"
+                        onclick="if(idP${entrada.id}.type == 'password'){eye${entrada.id}.style.display='none';eye${entrada.id}Shown.style.display='block';idP${entrada.id}.setAttribute('type','text');}else{eye${entrada.id}.style.display='block';eye${entrada.id}Shown.style.display='none';idP${entrada.id}.setAttribute('type','password');}"
+                      />
+                    </td>
+                  </td>
+                  <td style="min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); margin-left: -5px; word-wrap: break-word; text-align: center; border: none;">${entrada.expira} meses</td>
+                  <td style="min-width: var(--vb); max-width: var(--vb); margin-left: 5px; word-wrap: break-word; text-align: center; border: none;">&#124;</td>
+                  <td style="min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); padding-right: 15px; word-wrap: break-word; text-align: center; border: none;">
+                    <input type="checkbox" id="idC${entrada.id}" class="listarEntradas-checkbox" title="Clique Aqui Para Selecionar Esta Entrada" onchange="if(idC${entrada.id}.checked == true){disableIfChecked(event, ${entrada.id});}else{disableIfChecked(event, 0);}" />
+                  </td>
+                </tr>
+              `;
+          }); document.getElementById('container3').innerHTML = res;
+        } else {
+          //Repopula sem recarregar a página, ex: Após apagar uma Entrada ou após apagar a query Pesquisa
+          popular();
+          busca = "";
+        }
+      }
     </script>
   </head>
   <body>
@@ -106,6 +151,12 @@
             title="Banco Disponível."
           />
         </span>
+        <img 
+          alt="image"
+          src="public/playground_assets/info.png"
+          id="imgInfo"
+          title=""
+        />
         <span class="listarEntradas-text2">v 0.1.0</span>
         <div class="listarEntradas-container1">
           <span>
@@ -189,8 +240,8 @@
           </svg>
         </span>
         <p id="barraPesqInp">&#124;</p>
-        <input id="pesqInp" type="text" name="pesquisar" value="" placeholder="Digite sua pesquisa!" />
-        <span class="listarEntradas-icon6" title="Pesquisar" onclick="((pesqInp.value != ('' || null || undefined || []) == true)) ? Arquivo.pesquisarEntradas(pesqInp.value) : ipc.send('mensagem:selecao:pesqerr');">
+        <input id="pesqInp" type="text" name="pesquisar" value="" placeholder="Digite sua pesquisa! Maiúsculas importam!" />
+        <span class="listarEntradas-icon6" title="Pesquisar/Recarregar" onclick="((pesqInp.value != (null || undefined) == true)) ? rePopular(pesqInp.value) : ipc.send('mensagem:selecao:pesqerr');">
           <svg viewBox="0 0 1024 1024" id="imgPesquisarSenhas">
             <path
               d="M992.262 871.396l-242.552-206.294c-25.074-22.566-51.89-32.926-73.552-31.926 57.256-67.068 91.842-154.078 91.842-249.176 0-212.078-171.922-384-384-384-212.076 0-384 171.922-384 384s171.922 384 384 384c95.098 0 182.108-34.586 249.176-91.844-1 21.662 9.36 48.478 31.926 73.552l206.294 242.552c35.322 39.246 93.022 42.554 128.22 7.356s31.892-92.898-7.354-128.22zM384 640c-141.384 0-256-114.616-256-256s114.616-256 256-256 256 114.616 256 256-114.614 256-256 256z"
@@ -222,7 +273,7 @@
             ></path>
           </svg>
         </span>
-        <span class="listarEntradas-icon10" title="Apagar Entrada" onclick="if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:entrada:apagar')}else{ipc.send('mensagem:selecao:aerr');}">
+        <span class="listarEntradas-icon10" title="Apagar Entrada" onclick="if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:entrada:apagar');}else{ipc.send('mensagem:selecao:aerr');}">
           <svg viewBox="0 0 1024 1024" id="imgApagarEntradas">
             <path
               d="M810 170v86h-596v-86h148l44-42h212l44 42h148zM256 810v-512h512v512q0 34-26 60t-60 26h-340q-34 0-60-26t-26-60z"
@@ -263,25 +314,35 @@
             ></path>
           </svg>
         </span>
-        <div cm-template="alertTemplate"></div>
       </article>
     </div>
     <script>
       const $ = require('../App/tools/jquery-3.6.1.min.js');
-      legendaTxt.innerText = start();
+      
+      let frames = ["-", " ", ".", ">", "<", "^", "\\", "|", "/"], interval = 150;
+
+      window.timer = window.setInterval(function(){
+        for (let i = 1; i < interval; i++) {
+          setTimeout(() => {
+            legendaTxt.innerText = `Carregando... ${frames[(i = ++i % frames.length)]}`.trim();
+          }, 1);
+        }
+      }, interval);
+
       $(document).ready(
         setTimeout(() => {
           seed().then(() => {
             popular();
-            stop();
+            window.clearInterval(window.timer);
             legendaTxt.innerText = "Disponível.";
+            imgInfo.title = "Chaveiro em " + store.get("refArquivo");
             imgCadeado.style = "display: block;";
             log.info("Populacao dos Dados feita com sucesso!");
           }).catch((error) => {
             log.error("Erro na Populacao dos Dados! " + error);
             ipc.send('mensagem:populacao:erro');
           });
-        }, 5000)
+        }, 3000)
       );
     </script>
   </body>

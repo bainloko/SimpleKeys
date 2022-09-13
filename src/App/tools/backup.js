@@ -6,9 +6,6 @@
 
 const { ipcRenderer: ipc } = require('electron-better-ipc'); //work on that -> backup
 
-const fse = require('fs-extra');
-
-const { Op } = require('sequelize');
 const Entradas = require('../model/Entradas.js');
 
 const log = require('electron-log');

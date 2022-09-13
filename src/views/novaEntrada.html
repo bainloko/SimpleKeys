@@ -109,7 +109,7 @@
                     class="nova-entrada-textinput2 input"
                 />
                 <span class="nova-entrada-text18">
-                    <span>Usuário/Login:</span>
+                    <span>Login:</span>
                     <br />
                 </span>
                 <input
@@ -133,7 +133,7 @@
                 />
                 <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
                 <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
-                <div id="password-strength" title="Esse é o marcador de segurança da sua senha mestra. Você precisa seguir a estes critérios aqui: No mínimo 8 caracteres, dos quais, uma letra minúscula, uma letra maiúscula, um número e um símbolo, em qualquer ordem.">
+                <div id="password-strength" title="Esse é o marcador de segurança desta senha.">
                   <span></span>
                 </div>
                 <span class="nova-entrada-text24">
@@ -171,7 +171,7 @@
                 <div class="nova-entrada-slider">
                     <input id="expira" title="6 meses" type="range" min="0" max="36" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
                 </div>
-                <button type="submit" class="nova-entrada-button button" onclick="(((inputNomeEnt.value && inputLoginEnt.value && inpPassword.value != ('' || null || undefined || [])) == true)) ? Arquivo.cadastrarEntradas(inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value) : ipc.send('mensagem:paridade:erro');">
+                <button type="submit" class="nova-entrada-button button" onclick="(((inputNomeEnt.value && inputLoginEnt.value && inpPassword.value != ('' || null || undefined || [])) == true)) ? Arquivo.cadastrarEntrada(inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value) : ipc.send('mensagem:paridade:erro');">
                 <span class="nova-entrada-text01">
                     <span>Criar</span>
                     <br />
@@ -185,7 +185,6 @@
                 </button>
               </form>
             </div>
-            <div cm-template="alertTemplate"></div>
         </div>
       </article>
     </div>

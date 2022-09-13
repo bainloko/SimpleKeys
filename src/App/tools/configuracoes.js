@@ -6,10 +6,6 @@
 
 const { ipcRenderer: ipc } = require('electron-better-ipc'); //work on that -> configuracoes
 
-const fse = require('fs-extra');
-const Path = require('path');
-
-const { Op } = require('sequelize');
 const Settings = require('../model/Settings.js');
 
 const log = require('electron-log');

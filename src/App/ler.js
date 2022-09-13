@@ -5,7 +5,6 @@
 */
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
-const ContextMenu = require('secure-electron-context-menu').default; //work on that -> Notification, ContextMenu
 
 const Store = require('electron-store');
 const store = new Store();
@@ -71,6 +70,7 @@ ipc.on('arquivo:ler:pathArquivo', (e, path) => {
     if (lerPath != ("" || null || undefined || [])) {
         store.set("pathArquivo", lerPath);
         store.set("nomeArquivo", lerPath.slice(0, (lerPath.length - 3)).substring((lerPath.lastIndexOf("\\") + 1)));
+        store.set("refArquivo", lerPath);
         localChaveiro.innerText = lerPath;
         localChaveiro.title = lerPath;
         localChaveiroCheckbox.checked = true;

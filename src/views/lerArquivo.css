@@ -141,14 +141,14 @@ body {
   justify-content: flex-start;
 }
 #eye {
-  top: -36px;
+  top: -40px;
   left: 350px;
   position: absolute;
   cursor: pointer;
   display: block;
 }
 #eyeShown {
-  top: -36px;
+  top: -40px;
   left: 350px;
   position: absolute;
   cursor: pointer;

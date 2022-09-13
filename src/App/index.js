@@ -11,6 +11,7 @@ const store = new Store();
 
 store.set("pathArquivo", "");
 store.set("nomeArquivo", "");
+store.set("refArquivo", "");
 store.set("descArquivo", "");
 store.set("expiraArquivo", 0);
 store.set("chaveReserva", false);
