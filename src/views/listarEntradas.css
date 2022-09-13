@@ -62,7 +62,7 @@ body {
   width: 36px;
   height: 36px;
   right: 125px;
-  bottom: var(--dl-space-space-twounits);
+  bottom: 30px;
   position: absolute;
 }
 .listarEntradas-container1 {
@@ -202,7 +202,7 @@ td {
 .listarEntradas-icon5 svg {
   width: 48px;
   height: 48px;
-  top: 46px;
+  top: 44px;
   left: 305px;
   position: absolute;
   cursor: pointer;

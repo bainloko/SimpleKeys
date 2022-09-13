@@ -36,8 +36,13 @@
     <link rel="stylesheet" href="./style.css" />
     <title>SimpleKeys - Nova Entrada</title>
     <script src="../App/tools/zxcvbn.js"></script>
+    <script src="../App/middleman.js"></script>
     <script>
       const { listar } = require('../App/listar.js'); listar();
+
+      async function cadastrar(){
+        Arquivo.cadastrarEntrada(document.getElementById('inputNomeEnt').value, document.getElementById('inputDescEnt').value, document.getElementById('inpSite').value, document.getElementById('inputLoginEnt').value, document.getElementById('inpPassword').value, document.getElementById('expira').value);
+      }
     </script>
   </head>
   <body>
@@ -171,7 +176,7 @@
                 <div class="nova-entrada-slider">
                     <input id="expira" title="6 meses" type="range" min="0" max="36" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
                 </div>
-                <button type="submit" class="nova-entrada-button button" onclick="(((inputNomeEnt.value && inputLoginEnt.value && inpPassword.value != ('' || null || undefined || [])) == true)) ? Arquivo.cadastrarEntrada(inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value) : ipc.send('mensagem:paridade:erro');">
+                <button type="button" class="nova-entrada-button button" onclick="(((inputNomeEnt.value && inputLoginEnt.value && inpPassword.value != ('' || null || undefined || [])) == true)) ? cadastrar() : ipc.send('mensagem:paridade:erro');">
                 <span class="nova-entrada-text01">
                     <span>Criar</span>
                     <br />
@@ -189,6 +194,5 @@
       </article>
     </div>
     <script src="../App/tools/strength.js"></script>
-    <script src="../App/cadastrar.js"></script>
   </body>
 </html>

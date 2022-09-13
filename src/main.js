@@ -5,10 +5,9 @@
 */
 
 // Módulos para controlar o ciclo de vida da aplicação e criar a janela nativa do Browser
-const { app, BrowserWindow, Menu, Notification, dialog } = require('electron');
+const { app, BrowserWindow, Menu, Notification, Tray, dialog } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
 const { showAboutWindow } = require('electron-util');
-const ContextMenu = require('secure-electron-context-menu').default; //work on that -> ContextMenu, Tray
 
 const Store = require('electron-store');
 const store = new Store();
@@ -21,7 +20,6 @@ const lock = app.requestSingleInstanceLock();
 let telaInicial = null;
 let lerArquivo = null;
 let WIN = null;
-const isDev = process.env.NODE_ENV === "development";
 
 function criarTelaInicial(){
     // Cria a tela inicial
@@ -34,26 +32,13 @@ function criarTelaInicial(){
         backgroundColor: "#5096fa",
         icon: __dirname + './views/public/icon/icon.png',
         webPreferences: {
-            devTools: isDev,
+            devTools: !app.isPackaged,
             contextIsolation: false,
             nodeIntegration: true
         }
     });
     
     Menu.setApplicationMenu(null);
-
-    ContextMenu.mainBindings(ipc, telaInicial, Menu, isDev, {
-        "default": [
-            {
-                label: "Copiar",
-                role: "copy",
-            },
-            {
-                label: "Colar",
-                role: "paste",
-            }
-        ]
-    });
 
     telaInicial.loadFile('src/views/index.html');
 
@@ -252,7 +237,7 @@ function criarListaEntradas(){
         setTimeout(() => {
             // Insere o menu
             Menu.setApplicationMenu(menu);
-        }, 2500);
+        }, 1000);
     } catch (error){
         log.error("Houve um erro no carregamento da tela listaEntradas, " + error);
         dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela listaEntradas, " + error);
@@ -313,20 +298,6 @@ function criarLerArquivo(){
                 contextIsolation: false,
                 nodeIntegration: true
             }
-        });
-
-        
-        ContextMenu.mainBindings(ipc, telaInicial, Menu, isDev, {
-            "default": [
-                {
-                    label: "Copiar",
-                    role: "copy",
-                },
-                {
-                    label: "Colar",
-                    role: "paste",
-                }
-            ]
         });
 
         lerArquivo.loadFile('src/views/lerArquivo.html');
@@ -431,7 +402,7 @@ ipc.on('arquivo:editar', (e) => {
 });
 
 function apagar(){
-    const resposta = dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada?', type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1}).then(() => {
+    dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada?', type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1}).then((resposta) => {
         if (resposta.response == 0) {
             ipc.sendToRenderers('entrada:apagar');
         } else {
@@ -485,7 +456,7 @@ function criarSobre(){
         showAboutWindow({
             icon: __dirname + './views/public/icon/icon.ico',
             copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-            text: '𝘽𝙚𝙩𝙖 𝙁𝙚𝙘𝙝𝙖𝙙𝙤\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros.\n\nÍcones por Icons8 - 𝙝𝙩𝙩𝙥𝙨://𝙞𝙘𝙤𝙣𝙨8.𝙘𝙤𝙢, Licenças de Código Aberto e Bibliotecas utilizadas: @journeyapps/sqlcipher, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, secure-electron-context-menu, sequelize, update-electron-app, zxcvbn, jQuery, node:crypto, cli-loading-animation, @doyensec/electronegativity, electron-packager, SonarCloud, TeleportHQ\n\nAjuda, links e instruções para aprender a usar o SimpleKeys e se proteger melhor na internet: 𝙝𝙩𝙩𝙥𝙨://𝙜𝙞𝙩𝙝𝙪𝙗.𝙘𝙤𝙢/𝙗𝙖𝙞𝙣𝙡𝙤𝙠𝙤/𝙎𝙞𝙢𝙥𝙡𝙚𝙆𝙚𝙮𝙨\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para kaua.maia177@gmail.com\n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé.',
+            text: '𝘽𝙚𝙩𝙖 𝙁𝙚𝙘𝙝𝙖𝙙𝙤\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros.\n\nÍcones por Icons8 - 𝙝𝙩𝙩𝙥𝙨://𝙞𝙘𝙤𝙣𝙨8.𝙘𝙤𝙢, Licenças de Código Aberto e Bibliotecas utilizadas: @journeyapps/sqlcipher, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, sequelize, zxcvbn, jQuery, node:crypto, cli-loading-animation, @doyensec/electronegativity, electron-packager, SonarCloud, TeleportHQ\n\nAjuda, links e instruções para aprender a usar o SimpleKeys e se proteger melhor na internet: 𝙝𝙩𝙩𝙥𝙨://𝙜𝙞𝙩𝙝𝙪𝙗.𝙘𝙤𝙢/𝙗𝙖𝙞𝙣𝙡𝙤𝙠𝙤/𝙎𝙞𝙢𝙥𝙡𝙚𝙆𝙚𝙮𝙨\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para kaua.maia177@gmail.com\n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé.',
             website: 'https://github.com/bainloko/SimpleKeys'
         });
     } catch (error){
@@ -529,6 +500,7 @@ ipc.on('mensagem:pesquisa:erro', (e) => {
 
 ipc.on('mensagem:edicao:sucesso', (e) => {
     dialog.showMessageBox(telaInicial, { message: "Entrada editada com sucesso!" });
+    store.set('selecaoAtual', 0);
     criarListaEntradas();
 });
 

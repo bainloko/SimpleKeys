@@ -13,6 +13,28 @@ const Entradas = require('../../model/Entradas.js');
 
 const log = require('electron-log');
 
+async function cadastrarSeed(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+    try {
+        const resultadoSeed = await Entradas.create({
+            nome: nomeEntradas,
+            descricao: descEntradas,
+            site: siteEntradas,
+            login: loginEntradas,
+            senha: senhaEntradas,
+            expira: expira
+        });
+
+        log.info("Entrada cadastrada com sucesso!");
+
+        return resultadoSeed;
+    } catch (error){
+        log.error("Ocorreu um erro no cadastro da nova Entrada, " + error + "!");
+        ipc.send('mensagem:entrada:erro');
+
+        return null;
+    }
+}
+
 async function cadastrarEntrada(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
         const resultadoEntrada = await Entradas.create({
@@ -21,7 +43,7 @@ async function cadastrarEntrada(nomeEntradas, descEntradas, siteEntradas, loginE
             site: siteEntradas,
             login: loginEntradas,
             senha: senhaEntradas,
-            expira: parseInt(expira)
+            expira: expira
         });
 
         log.info("Entrada cadastrada com sucesso!");
@@ -181,4 +203,4 @@ async function consultarBanco(path){
     }
 }
 
-module.exports = { cadastrarEntrada, lerEntradas, Entradas, pesquisarByPk, pesquisarEntradas, editarEntrada, apagarEntrada, salvarBanco, fecharConexao, consultarBanco };
+module.exports = { cadastrarSeed, cadastrarEntrada, lerEntradas, Entradas, pesquisarByPk, pesquisarEntradas, editarEntrada, apagarEntrada, salvarBanco, fecharConexao, consultarBanco };

@@ -15,7 +15,7 @@ _guiaDeUso_
 _projetoPDF_
 
 # Futuras adições
-_import, export, translations, autotype, settings, backups and printing, bug report template and feature wishlist, implementar key, expira, sorting, change master password, groups, warn the user of duplicate entries, guides, autoshutoff without user, tray, notifications, TOTP, time support, show last file location MENU, check for updates, phase out contextIsolation to true, nodeIntegration to false_
+_import, export, translations, autotype, settings, backups and printing, *bug report template and feature wishlist*, implementar key, expira, sorting, change master password, groups, warn the user of duplicate entries, guides, *autoshutoff without user, tray, contextmenu* notifications, TOTP, time support, show last file location MENU, check for updates, phase out contextIsolation to true, nodeIntegration to false_
 
 # Projeto de Software
 ...
@@ -34,7 +34,7 @@ Todos os códigos e lógica são proprietários, exceto em menções explícitas
 Ícones por Icons8 - https://icons8.com
 
 # Licenças de Código Aberto e Bibliotecas utilizadas
-@journeyapps/sqlcipher, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, secure-electron-context-menu, sequelize, update-electron-app, zxcvbn, jQuery, node:crypto, cli-loading-animation, @doyensec/electronegativity, electron-packager, SonarCloud, TeleportHQ
+@journeyapps/sqlcipher, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, sequelize, zxcvbn, jQuery, node:crypto, cli-loading-animation, @doyensec/electronegativity, electron-packager, SonarCloud, TeleportHQ
 
 Ajuda, links e instruções: _outro arquivo_
 

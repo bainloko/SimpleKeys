@@ -1,7 +1,7 @@
 /*
 * SimpleKeys
-* cadastrar.js
-* 07/set/2022
+* middleman.js
+* 07/set/2022, 13/set/2022
 */
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');

@@ -85,8 +85,7 @@ ipc.on('entrada:apagar', async (e) => {
 });
 
 ipc.on('repopular', (e) => {
-    store.set("selecaoAtual") = 0;
-    rePopular('');
+    repopular('');
 });
 
 module.exports = { listar, disableIfChecked, copiar, verF };
