@@ -15,7 +15,7 @@ _guiaDeUso_
 _projetoPDF_
 
 # Futuras adições
-_import, export, translations, autotype, settings, backups and printing, bug report template and feature wishlist, implementar key, expira, sorting, change master password, groups, warn the user of duplicate entries, guides, autoshutoff without user, notifications, TOTP, time support, show last file location MENU, check for updates, phase out contextIsolation to true, nodeIntegration to false_
+_import, export, translations, autotype, settings, backups and printing, bug report template and feature wishlist, implementar key, expira, sorting, change master password, groups, warn the user of duplicate entries, guides, autoshutoff without user, tray, notifications, TOTP, time support, show last file location MENU, check for updates, phase out contextIsolation to true, nodeIntegration to false_
 
 # Projeto de Software
 ...
