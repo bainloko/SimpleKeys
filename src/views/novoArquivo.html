@@ -165,7 +165,7 @@
                       </svg>
                     </span>
                   </div>
-                  <button type="submit" id="criarButton" class="novo-arquivo-button button" onclick="(inpPassword.value == inpTestPassword.value) ? ipc.send('arquivo:novo:criar') : dialog.showErrorBox('Erro!', 'Verifique se ambas as senhas são iguais!');">
+                  <button type="submit" id="criarButton" class="novo-arquivo-button button" onclick="(((inputNomeArq.value && inpPassword.value != ('' || null || undefined || [])) && (inpPassword.value == inpTestPassword.value) == true)) ? ipc.send('arquivo:novo:criar') : ipc.send('mensagem:paridade:erro');">
                       <span class="novo-arquivo-text01">
                           <span>Criar</span>
                           <br />

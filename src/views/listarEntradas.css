@@ -49,6 +49,7 @@ body {
   object-fit: cover;
   position: absolute;
   cursor: pointer;
+  display: none;
 }
 .listarEntradas-text2 {
   color: #000000;
@@ -176,7 +177,7 @@ td {
 }
 #barra1 {
   font-size: 42px;
-  top: 44px;
+  top: 47px;
   left: 235px;
   position: absolute;
 }
@@ -203,6 +204,20 @@ td {
   left: 350px;
   position: absolute;
   cursor: pointer;
+}
+#barraPesqInp {
+  font-size: 42px;
+  top: 47px;
+  left: 403px;
+  position: absolute;
+}
+#pesqInp {
+  width: 280px;
+  top: 63px;
+  left: 427px;
+  border: 1px solid black;
+  border-radius: 2px;
+  position: absolute;
 }
 .listarEntradas-icon6 svg {
   width: 44px;

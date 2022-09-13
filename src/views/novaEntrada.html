@@ -171,7 +171,7 @@
                 <div class="nova-entrada-slider">
                     <input id="expira" title="6 meses" type="range" min="0" max="36" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
                 </div>
-                <button type="submit" class="nova-entrada-button button" onsubmit="Arquivo.cadastrarEntradas(inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value); ipc.send('arquivo:novo:criar');">
+                <button type="submit" class="nova-entrada-button button" onclick="(((inputNomeEnt.value && inputLoginEnt.value && inpPassword.value != ('' || null || undefined || [])) == true)) ? Arquivo.cadastrarEntradas(inputNomeEnt.value, inputDescEnt.value, inpSite.value, inputLoginEnt.value, inpPassword.value, expira.value) : ipc.send('mensagem:paridade:erro');">
                 <span class="nova-entrada-text01">
                     <span>Criar</span>
                     <br />

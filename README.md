@@ -10,7 +10,7 @@ Todos os códigos e lógica são proprietários, exceto em menções explícitas
 Ícones, Icons8 - https://icons8.com
 
 Licenças de Código Aberto e Bibliotecas utilizadas:
-@journeyapps/sqlcipher, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, secure-electron-context-menu, sequelize, update-electron-app, zxcvbn, jQuery, node:crypto
+@journeyapps/sqlcipher, cli-loading-animation, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, secure-electron-context-menu, sequelize, update-electron-app, zxcvbn, jQuery, node:crypto
 
 Ajuda, links e instruções: outro arquivo
 

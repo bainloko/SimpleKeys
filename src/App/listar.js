@@ -4,13 +4,15 @@
 * 07/set/2022
 */
 
-const { dialog } = require('electron');
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default; //work on that -> Notification, ContextMenu
 
 const { conectar } = require('../database/Database.js');
 const Arquivo = require('../App/tools/Arquivo.js');
 const zxcvbn = require('../App/tools/zxcvbn.js');
+
+const { loading } = require('cli-loading-animation');
+const { start, stop } = loading("Carregando...");
 
 const Store = require('electron-store');
 const store = new Store();
@@ -28,10 +30,10 @@ function listar(){
         let chaveReserva = store.get("chaveReserva");
         let senha = store.get("senhaArquivo");
 
-        return (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!") : () => { log.error("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); dialog.showErrorBox("Erro!", "Erro ao abrir o Chaveiro! Sera que a senha esta incorreta?"); }
+        return (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!") : () => { log.error("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); ipc.send('mensagem:listagem:erro'); }
     } catch (error){
         log.error("Erro na listagem das Entradas: " + error + "! Tente novamente!"); 
-        dialog.showErrorBox("Erro!", "Erro na listagem das Entradas: " + error + "! Tente novamente!");
+        ipc.send('mensagem:listagem:erro2');
     }
 }
 
@@ -53,7 +55,7 @@ async function copiar(texto){
         await navigator.clipboard.writeText(texto);
     } catch (err){
         log.error("A copia falhou: " + err + "! Tente novamente!");
-        dialog.showErrorBox("Erro!", "A cópia falhou: " + err + "! Tente novamente!");
+        ipc.send('mensagem:copia:erro');
     }
 }
 
@@ -61,22 +63,22 @@ function verF(senha){
     let result = zxcvbn(senha);
     switch (result.score){
         case 0:
-            dialog.showMessageBox("Esta senha é muito fraca! Considere trocá-la imediatamente!");
+            ipc.send('mensagem:analise:ppp');
             break;
         case 1:
-            dialog.showMessageBox("Esta senha é fraca! Considere trocá-la imediatamente!");
+            ipc.send('mensagem:analise:pp');
             break;
         case 2:
-            dialog.showMessageBox("Esta senha é razoável! Considere trocá-la em no máximo 6 meses.");
+            ipc.send('mensagem:analise:r');
             break;
         case 3:
-            dialog.showMessageBox("Esta senha é forte! Considere trocá-la daqui, no mínimo, dois anos.");
+            ipc.send('mensagem:analise:f');
             break;
         case 4:
-            dialog.showMessageBox("Esta senha é muito forte! Troque-a quando julgar necessário.");
+            ipc.send('mensagem:analise:ff');
             break;
         default:
-            dialog.showErrorBox("Erro!", "Erro na análise da senha!");
+            ipc.send('mensagem:analise:erro');
             break;
     }
 }

@@ -110,11 +110,11 @@ function criarListaEntradas(){
                 submenu: [
                     {
                         label: 'Copiar Login',
-                        click(){ if(selecionada != (0 || null || undefined || [])){const idL = document.getElementById('idL' + selecionada); copiar(idL.innerText); log.info('Login copiado!'); dialog.showMessageBox('Login copiado!');}else{dialog.showErrorBox('Erro!', 'Selecione um Login para copiar!');} },
+                        click(){ if(selecionada != (0 || null || undefined || [])){const idL = document.getElementById('idL' + selecionada); copiar(idL.innerText); log.info('Login copiado!'); ipc.send('mensagem:copia:lc');}else{ipc.send('mensagem:selecao:lerr');} },
                     },
                     {
                         label: 'Copiar Senha',
-                        click(){ if(selecionada != (0 || null || undefined || [])){const idP = document.getElementById('idP' + selecionada); copiar(idP.value); log.info('Senha copiada!'); dialog.showMessageBox('Senha copiada!');}else{dialog.showErrorBox('Erro!', 'Selecione uma Senha para copiar!');} },
+                        click(){ if(selecionada != (0 || null || undefined || [])){const idP = document.getElementById('idP' + selecionada); copiar(idP.value); log.info('Senha copiada!'); ipc.send('mensagem:copia:sc');}else{ipc.send('mensagem:selecao:serr');} },
                     },
                     // { //FUNCIONALIDADE FUTURA
                     //     label: 'Copiar Campos',
@@ -135,11 +135,11 @@ function criarListaEntradas(){
                     },
                     {
                         label: 'Editar Entrada',
-                        click(){ if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:editar');}else{dialog.showErrorBox('Erro!', 'Selecione uma Entrada para editar!');} },
+                        click(){ if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:editar');}else{ipc.send('mensagem:selecao:eerr');} },
                     },
                     {
                         label: 'Deletar Entrada(s)',
-                        click(){ if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:entrada:apagar')}else{dialog.showErrorBox('Erro!', 'Selecione uma Entrada para apagar!');} },
+                        click(){ if(selecionada != (0 || null || undefined || [])){ipc.send('arquivo:entrada:apagar')}else{ipc.send('mensagem:selecao:aerr');} },
                     },
                     // { //FUNCIONALIDADE FUTURA
                     //     label: 'Selecionar Tudo',
@@ -214,7 +214,7 @@ function criarListaEntradas(){
                 submenu: [
                     {
                         label: 'Verificar novas Atualizações',
-                        click(){ }, //work on that -> atualizacoes
+                        click(){ },
                     },
                     {
                         label: 'Sobre o SimpleKeys, Links de Ajuda',
@@ -444,7 +444,7 @@ function criarSobre(){
         showAboutWindow({
             icon: __dirname + './views/public/icon/icon.ico',
             copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-            text: '𝘽𝙚𝙩𝙖 𝙁𝙚𝙘𝙝𝙖𝙙𝙤\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros. Ícones, Icons8 - 𝙝𝙩𝙩𝙥𝙨://𝙞𝙘𝙤𝙣𝙨8.𝙘𝙤𝙢, Licenças de Código Aberto e Bibliotecas utilizadas: @journeyapps/sqlcipher, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, secure-electron-context-menu, sequelize, update-electron-app, zxcvbn, jQuery, node:crypto\n\nAjuda, links e instruções para aprender a usar o SimpleKeys e se proteger melhor na internet: 𝙝𝙩𝙩𝙥𝙨://𝙜𝙞𝙩𝙝𝙪𝙗.𝙘𝙤𝙢/𝙗𝙖𝙞𝙣𝙡𝙤𝙠𝙤/𝙎𝙞𝙢𝙥𝙡𝙚𝙆𝙚𝙮𝙨 \n\nPara ver o histórico de um Chaveiro, veja os registros na pasta "%AppData%/simplekeys/" no Windows e "/home/[usuario]/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé.',
+            text: '𝘽𝙚𝙩𝙖 𝙁𝙚𝙘𝙝𝙖𝙙𝙤\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros. Ícones, Icons8 - 𝙝𝙩𝙩𝙥𝙨://𝙞𝙘𝙤𝙣𝙨8.𝙘𝙤𝙢, Licenças de Código Aberto e Bibliotecas utilizadas: @journeyapps/sqlcipher, cli-loading-animation, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, secure-electron-context-menu, sequelize, update-electron-app, zxcvbn, jQuery, node:crypto\n\nAjuda, links e instruções para aprender a usar o SimpleKeys e se proteger melhor na internet: 𝙝𝙩𝙩𝙥𝙨://𝙜𝙞𝙩𝙝𝙪𝙗.𝙘𝙤𝙢/𝙗𝙖𝙞𝙣𝙡𝙤𝙠𝙤/𝙎𝙞𝙢𝙥𝙡𝙚𝙆𝙚𝙮𝙨 \n\nPara ver o histórico de um Chaveiro, veja os registros na pasta "%AppData%/simplekeys/" no Windows e "/home/[usuario]/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para kaua.maia177@gmail.com \n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé.',
             website: 'https://github.com/bainloko/SimpleKeys'
         });
     } catch (error){
@@ -468,6 +468,176 @@ ipc.on('opcao:config', (e) => {
 ipc.on('opcao:sobre', (e) => {
     criarSobre();
 });
+
+ipc.on('mensagem:entrada:sucesso', (e) => {
+    dialog.showMessageBox("Entrada cadastrada com sucesso!");
+    ipc.send('arquivo:novo:criar');
+});
+
+ipc.on('mensagem:entrada:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Ocorreu um erro no cadastro da nova Entrada, ");
+});
+
+ipc.on('mensagem:leitura:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Ocorreu um erro na leitura das Entradas, ");
+});
+
+ipc.on('mensagem:pesquisa:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Ocorreu um erro na pesquisa das Entradas, ");
+});
+
+ipc.on('mensagem:edicao:sucesso', (e) => {
+    dialog.showMessageBox("Entrada editada com sucesso!");
+    ipc.send('arquivo:novo:criar');
+});
+
+ipc.on('mensagem:edicao:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Ocorreu um erro na edição da Entrada, ");
+});
+
+ipc.on('mensagem:apagar:sucesso', (e) => {
+    dialog.showMessageBox("Entrada apagada com sucesso, ");
+});
+
+ipc.on('mensagem:apagar:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Ocorreu um erro aqui, \nTalvez esta Entrada não exista, ou já tenha sido apagada.");
+});
+
+ipc.on('mensagem:salvar:sucesso', (e) => {
+    dialog.showMessageBox("Chaveiro salvo com sucesso!");
+});
+
+ipc.on('mensagem:salvar:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Erro no salvamento do Chaveiro (Salvar|Senha incorreta?), ");
+});
+
+ipc.on('mensagem:fecharConexao:sucesso', (e) => {
+    dialog.showMessageBox("Chaveiro fechado com sucesso!");
+});
+
+ipc.on('mensagem:fecharConexao:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Ocorreu um erro no fechamento do Chaveiro, ");
+});
+
+ipc.on('mensagem:consulta:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Este Chaveiro não existe!");
+});
+
+ipc.on('mensagem:consulta:erro2', (e) => {
+    dialog.showErrorBox("Erro!", "Ocorreu um erro aqui! Talvez este Chaveiro ainda não exista, ");
+});
+
+ipc.on('mensagem:gerador:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
+});
+
+ipc.on('mensagem:gerador:erro2', (e) => {
+    dialog.showErrorBox("Erro!", "Ocorreu um erro inesperado na geração das senhas, ");
+});
+
+ipc.on('mensagem:local:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Selecione um local válido para salvar o Chaveiro!");
+});
+
+ipc.on('mensagem:local:erro2', (e) => {
+    dialog.showErrorBox("Erro!", "Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
+});
+
+ipc.on('mensagem:local:erro3', (e) => {
+    dialog.showErrorBox("Erro!", "Selecione um Arquivo para abrir clicando na pasta abaixo da senha!");
+});
+
+ipc.on('mensagem:listagem:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Erro ao abrir o Chaveiro! Será que a senha está incorreta?");
+});
+
+ipc.on('mensagem:listagem:erro2', (e) => {
+    dialog.showErrorBox("Erro!", "Erro na listagem das Entradas! Tente novamente, ");
+});
+
+ipc.on('mensagem:copia:erro', (e) => {
+    dialog.showErrorBox("Erro!", "A cópia falhou! Tente novamente, ");
+});
+
+ipc.on('mensagem:analise:ppp', (e) => {
+    dialog.showMessageBox("Esta senha é muito fraca! Considere trocá-la imediatamente!");
+});
+
+ipc.on('mensagem:analise:pp', (e) => {
+    dialog.showMessageBox("Esta senha é fraca! Considere trocá-la imediatamente!");
+});
+
+ipc.on('mensagem:analise:r', (e) => {
+    dialog.showMessageBox("Esta senha é razoável! Considere trocá-la em no máximo 6 meses.");
+});
+
+ipc.on('mensagem:analise:f', (e) => {
+    dialog.showMessageBox("Esta senha é forte! Considere trocá-la daqui, no mínimo, dois anos.");
+});
+
+ipc.on('mensagem:analise:ff', (e) => {
+    dialog.showMessageBox("Esta senha é muito forte! Troque-a quando julgar necessário.");
+});
+
+ipc.on('mensagem:analise:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Erro na análise da senha!");
+});
+
+ipc.on('mensagem:conexao:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Erro ao abrir o Chaveiro! Sera que a senha esta incorreta, ");
+});
+
+ipc.on('mensagem:banco:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Erro ao criar um Chaveiro, ");
+});
+
+ipc.on('mensagem:paridade:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Verifique se os campos obrigatórios estão preenchidos e se ambas as senhas são iguais!");
+});
+
+ipc.on('mensagem:populacao:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Erro na Populacao dos Dados, ");
+});
+
+ipc.on('mensagem:senha:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Digite a senha para acessar o Arquivo!");
+});
+
+ipc.on('mensagem:selecao:eerr', (e) => {
+    dialog.showErrorBox("Erro!", "Selecione uma Entrada para editar!");
+});
+
+ipc.on('mensagem:selecao:ferr', (e) => {
+    dialog.showErrorBox("Erro!", "Selecione uma Senha para analisar!");
+});
+
+ipc.on('mensagem:copia:lc', (e) => {
+    dialog.showErrorBox("Erro!", "Login copiado!");
+});
+
+ipc.on('mensagem:selecao:lerr', (e) => {
+    dialog.showErrorBox("Erro!", "Selecione um Login para copiar!");
+});
+
+ipc.on('mensagem:copia:sc', (e) => {
+    dialog.showErrorBox("Erro!", "Senha copiada!");
+});
+
+ipc.on('mensagem:selecao:serr', (e) => {
+    dialog.showErrorBox("Erro!", "Selecione uma Senha para copiar!");
+});
+
+ipc.on('mensagem:selecao:aerr', (e) => {
+    dialog.showErrorBox("Erro!", "Selecione uma Entrada para apagar!");
+});
+
+ipc.on('mensagem:selecao:pesqerr', (e) => {
+    dialog.showErrorBox("Erro!", "Digite algum termo para realizar a pesquisa!");
+});
+
+// ipc.on('mensagem:', (e) => {
+//     dialog.showErrorBox("Erro!", "");
+// });
 
 app.on('ready', (e) => {
     criarTelaInicial();

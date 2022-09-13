@@ -4,7 +4,6 @@
 * 8/jun/2022
 */
 
-const { dialog } = require('electron');
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default; //work on that -> ContextMenu
 
@@ -62,11 +61,11 @@ function gerarSenhas(){
             document.getElementById("listaSenhas").innerHTML = Senhas.join("\n");
             return Senhas.join('\n');
         } else {
-            dialog.showErrorBox("Erro!", "Por favor, digite SOMENTE números válidos e selecione algum tipo de caractere para a geração da(s) senha(s)!");
+            ipc.send('mensagem:gerador:erro');
         }
     } catch (error){
         log.error("Ocorreu um erro inesperado na geracao das senhas! " + error);
-        dialog.showErrorBox("Erro!", "Ocorreu um erro inesperado na geração das senhas! " + error);
+        ipc.send('mensagem:gerador:erro2');
     }
 }
 

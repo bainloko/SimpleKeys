@@ -4,7 +4,6 @@
 * 07/set/2022
 */
 
-const { dialog } = require('electron');
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 const ContextMenu = require('secure-electron-context-menu').default; //work on that -> Notification, ContextMenu
 
@@ -62,7 +61,7 @@ ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
         localChave.innerText = chavePath;
         localChave.title = chavePath;
     } else {
-        dialog.showErrorBox("Erro!", "Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
+        ipc.send('mensagem:local:erro2');
     }
 });
 
@@ -76,7 +75,7 @@ ipc.on('arquivo:ler:pathArquivo', (e, path) => {
         localChaveiro.title = lerPath;
         localChaveiroCheckbox.checked = true;
     } else {
-        dialog.showErrorBox("Erro!", "Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
+        ipc.send('mensagem:local:erro2');
     }
 });
 
@@ -85,7 +84,7 @@ function setar(path, senha){
         localChaveiroCheckbox.checked = true;
         store.set("senhaArquivo", senha);
     } else {
-        dialog.showErrorBox("Erro!", "Selecione um Arquivo para abrir clicando na pasta abaixo da senha!");
+        ipc.send('mensagem:local:erro3');
     }
 }
 
@@ -93,5 +92,5 @@ okButton.addEventListener("click", () => {
     let lerPath = store.get("pathArquivo");
     let senha = passwordInput.value;
 
-    (lerPath != ("" || null || undefined || [])) ? setar(lerPath, senha) : dialog.showErrorBox("Erro!", "Selecione um Arquivo para abrir clicando na pasta abaixo da senha!");
+    (lerPath != ("" || null || undefined || [])) ? setar(lerPath, senha) : ipc.send('mensagem:local:erro3');
 });

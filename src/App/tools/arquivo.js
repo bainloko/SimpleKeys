@@ -4,7 +4,7 @@
 * 22/jun/2022
 */
 
-const { dialog } = require('electron');
+const { ipcRenderer: ipc } = require('electron-better-ipc');
 
 const fse = require('fs-extra');
 
@@ -27,12 +27,12 @@ async function cadastrarEntradas(nomeEntradas, descEntradas, siteEntradas, login
         });
 
         log.info("Entrada cadastrada com sucesso!");
-        dialog.showMessageBox("Entrada cadastrada com sucesso!");
+        ipc.send('mensagem:entrada:sucesso');
 
         return resultadoCreate;
     } catch (error){
         log.error("Ocorreu um erro no cadastro da nova Entrada, " + error + "!");
-        dialog.showErrorBox("Erro!", "Ocorreu um erro no cadastro da nova Entrada, " + error + "!");
+        ipc.send('mensagem:entrada:erro');
 
         return null;
     }
@@ -45,7 +45,7 @@ async function lerEntradas(){
         return entradas;
     } catch (error){
         log.error("Ocorreu um erro na leitura das Entradas, " + error + "!");
-        dialog.showErrorBox("Erro!", "Ocorreu um erro na leitura das Entradas, " + error + "!");
+        ipc.send('mensagem:leitura:erro');
 
         return null;
     }
@@ -58,7 +58,7 @@ async function pesquisarByPk(selecaoAtual){
         return entradas;
     } catch (error){
         log.error("Ocorreu um erro na pesquisa das Entradas, " + error + "!");
-        dialog.showErrorBox("Erro!", "Ocorreu um erro na pesquisa das Entradas, " + error + "!");
+        ipc.send('mensagem:pesquisa:erro');
 
         return null;
     }
@@ -82,7 +82,7 @@ async function pesquisarEntradas(pesquisa){
         return entradas;
     } catch (error){
         log.error("Ocorreu um erro na pesquisa das Entradas, " + error + "!");
-        dialog.showErrorBox("Erro!", "Ocorreu um erro na pesquisa das Entradas, " + error + "!");
+        ipc.send('mensagem:pesquisa:erro');
 
         return null;
     }
@@ -102,17 +102,18 @@ async function editarEntradas(selecaoAtual, nomeEntradas, descEntradas, siteEntr
             
             entradas.save();
             log.info("Entrada editada com sucesso!");
+            ipc.send('mensagem:edicao:sucesso');
 
             return entradas;
         }).catch((error) => {
             log.error("Ocorreu um erro na edicao da Entrada, " + error + "!");
-            dialog.showErrorBox("Erro!", "Ocorreu um erro na edição da Entrada, " + error + "!");
+            ipc.send('mensagem:edicao:erro');
 
             return null;
         });
     } catch (error){
         log.error("Ocorreu um erro na edicao da Entrada, " + error + "!");
-        dialog.showErrorBox("Erro!", "Ocorreu um erro na edição da Entrada, " + error + "!");
+        ipc.send('mensagem:edicao:erro');
 
         return null;
     }
@@ -122,13 +123,13 @@ async function apagarEntradas(selecaoAtual){
     try {
         await Entradas.destroy({ where: { id: selecaoAtual }});
 
-        log.info("Entrada(s) apagadas com sucesso! id: " + selecaoAtual);
-        dialog.showMessageBox("Entrada(s) apagadas com sucesso! id: " + selecaoAtual);
+        log.info("Entrada apagada com sucesso! id: " + selecaoAtual);
+        ipc.send('mensagem:apagar:sucesso');
 
         return true;
     } catch (error){
         log.error("Ocorreu um erro aqui, " + error + "!\nTalvez esta Entrada nao exista, ou ja tenha sido apagada.");
-        dialog.showErrorBox("Erro!", "Ocorreu um erro aqui, " + error + "!\nTalvez esta Entrada não exista, ou já tenha sido apagada.");
+        ipc.send('mensagem:apagar:erro');
 
         return false;
     }
@@ -139,12 +140,12 @@ async function salvarBanco(){
         await Entradas.sequelize.sync();
 
         log.info("Chaveiro salvo com sucesso!");
-        dialog.showMessageBox("Chaveiro salvo com sucesso!");
+        ipc.send('mensagem:salvar:sucesso');
 
         return true;
     } catch (error){
         log.error("Ocorreu um erro no salvamento do Chaveiro! " + error);
-        dialog.showErrorBox("Erro!", "Ocorreu um erro no salvamento do Chaveiro! " + error);
+        ipc.send('mensagem:salvar:erro');
 
         return false;
     }
@@ -155,12 +156,12 @@ async function fecharConexao(){
         await Entradas.sequelize.close();
 
         log.info("Chaveiro fechado com sucesso!");
-        dialog.showMessageBox("Chaveiro fechado com sucesso!");
+        ipc.send('mensagem:fecharConexao:sucesso');
 
         return true;
     } catch (error){
         log.error("Ocorreu um erro no fechamento do Chaveiro! " + error);
-        dialog.showErrorBox("Erro!", "Ocorreu um erro no fechamento do Chaveiro! " + error);
+        ipc.send('mensagem:fecharConexao:erro');
 
         return false;
     }
@@ -172,13 +173,13 @@ async function consultarBanco(path){
             return true;
         } else {
             log.error("Este Chaveiro nao existe!");
-            dialog.showErrorBox("Erro!", "Este Chaveiro não existe!");
+            ipc.send('mensagem:consulta:erro');
 
             return false;
         }
     } catch (error){
         log.error("Ocorreu um erro aqui! Talvez este Chaveiro ainda nao exista: " + error);
-        dialog.showErrorBox("Erro!", "Ocorreu um erro aqui! Talvez este Chaveiro ainda não exista: " + error);
+        ipc.send('mensagem:consulta:erro2');
 
         return false;
     }

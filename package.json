@@ -30,6 +30,7 @@
   "homepage": "https://github.com/bainloko/SimpleKeys#readme",
   "dependencies": {
     "@journeyapps/sqlcipher": "^5.3.1",
+    "cli-loading-animation": "^1.0.6",
     "electron": "^19.0.10",
     "electron-better-ipc": "^2.0.1",
     "electron-log": "^4.4.8",
