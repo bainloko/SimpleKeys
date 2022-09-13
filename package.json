@@ -5,8 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "test": "electron .",
-    "package": "electron-packager package",
-    "make": "electron-packager make"
+    "build": "electron-packager . SimpleKeys --platform=win32 --arch=x64 --electron-version=20.1.3 --overwrite --asar --icon icon.ico --out out/",
+    "setup": "electron-installer-windows --src out/SimpleKeys-win32-x64/ --dest out/installer"
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
   "devDependencies": {
     "cli-loading-animation": "^1.0.6",
     "electron": "^20.1.3",
+    "electron-installer-windows": "^3.0.0",
     "electron-packager": "^16.0.0"
   }
 }
