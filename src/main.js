@@ -86,7 +86,7 @@ function criarListaEntradas(){
                     },
                     {
                         label: 'Alterar Senha Mestra',
-                        click(){ dialog.showErrorBox("Erro!", "Funcionalidade Futura! Desculpe!"); /* Arquivo.salvarBanco(); limpar área de transferência + Wizard ipc.send('opcao:alterarSenha') criptografar banco ipc.send('opcao:inicial'); */ },
+                        click(){ dialog.showErrorBox("Erro!", "Funcionalidade Futura! Desculpe!"); /* limpar área de transferência + Wizard ipc.send('opcao:alterarSenha') criptografar banco ipc.send('opcao:inicial'); */ },
                     },
                     // { //FUNCIONALIDADE FUTURA
                     //     label: 'Importar',
@@ -98,11 +98,11 @@ function criarListaEntradas(){
                     // },
                     {
                         label: 'Salvar Arquivo',
-                        click(){ Arquivo.salvarBanco(); }
+                        click(){ dialog.showErrorBox("Erro!", "Salvar pelo Menu de Contexto é uma Funcionalidade Futura! Clique no Disquete para salvar o Chaveiro por enquanto!"); }
                     },
                     {
                         label: 'Trancar Arquivo',
-                        click(){ Arquivo.salvarBanco(); Arquivo.fecharConexao(); fecharERInicial(); }
+                        click(){ fecharERInicial(); }
                     },
                     {
                         label: 'Sair',
