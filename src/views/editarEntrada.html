@@ -37,24 +37,7 @@
     <title>SimpleKeys - Editar Entrada</title>
     <script src="../App/tools/zxcvbn.js"></script>
     <script src="../App/middleman.js"></script>
-    <script>
-      let lista, selecaoAtual = store.get('selecaoAtual');
-
-      const { listar } = require('../App/listar.js'); listar();
-
-      async function popular(selecaoAtual){
-        lista = await Arquivo.pesquisarByPk(selecaoAtual);
-        document.getElementById('IDEnt').innerText = lista['dataValues'].id;
-        document.getElementById('inputNomeEnt').value = lista['dataValues'].nome;
-        document.getElementById('inputDescEnt').value = lista['dataValues'].descricao;
-        document.getElementById('inpSite').value = lista['dataValues'].site;
-        document.getElementById('inputLoginEnt').value = lista['dataValues'].login;
-        document.getElementById('inpPassword').value = lista['dataValues'].senha;
-        document.getElementById('inpPassword').placeholder = "Senha antiga: " + lista['dataValues'].senha;
-        document.getElementById('inpTestPassword').placeholder = "Senha antiga: " + lista['dataValues'].senha;
-        document.getElementById('expira').value = lista['dataValues'].expira;
-      }
-    </script>
+    <script src="../App/editar.js"></script>
   </head>
   <body>
     <div>
@@ -74,6 +57,7 @@
       <article class="editar-entrada-container">
         <div class="editar-entrada-desktop">
           <span class="editar-entrada-text">SimpleKeys</span>
+          <span class="editar-entrada-text09">v 0.2.0</span>
             <div class="editar-entrada-container1">
               <div class="editar-entrada-container2">
               <span class="editar-entrada-text04">
@@ -93,7 +77,6 @@
                       d="M512 256q70 0 120 50t50 120q0 54-64 111t-64 103h-84q0-46 20-79t44-48 44-37 20-50q0-34-26-59t-60-25-60 25-26 59h-84q0-70 50-120t120-50zM512 854q140 0 241-101t101-241-101-241-241-101-241 101-101 241 101 241 241 101zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125zM470 768v-86h84v86h-84z"
                   ></path>
               </svg>
-              <span class="editar-entrada-text09">v 0.1.0</span>
               <form>
                 <span class="editar-entrada-text10">Editar entrada... ID: <span id="IDEnt"></span></span>
                 <span class="editar-entrada-text11">Nome:</span>
@@ -146,7 +129,6 @@
                 <input
                     id="inpPassword"
                     type="password"
-                    placeholder=""
                     autocomplete="off"
                     required
                     class="editar-entrada-textinput4 input"
@@ -193,7 +175,7 @@
                 <div class="editar-entrada-slider">
                     <input id="expira" title="6 meses" type="range" min="0" max="36" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
                 </div>
-                <button type="button" class="editar-entrada-button button" onclick="(((inputNomeEnt.value && inputLoginEnt.value && inpPassword.value != ('' || null || undefined || [])) && (inpPassword.value == inpTestPassword.value) == true)) ? Arquivo.editarEntrada(selecaoAtual, document.getElementById('inputNomeEnt').value, document.getElementById('inputDescEnt').value, document.getElementById('inpSite').value, document.getElementById('inputLoginEnt').value, document.getElementById('inpPassword').value, document.getElementById('expira').value) : ipc.send('mensagem:paridade:erro');">
+                <button type="button" class="editar-entrada-button button" onclick="(((document.getElementById('inputNomeEnt').value && document.getElementById('inputLoginEnt').value && document.getElementById('inpPassword').value != ('' || null || undefined || [])) && (document.getElementById('inpPassword').value == document.getElementById('inpTestPassword').value) == true)) ? Arquivo.editarEntrada(selecaoAtual, document.getElementById('inputNomeEnt').value, document.getElementById('inputDescEnt').value, document.getElementById('inpSite').value, document.getElementById('inputLoginEnt').value, document.getElementById('inpPassword').value, document.getElementById('expira').value) : ipc.send('mensagem:paridade:erro');">
                 <span class="editar-entrada-text01">
                     <span>Editar</span>
                     <br />

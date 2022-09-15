@@ -9,11 +9,4 @@ const { ipcRenderer: ipc } = require('electron-better-ipc');
 const Store = require('electron-store');
 const store = new Store();
 
-store.set("pathArquivo", "");
-store.set("nomeArquivo", "");
-store.set("refArquivo", "");
-store.set("descArquivo", "");
-store.set("expiraArquivo", 0);
-store.set("chaveReserva", false);
-store.set("senhaArquivo", "");
-store.set("selecaoAtual", 0);
+store.clear();

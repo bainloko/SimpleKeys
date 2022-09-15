@@ -37,111 +37,13 @@
     <title>SimpleKeys - Lista das Entradas</title>
     <script src="../App/tools/zxcvbn.js"></script>
     <script src="../App/listar.js"></script>
-    <script>
-      let res = "", entradas, busca;
-
-      listar();
-
-      async function seed(){
-        busca = await Arquivo.lerEntradas();
-        if (busca.length == 0) {
-          Arquivo.cadastrarSeed('Google', 'Exemplo', 'https://google.com', 'fulanodetal@gmail', '123456', 0, '', '');
-          log.info("Foi preciso SEED! Apos seedado com sucesso, o programa ira carregar normalmente.");
-          busca = "";
-        } else {
-          log.info("Nao foi preciso SEED! Carregando normalmente...");
-          busca = "";
-        }
-      }
-
-      async function popular(){
-        entradas = await Arquivo.lerEntradas();
-        entradas.forEach((entrada) => {
-          res += `
-              <tr id="textosTD${entrada.id}">
-                <td style="min-width: var(--id); max-width: var(--id); word-wrap: break-word; text-align: center;">${entrada.id}</td>
-                <td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.nome}</td>
-                <td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.descricao}</td>
-                <td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); padding-left: 5px; word-wrap: break-word; text-align: center;">${entrada.site}</td>
-                <td id="idL${entrada.id}" style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.login}</td>
-                <td style="min-width: var(--senha); max-width: var(--senha); word-wrap: break-word; text-align: center; border-right: 0px;">
-                  <input type="password" id="idP${entrada.id}" value="${entrada.senha}" style="max-width: var(--senhaInp); word-wrap: break-word; text-align: left; background-color: '#e6e6e6'" disabled />
-                  <td style="border-left: 0px;">
-                    <img
-                      src="./public/playground_assets/closedEyelid.png"
-                      style="width: 26px; height: 26px; display: block; cursor: pointer; margin-right: 5px;"
-                      id="eye${entrada.id}"
-                      onclick="if(idP${entrada.id}.type == 'password'){eye${entrada.id}.style.display='none';eye${entrada.id}Shown.style.display='block';idP${entrada.id}.setAttribute('type','text');}else{eye${entrada.id}.style.display='block';eye${entrada.id}Shown.style.display='none';idP${entrada.id}.setAttribute('type','password');}"
-                    />
-                    <img
-                      src="./public/playground_assets/openEyelid.png"
-                      style="width: 26px; height: 26px; display: none; cursor: pointer; margin-right: 5px;"
-                      id="eye${entrada.id}Shown"
-                      onclick="if(idP${entrada.id}.type == 'password'){eye${entrada.id}.style.display='none';eye${entrada.id}Shown.style.display='block';idP${entrada.id}.setAttribute('type','text');}else{eye${entrada.id}.style.display='block';eye${entrada.id}Shown.style.display='none';idP${entrada.id}.setAttribute('type','password');}"
-                    />
-                  </td>
-                </td>
-                <td style="min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); margin-left: -5px; word-wrap: break-word; text-align: center; border: none;">${entrada.expira} meses</td>
-                <td style="min-width: var(--vb); max-width: var(--vb); margin-left: 5px; word-wrap: break-word; text-align: center; border: none;">&#124;</td>
-                <td style="min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); padding-right: 15px; word-wrap: break-word; text-align: center; border: none;">
-                  <input type="checkbox" id="idC${entrada.id}" class="listarEntradas-checkbox" title="Clique Aqui Para Selecionar Esta Entrada" onchange="if(idC${entrada.id}.checked == true){disableIfChecked(event, ${entrada.id});}else{disableIfChecked(event, 0);}" />
-                </td>
-              </tr>
-            `;
-        }); document.getElementById('container3').innerHTML = res;
-      }
-
-      async function repopular(pesquisa){
-        res = "";
-        if (pesquisa != ('' || null || undefined || [])) {
-          //Repopula sem recarregar a página, mas nesse caso, só aparecerão os valores que se encaixam com a Pesquisa
-          busca = await Arquivo.pesquisarEntradas(pesquisa);
-          busca.forEach((entrada) => {
-            res += `
-                <tr id="textosTD${entrada.id}">
-                  <td style="min-width: var(--id); max-width: var(--id); word-wrap: break-word; text-align: center;">${entrada.id}</td>
-                  <td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.nome}</td>
-                  <td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.descricao}</td>
-                  <td style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); padding-left: 5px; word-wrap: break-word; text-align: center;">${entrada.site}</td>
-                  <td id="idL${entrada.id}" style="min-width: var(--nomeDescSiteLogin); max-width: var(--nomeDescSiteLogin); word-wrap: break-word; text-align: center;">${entrada.login}</td>
-                  <td style="min-width: var(--senha); max-width: var(--senha); word-wrap: break-word; text-align: center; border-right: 0px;">
-                    <input type="password" id="idP${entrada.id}" value="${entrada.senha}" style="max-width: var(--senhaInp); word-wrap: break-word; text-align: left; background-color: '#e6e6e6'" disabled />
-                    <td style="border-left: 0px;">
-                      <img
-                        src="./public/playground_assets/closedEyelid.png"
-                        style="width: 26px; height: 26px; display: block; cursor: pointer; margin-right: 5px;"
-                        id="eye${entrada.id}"
-                        onclick="if(idP${entrada.id}.type == 'password'){eye${entrada.id}.style.display='none';eye${entrada.id}Shown.style.display='block';idP${entrada.id}.setAttribute('type','text');}else{eye${entrada.id}.style.display='block';eye${entrada.id}Shown.style.display='none';idP${entrada.id}.setAttribute('type','password');}"
-                      />
-                      <img
-                        src="./public/playground_assets/openEyelid.png"
-                        style="width: 26px; height: 26px; display: none; cursor: pointer; margin-right: 5px;"
-                        id="eye${entrada.id}Shown"
-                        onclick="if(idP${entrada.id}.type == 'password'){eye${entrada.id}.style.display='none';eye${entrada.id}Shown.style.display='block';idP${entrada.id}.setAttribute('type','text');}else{eye${entrada.id}.style.display='block';eye${entrada.id}Shown.style.display='none';idP${entrada.id}.setAttribute('type','password');}"
-                      />
-                    </td>
-                  </td>
-                  <td style="min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); margin-left: -5px; word-wrap: break-word; text-align: center; border: none;">${entrada.expira} meses</td>
-                  <td style="min-width: var(--vb); max-width: var(--vb); margin-left: 5px; word-wrap: break-word; text-align: center; border: none;">&#124;</td>
-                  <td style="min-width: var(--expiraAcoes); max-width: var(--expiraAcoes); padding-right: 15px; word-wrap: break-word; text-align: center; border: none;">
-                    <input type="checkbox" id="idC${entrada.id}" class="listarEntradas-checkbox" title="Clique Aqui Para Selecionar Esta Entrada" onchange="if(idC${entrada.id}.checked == true){disableIfChecked(event, ${entrada.id});}else{disableIfChecked(event, 0);}" />
-                  </td>
-                </tr>
-              `;
-          }); document.getElementById('container3').innerHTML = res;
-        } else {
-          //Repopula sem recarregar a página, ex: Após apagar uma Entrada ou após apagar a query Pesquisa
-          popular();
-          busca = "";
-        }
-      }
-    </script>
   </head>
   <body>
     <div>
       <link href="./listarEntradas.css" rel="stylesheet" />
       <article class="listarEntradas-container">
         <span class="listarEntradas-text">SimpleKeys</span>
+        <span class="listarEntradas-text2">v 0.2.0</span>
         <span class="listarEntradas-text1">
           <span id="legendaTxt"></span>
           <img 
@@ -157,7 +59,6 @@
           id="imgInfo"
           title=""
         />
-        <span class="listarEntradas-text2">v 0.1.0</span>
         <div class="listarEntradas-container1">
           <span>
             grupoImg, grupoLista
@@ -241,14 +142,14 @@
         </span>
         <p id="barraPesqInp">&#124;</p>
         <input id="pesqInp" type="text" name="pesquisar" value="" placeholder="Digite sua pesquisa! Maiúsculas importam!" />
-        <span class="listarEntradas-icon6" title="Pesquisar/Recarregar" onclick="((pesqInp.value != (null || undefined) == true)) ? repopular(pesqInp.value) : ipc.send('mensagem:selecao:pesqerr');">
+        <span class="listarEntradas-icon6" title="Pesquisar/Recarregar" onclick="((document.getElementById('pesqInp').value != (null || undefined) == true)) ? repopular(document.getElementById('pesqInp').value.trim()) : ipc.send('mensagem:selecao:pesqerr');">
           <svg viewBox="0 0 1024 1024" id="imgPesquisarSenhas">
             <path
               d="M992.262 871.396l-242.552-206.294c-25.074-22.566-51.89-32.926-73.552-31.926 57.256-67.068 91.842-154.078 91.842-249.176 0-212.078-171.922-384-384-384-212.076 0-384 171.922-384 384s171.922 384 384 384c95.098 0 182.108-34.586 249.176-91.844-1 21.662 9.36 48.478 31.926 73.552l206.294 242.552c35.322 39.246 93.022 42.554 128.22 7.356s31.892-92.898-7.354-128.22zM384 640c-141.384 0-256-114.616-256-256s114.616-256 256-256 256 114.616 256 256-114.614 256-256 256z"
             ></path>
           </svg>
         </span>
-        <span class="listarEntradas-icon7" title="Verificar Força de Uma Senha" onclick="if(selecionada != (0 || null || undefined || [])){const idP = document.getElementById('idP' + selecionada).innerText; verF(idP);}else{ipc.send('mensagem:selecao:ferr');}">
+        <span class="listarEntradas-icon7" title="Verificar Força de Uma Senha" onclick="if(selecionada != (0 || null || undefined || [])){verF(document.getElementById('idP' + selecionada).value);}else{ipc.send('mensagem:selecao:ferr');}">
           <svg viewBox="0 0 1024 1024" id="imgVerificarSenhas">
             <path
               d="M64 0h384v64h-384zM576 0h384v64h-384zM952 320h-56v-256h-256v256h-256v-256h-256v256h-56c-39.6 0-72 32.4-72 72v560c0 39.6 32.4 72 72 72h304c39.6 0 72-32.4 72-72v-376h128v376c0 39.6 32.4 72 72 72h304c39.6 0 72-32.4 72-72v-560c0-39.6-32.4-72-72-72zM348 960h-248c-19.8 0-36-14.4-36-32s16.2-32 36-32h248c19.8 0 36 14.4 36 32s-16.2 32-36 32zM544 512h-64c-17.6 0-32-14.4-32-32s14.4-32 32-32h64c17.6 0 32 14.4 32 32s-14.4 32-32 32zM924 960h-248c-19.8 0-36-14.4-36-32s16.2-32 36-32h248c19.8 0 36 14.4 36 32s-16.2 32-36 32z"
@@ -256,7 +157,7 @@
           </svg>
         </span>
         <p id="barra2">&#124;</p>
-        <span class="listarEntradas-icon8" title="Copiar Login" onclick="if(selecionada != (0 || null || undefined || [])){const idL = document.getElementById('idL' + selecionada); copiar(idL.innerText); log.info('Login copiado!'); ipc.send('mensagem:copia:lc');}else{ipc.send('mensagem:selecao:lerr');}">
+        <span class="listarEntradas-icon8" title="Copiar Login" onclick="if(selecionada != (0 || null || undefined || [])){copiar(document.getElementById('idL' + selecionada).innerText); log.info('Login copiado!'); ipc.send('mensagem:copia:lc');}else{ipc.send('mensagem:selecao:lerr');}">
           <svg
             viewBox="0 0 1170.2857142857142 1024"
             id="imgCopiarLogins"
@@ -266,7 +167,7 @@
             ></path>
           </svg>
         </span>
-        <span class="listarEntradas-icon9" title="Copiar Senha" onclick="if(selecionada != (0 || null || undefined || [])){const idP = document.getElementById('idP' + selecionada); copiar(idP.value); log.info('Senha copiada!'); ipc.send('mensagem:copia:sc');}else{ipc.send('mensagem:selecao:serr');}">
+        <span class="listarEntradas-icon9" title="Copiar Senha" onclick="if(selecionada != (0 || null || undefined || [])){copiar(document.getElementById('idP' + selecionada).value); log.info('Senha copiada!'); ipc.send('mensagem:copia:sc');}else{ipc.send('mensagem:selecao:serr');}">
           <svg viewBox="0 0 1024 1024" id="imgCopiarSenhas">
             <path
               d="M704 0c-176.73 0-320 143.268-320 320 0 20.026 1.858 39.616 5.376 58.624l-389.376 389.376v192c0 35.346 28.654 64 64 64h64v-64h128v-128h128v-128h128l83.042-83.042c34.010 12.316 70.696 19.042 108.958 19.042 176.73 0 320-143.268 320-320s-143.27-320-320-320zM799.874 320.126c-53.020 0-96-42.98-96-96s42.98-96 96-96 96 42.98 96 96-42.98 96-96 96z"
@@ -319,14 +220,12 @@
     <script>
       const $ = require('../App/tools/jquery-3.6.1.min.js');
       
-      let frames = ["-", " ", ".", ">", "<", "^", "\\", "|", "/"], interval = 150;
+      let frames = ["-", "\\", "|", "/", "-"], i = 0;
 
       window.timer = window.setInterval(function(){
-        for (let i = 1; i < interval; i++) {
-          setTimeout(() => {
-            legendaTxt.innerText = `Carregando... ${frames[(i = ++i % frames.length)]}`.trim();
-          }, 1);
-        }
+        setTimeout(() => {
+          legendaTxt.innerText = `Carregando... ${frames[(i = ++i % frames.length)]}`.trim();
+        }, 200);
       }, interval);
 
       $(document).ready(
@@ -342,7 +241,7 @@
             log.error("Erro na Populacao dos Dados! " + error);
             ipc.send('mensagem:populacao:erro');
           });
-        }, 3050)
+        }, 5000)
       );
     </script>
   </body>

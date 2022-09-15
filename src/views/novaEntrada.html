@@ -37,13 +37,7 @@
     <title>SimpleKeys - Nova Entrada</title>
     <script src="../App/tools/zxcvbn.js"></script>
     <script src="../App/middleman.js"></script>
-    <script>
-      const { listar } = require('../App/listar.js'); listar();
-
-      async function cadastrar(){
-        Arquivo.cadastrarEntrada(document.getElementById('inputNomeEnt').value, document.getElementById('inputDescEnt').value, document.getElementById('inpSite').value, document.getElementById('inputLoginEnt').value, document.getElementById('inpPassword').value, document.getElementById('expira').value);
-      }
-    </script>
+    <script src="../App/cadastrar.js"></script>
   </head>
   <body>
     <div>
@@ -63,6 +57,7 @@
       <article class="nova-entrada-container">
         <div class="nova-entrada-desktop">
           <span class="nova-entrada-text">SimpleKeys</span>
+          <span class="nova-entrada-text09">v 0.2.0</span>
             <div class="nova-entrada-container1">
               <div class="nova-entrada-container2">
               <span class="nova-entrada-text04">
@@ -82,7 +77,6 @@
                       d="M512 256q70 0 120 50t50 120q0 54-64 111t-64 103h-84q0-46 20-79t44-48 44-37 20-50q0-34-26-59t-60-25-60 25-26 59h-84q0-70 50-120t120-50zM512 854q140 0 241-101t101-241-101-241-241-101-241 101-101 241 101 241 241 101zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125zM470 768v-86h84v86h-84z"
                   ></path>
               </svg>
-              <span class="nova-entrada-text09">v 0.1.0</span>
               <form>
                 <span class="nova-entrada-text10">Nova entrada...</span>
                 <span class="nova-entrada-text11">Nome:</span>
@@ -176,7 +170,7 @@
                 <div class="nova-entrada-slider">
                     <input id="expira" title="6 meses" type="range" min="0" max="36" value="6" oninput="(this.value > 0) ? (expira.title = this.value + ' meses') : expira.title = 'Desligado.'" />
                 </div>
-                <button type="button" class="nova-entrada-button button" onclick="(((inputNomeEnt.value && inputLoginEnt.value && inpPassword.value != ('' || null || undefined || [])) == true)) ? cadastrar() : ipc.send('mensagem:paridade:erro');">
+                <button type="button" class="nova-entrada-button button" onclick="(((document.getElementById('inputNomeEnt').value && document.getElementById('inputLoginEnt').value && document.getElementById('inpPassword').value != ('' || null || undefined || [])) == true)) ? cadastrar() : ipc.send('mensagem:paridade:erro');">
                 <span class="nova-entrada-text01">
                     <span>Criar</span>
                     <br />

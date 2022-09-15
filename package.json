@@ -1,12 +1,13 @@
 {
-  "name": "SimpleKeys",
-  "version": "0.1.0",
+  "name": "simplekeys",
+  "productName": "SimpleKeys",
+  "version": "0.2.0",
   "description": "Um gerenciador de senhas leve, versátil e seguro.",
   "main": "src/main.js",
   "scripts": {
-    "test": "electron .",
-    "build": "npx electron-packager . SimpleKeys --platform=win32 --arch=x64 --electron-version=20.1.3 --icon icon.ico --out out/",
-    "setup": "electron-installer-windows --src out/SimpleKeys-win32-x64/ --dest out/installer"
+    "test": "npx electron .",
+    "build": "npx electron-packager . SimpleKeys --platform=win32 --arch=x64 --electron-version=20.1.3 --asar --icon icon.ico --out out/",
+    "setup": "npx electron-installer-windows --src out/SimpleKeys-win32-x64/ --dest out/installer"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,8 @@
     "Generator"
   ],
   "author": "Kauã Maia Cousillas",
-  "license": "Apache-2.0",
+  "license": "BSD-3-Clause-Clear",
+  "copyright": "Copyright (c) 2022 Kauã Maia Cousillas.",
   "bugs": {
     "url": "https://github.com/bainloko/SimpleKeys/issues",
     "email": "kaua.maia177@gmail.com"
@@ -30,12 +32,13 @@
   "dependencies": {
     "@journeyapps/sqlcipher": "^5.3.1",
     "electron-better-ipc": "^2.0.1",
+    "electron-context-menu": "^3.5.0",
     "electron-log": "^4.4.8",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
     "electron-util": "^0.17.2",
     "fs-extra": "^10.1.0",
-    "sequelize": "^6.21.6",
-    "update-electron-app": "^2.0.1"
+    "sequelize": "^6.21.6"
   },
   "devDependencies": {
     "cli-loading-animation": "^1.0.6",

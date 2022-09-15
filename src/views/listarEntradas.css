@@ -147,7 +147,7 @@ td {
 }
 .listarEntradas-iconConfig {
   top: 50px;
-  right: 117px;
+  left: 1163px;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
   position: absolute;
@@ -155,7 +155,7 @@ td {
 }
 .listarEntradas-iconSobre {
   top: 50px;
-  right: 69px;
+  right: 1219px;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
   position: absolute;

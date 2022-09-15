@@ -14,8 +14,8 @@ const store = new Store();
 
 const log = require('electron-log');
 
-const lock = app.requestSingleInstanceLock();
-(!lock == true) ? () => { dialog.showErrorBox("Erro!", "O App já está aberto!"); app.quit(); } : log.info("Aplicativo inicializando!");
+const lock = app.requestSingleInstanceLock(); //Work on that before building and pushing new version, REVISAO FINAL, TESTE COMPLETO
+(!lock) ? () => { dialog.showErrorBox("Erro!", "O App já está aberto!"); setTimeout(app.quit(), 5000); } : (require('electron-squirrel-startup')) ? () => { let handleStartupEvent = () => { let squirrelCommand = process.argv[1]; switch (squirrelCommand) { case '--squirrel-install': case '--squirrel-updated': /* */ app.quit(); return true; case '--squirrel-uninstall': /* */ app.quit(); return true; case '--squirrel-obsolete': /* */ app.quit(); return true; default: /* */ break; } }; if (handleStartupEvent()) { return; } } : log.info("Aplicativo inicializando!");
 
 let telaInicial = null;
 let lerArquivo = null;
@@ -573,32 +573,41 @@ ipc.on('mensagem:copia:erro', (e) => {
     dialog.showErrorBox("Erro!", "A cópia falhou! Tente novamente, ");
 });
 
-ipc.on('mensagem:analise:ppp', (e) => {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito fraca! Considere trocá-la imediatamente!" });
+function erroAnalise(){
+    dialog.showErrorBox("Erro!", "Erro na análise da senha!");
+}
+
+ipc.on('mensagem:analise:ppp', (e, m) => {
+    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito fraca! Considere trocá-la imediatamente! Mensagens do zxcvbn, em inglês - " + m }); }
 });
 
-ipc.on('mensagem:analise:pp', (e) => {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é fraca! Considere trocá-la imediatamente!" });
+ipc.on('mensagem:analise:pp', (e, m) => {
+    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é fraca! Considere trocá-la imediatamente! Mensagens do zxcvbn, em inglês - " + m }); }
 });
 
-ipc.on('mensagem:analise:r', (e) => {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é razoável! Considere trocá-la em no máximo 6 meses." });
+ipc.on('mensagem:analise:r', (e, m) => {
+    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é razoável! Considere trocá-la em no máximo 6 meses. Mensagens do zxcvbn, em inglês - " + m }); }
 });
 
-ipc.on('mensagem:analise:f', (e) => {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é forte! Considere trocá-la daqui, no mínimo, dois anos." });
+ipc.on('mensagem:analise:f', (e, m) => {
+    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + m }); }
 });
 
-ipc.on('mensagem:analise:ff', (e) => {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito forte! Troque-a quando julgar necessário." });
+ipc.on('mensagem:analise:ff', (e, m) => {
+    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + m }); }
 });
 
 ipc.on('mensagem:analise:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Erro na análise da senha!");
+    erroAnalise();
 });
 
 ipc.on('mensagem:conexao:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Erro ao abrir o Chaveiro! Sera que a senha esta incorreta, ");
+    dialog.showErrorBox("Erro!", "Erro ao abrir o Chaveiro! Sera que a senha esta incorreta?");
 });
 
 ipc.on('mensagem:banco:erro', (e) => {
@@ -610,7 +619,7 @@ ipc.on('mensagem:paridade:erro', (e) => {
 });
 
 ipc.on('mensagem:populacao:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Erro na Populacao dos Dados, ");
+    dialog.showErrorBox("Erro!", "Erro ao Listar os Dados!");
 });
 
 ipc.on('mensagem:senha:erro', (e) => {
@@ -626,7 +635,7 @@ ipc.on('mensagem:selecao:ferr', (e) => {
 });
 
 ipc.on('mensagem:copia:lc', (e) => {
-    dialog.showMessageBox(telaInicial, { message: "Login copiado!" });
+    dialog.showMessageBox(telaInicial, { message: "Login copiado para a área de transferência! Tenha cuidado ao colar dados sensíveis!" });
 });
 
 ipc.on('mensagem:selecao:lerr', (e) => {
@@ -634,7 +643,7 @@ ipc.on('mensagem:selecao:lerr', (e) => {
 });
 
 ipc.on('mensagem:copia:sc', (e) => {
-    dialog.showMessageBox(telaInicial, { message: "Senha copiada!" });
+    dialog.showMessageBox(telaInicial, { message: "Senha copiada! Tenha cuidado ao colar dados sensíveis!" });
 });
 
 ipc.on('mensagem:selecao:serr', (e) => {
@@ -649,8 +658,9 @@ ipc.on('mensagem:selecao:pesqerr', (e) => {
     dialog.showErrorBox("Erro!", "Digite algum termo para realizar a pesquisa!");
 });
 
-ipc.on('mensagem:', (e) => {
-    dialog.showErrorBox("Erro!", "Erro Não Identificado!");
+ipc.on('error', (e) => {
+    dialog.showErrorBox("Erro!", "Erro Não Identificado " + e);
+    throw e;
 });
 
 app.on('ready', (e) => {
@@ -660,14 +670,7 @@ app.on('ready', (e) => {
 app.on('window-all-closed', (e) => {
     navigator.clipboard.write(' ');
     log.info(navigator.clipboard.read());
-    store.set("pathArquivo", "");
-    store.set("nomeArquivo", "");
-    store.set("refArquivo", "");
-    store.set("descArquivo", "");
-    store.set("expiraArquivo", 0);
-    store.set("chaveReserva", false);
-    store.set("senhaArquivo", "");
-    store.set("selecaoAtual", 0);
+    store.clear();
 
     // Fecha o App
     app.quit();

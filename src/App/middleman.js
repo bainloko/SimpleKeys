@@ -6,9 +6,11 @@
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
 
-const Arquivo = require('../App/tools/Arquivo.js');
-
 const Store = require('electron-store');
 const store = new Store();
 
 const log = require('electron-log');
+
+const { listar } = require('../App/listar.js');
+
+listar();
