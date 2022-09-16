@@ -585,21 +585,25 @@ ipc.on('mensagem:analise:ppp', (e, m) => {
 });
 
 ipc.on('mensagem:analise:pp', (e, m) => {
+    let msg = m;
     if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
     dialog.showMessageBox(telaInicial, { message: "Esta senha é fraca! Considere trocá-la imediatamente! Mensagens do zxcvbn, em inglês - " + msg }); }
 });
 
 ipc.on('mensagem:analise:r', (e, m) => {
+    let msg = m;
     if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
     dialog.showMessageBox(telaInicial, { message: "Esta senha é razoável! Considere trocá-la em no máximo 6 meses. Mensagens do zxcvbn, em inglês - " + msg }); }
 });
 
 ipc.on('mensagem:analise:f', (e, m) => {
+    let msg = m;
     if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
     dialog.showMessageBox(telaInicial, { message: "Esta senha é forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + msg }); }
 });
 
 ipc.on('mensagem:analise:ff', (e, m) => {
+    let msg = m;
     if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
     dialog.showMessageBox(telaInicial, { message: "Esta senha é muito forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + msg }); }
 });
