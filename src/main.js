@@ -7,6 +7,7 @@
 // Módulos para controlar o ciclo de vida da aplicação e criar a janela nativa do Browser
 const { app, BrowserWindow, Menu, Notification, Tray, dialog } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
+const contextMenu = require('electron-context-menu'); //
 const { showAboutWindow } = require('electron-util');
 
 const Store = require('electron-store');
@@ -14,7 +15,7 @@ const store = new Store();
 
 const log = require('electron-log');
 
-const lock = app.requestSingleInstanceLock(); //Work on that before building and pushing new version, REVISAO FINAL, TESTE COMPLETO
+const lock = app.requestSingleInstanceLock(); //
 (!lock) ? () => { dialog.showErrorBox("Erro!", "O App já está aberto!"); setTimeout(app.quit(), 5000); } : (require('electron-squirrel-startup')) ? () => { let handleStartupEvent = () => { let squirrelCommand = process.argv[1]; switch (squirrelCommand) { case '--squirrel-install': case '--squirrel-updated': /* */ app.quit(); return true; case '--squirrel-uninstall': /* */ app.quit(); return true; case '--squirrel-obsolete': /* */ app.quit(); return true; default: /* */ break; } }; if (handleStartupEvent()) { return; } } : log.info("Aplicativo inicializando!");
 
 let telaInicial = null;
@@ -454,9 +455,9 @@ function criarConfiguracoes(){
 function criarSobre(){
     try {
         showAboutWindow({
-            icon: __dirname + './views/public/icon/icon.ico',
-            copyright: 'Copyright © 2022 - Kauã Maia (bainloko)',
-            text: '𝘽𝙚𝙩𝙖 𝙁𝙚𝙘𝙝𝙖𝙙𝙤\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros.\n\nÍcones por Icons8 - 𝙝𝙩𝙩𝙥𝙨://𝙞𝙘𝙤𝙣𝙨8.𝙘𝙤𝙢, Licenças de Código Aberto e Bibliotecas utilizadas: @journeyapps/sqlcipher, electron, electron-better-ipc, electron-log, electron-store, electron-util, fs-extra, path, sequelize, zxcvbn, jQuery, node:crypto, cli-loading-animation, @doyensec/electronegativity, electron-packager, SonarCloud, TeleportHQ\n\nAjuda, links e instruções para aprender a usar o SimpleKeys e se proteger melhor na internet: 𝙝𝙩𝙩𝙥𝙨://𝙜𝙞𝙩𝙝𝙪𝙗.𝙘𝙤𝙢/𝙗𝙖𝙞𝙣𝙡𝙤𝙠𝙤/𝙎𝙞𝙢𝙥𝙡𝙚𝙆𝙚𝙮𝙨\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para kaua.maia177@gmail.com\n\nTCC/TI de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé.',
+            icon: __dirname + '../icon.ico',
+            copyright: 'Copyright © 2022 Kauã Maia Cousillas',
+            text: 'Um gerenciador de senhas leve, versátil e seguro.\n\n𝘽𝙚𝙩𝙖 𝘼𝙗𝙚𝙧𝙩𝙤\n\nTestador Autorizado Durante o Beta Fechado: Lucas-Dutra-Pereira\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros. SimpleKeys foi inspirado em muitos outros 𝙨𝙤𝙛𝙩𝙬𝙖𝙧𝙚𝙨, mas que são muito complicados de usar ou que não têm ajuda para o Português!\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para k̲a̲u̲a̲.m̲a̲i̲a̲177@gm̲a̲i̲l̲.c̲o̲m̲, e no GitHub: @bainloko/SimpleKeys\n\nTrabalho de Conclusão de Curso de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé. Copyright (c) 2022 Kauã Maia Cousillas. Este s̲o̲f̲t̲w̲a̲r̲e̲ é livre, e poderá ser redistribuído sob os termos especificados no arquivo LICENSE.txt; também leia NOTICE.md para mais detalhes (em inglês)\n\n',
             website: 'https://github.com/bainloko/SimpleKeys'
         });
     } catch (error){
@@ -578,28 +579,29 @@ function erroAnalise(){
 }
 
 ipc.on('mensagem:analise:ppp', (e, m) => {
-    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito fraca! Considere trocá-la imediatamente! Mensagens do zxcvbn, em inglês - " + m }); }
+    let msg = m;
+    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito fraca! Considere trocá-la imediatamente! Mensagens do zxcvbn, em inglês - " + msg }); }
 });
 
 ipc.on('mensagem:analise:pp', (e, m) => {
-    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é fraca! Considere trocá-la imediatamente! Mensagens do zxcvbn, em inglês - " + m }); }
+    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é fraca! Considere trocá-la imediatamente! Mensagens do zxcvbn, em inglês - " + msg }); }
 });
 
 ipc.on('mensagem:analise:r', (e, m) => {
-    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é razoável! Considere trocá-la em no máximo 6 meses. Mensagens do zxcvbn, em inglês - " + m }); }
+    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é razoável! Considere trocá-la em no máximo 6 meses. Mensagens do zxcvbn, em inglês - " + msg }); }
 });
 
 ipc.on('mensagem:analise:f', (e, m) => {
-    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + m }); }
+    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + msg }); }
 });
 
 ipc.on('mensagem:analise:ff', (e, m) => {
-    if (m == ("" || [])) {m = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + m }); }
+    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + msg }); }
 });
 
 ipc.on('mensagem:analise:erro', (e) => {

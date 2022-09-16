@@ -37,7 +37,7 @@ async function cadastrarSeed(nomeEntradas, descEntradas, siteEntradas, loginEntr
 
 async function cadastrarEntrada(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
-        const resultadoEntrada = await Entradas.create({
+        const entradaCadastro = await Entradas.create({
             nome: nomeEntradas,
             descricao: descEntradas,
             site: siteEntradas,
@@ -49,7 +49,7 @@ async function cadastrarEntrada(nomeEntradas, descEntradas, siteEntradas, loginE
         log.info("Entrada cadastrada com sucesso!");
         ipc.send('mensagem:entrada:sucesso');
 
-        return resultadoEntrada;
+        return entradaCadastro;
     } catch (error){
         log.error("Ocorreu um erro no cadastro da nova Entrada, " + error + "!");
         ipc.send('mensagem:entrada:erro');
@@ -110,19 +110,19 @@ async function pesquisarEntradas(pesquisa){
 
 async function editarEntrada(selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
     try {
-        const entradaEdicao = await Entradas.findByPk(selecaoAtual).then(() => {
-            entradaEdicao.nome = nomeEntradas;
-            entradaEdicao.descricao = descEntradas;
-            entradaEdicao.site = siteEntradas;
-            entradaEdicao.login = loginEntradas;
-            entradaEdicao.senha = senhaEntradas;
-            entradaEdicao.expira = expira;
+        await Entradas.findByPk(selecaoAtual).then((entrada) => {
+            entrada.nome = nomeEntradas;
+            entrada.descricao = descEntradas;
+            entrada.site = siteEntradas;
+            entrada.login = loginEntradas;
+            entrada.senha = senhaEntradas;
+            entrada.expira = expira;
             
-            entradaEdicao.save();
+            entrada.save();
             log.info("Entrada editada com sucesso!");
             ipc.send('mensagem:edicao:sucesso');
 
-            return entradaEdicao;
+            return entrada;
         }).catch((error) => {
             log.error("Ocorreu um erro na edicao da Entrada, " + error + "!");
             ipc.send('mensagem:edicao:erro');
