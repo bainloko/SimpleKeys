@@ -1,8 +1,7 @@
-# NOTICES AND INFORMATION
+# AVISOS E INFORMAÇÕES ÚTEIS / NOTICES AND INFORMATION
 
-Do Not Translate or Localize
-
-This software incorporates material from third parties. All rights Reserved. See their Licenses down below:
+POR: Este _software_ usa dependências de terceiros. Todos os direitos reservados. Veja as suas Licenças abaixo:
+ENG: This software uses dependencies from third parties. All rights Reserved. See their Licenses down below:
 
 ---
 
@@ -579,16 +578,16 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Other Websites and Resources
+# Other Websites and Resources / Outros Sites e Recursos
 
 ## TeleportHQ
 
-Link: https://teleporthq.io
+https://teleporthq.io
 
 ## Icons8
 
-Link: https://icons8.com
+https://icons8.com
 
 ## Giphy
 
-Link: https://giphy.com
+https://giphy.com
