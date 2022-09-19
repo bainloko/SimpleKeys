@@ -16,7 +16,7 @@ function conectar(path, nomeArquivo, descArquivo, expiraArquivo, chaveReserva, s
         const database = new Sequelize(nomeArquivo, null, senha, {
             dialect: 'sqlite',
             dialectModule: require('@journeyapps/sqlcipher'),
-            logging: (msg) => { log; log.info(msg); },
+            logging: (msg) => { require('electron-log').info(msg); },
             storage: path
         });
 

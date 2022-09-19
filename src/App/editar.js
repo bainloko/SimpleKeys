@@ -19,4 +19,4 @@ async function popular(selecaoAtual){
     document.getElementById('expira').value = lista['dataValues'].expira;
 }
 
-module.exports = { popular };
+module.exports = { popular, selecaoAtual };

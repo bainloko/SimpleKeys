@@ -15,8 +15,6 @@ const store = new Store();
 
 const log = require('electron-log');
 
-let selecionada = 0;
-
 function listar(){
     try {
         let path = store.get("pathArquivo");
@@ -35,7 +33,7 @@ function listar(){
 
 listar();
 
-let res = "", entradas, busca;
+let res = "", entradas, busca, selecaoAtual = 0;
 
 async function seed(){
     busca = await Arquivo.lerEntradas();
@@ -139,9 +137,9 @@ function disableIfChecked(event, entrada){
         element => { element.disabled = target.checked }
     );
 
-    selecionada = entrada;
-    store.set("selecaoAtual", selecionada);
-    return selecionada;
+    selecaoAtual = entrada;
+    store.set("selecaoAtual", selecaoAtual);
+    return selecaoAtual;
 }
 
 async function copiar(texto){

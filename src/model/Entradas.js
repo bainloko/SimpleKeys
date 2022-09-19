@@ -36,8 +36,8 @@ class Entradas extends Model {
             expira: {
                 type: DataTypes.INTEGER,
             },
-            grupoImg: DataTypes.BLOB,
-            grupoLista: DataTypes.TEXT
+            // grupoImg: DataTypes.BLOB,
+            // grupoLista: DataTypes.TEXT
         }, { sequelize, freezeTableName: true });
     }
 }

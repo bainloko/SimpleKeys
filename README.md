@@ -2,10 +2,14 @@
 
 A lightweight, versatile, safe password manager.
 
+WIP!
+
 ...
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=alert_status)](https://sonarcloud.io/dashboard?id=bainloko_SimpleKeys)
-[![Build Status](https://app.travis-ci.com/bainloko/SimpleKeys.svg?branch=app)](https://app.travis-ci.com/bainloko/SimpleKeys)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
 
 # Quick Start
 
@@ -17,7 +21,7 @@ _projetoPDF_
 
 # Feature Wishlist (For Future Additions)
 
-_import, export, translations, autotype, settings, backups and printing, *bug report template* implement key, expiration, iLike, sorting, change master password, groups, warn the user of duplicate entries, guides, *autolock without user, tray*, notifications, TOTP, time support, show last file location MENU, check for updates, phase out contextIsolation to true, nodeIntegration to false, helpfile slideshow_
+_import, export, translations, autotype, settings, backups and printing, *bug report template* implement key, expiration, iLike, sorting, change master password, groups, warn the user of duplicate entries, guides, *autolock without user, tray*, notifications, TOTP, time support, show last file location MENU, check for updates, phase Node out, helpfile slideshow_
 
 # Project Schematics
 
@@ -35,13 +39,13 @@ Authorized Closed Beta Tester: Lucas-Dutra-Pereira
 
 All code and logic behind them are proprietary, except when explicitly mentioned otherwise.
 
-SimpleKeys was indeed inspired on many other software, but that are too difficult to set-up and use or that don't have any help in Portuguese!
+SimpleKeys was inspired on many other softwares, but that are too difficult to set-up and use, or don't have any support in Portuguese!
 
 To see usage logs from SimpleKeys, head to "%AppData%/simplekeys/logs" on Windows and "~/.config/simplekeys/logs/" on Linux.
 
 In case of bugs or questions, send an e-mail to kaua.maia177@gmail.com
 
-Undergraduate Final Project of Kauã Maia Cousillas to the _Sul-rio-grandense_ Federal Institute of Technology _Campus_ Bagé
+Undergrad Final Project to the _Sul-rio-grandense_ Federal Institute of Technology _Campus_ Bagé
 
 # Resources and Libraries used
 
@@ -51,4 +55,4 @@ You guys rock!!!
 
 # License
 
-Copyright (c) 2022 Kauã Maia Cousillas. This is free software and may be redistributed under the terms specified in the LICENSE.txt file; also see NOTICE.md for more details.
+Copyright (c) 2022 Kauã Maia Cousillas. This is free software and may be redistributed under the terms specified in the ![LICENSE](./LICENSE.txt); also see the ![NOTICE](./NOTICE.md) for more details.

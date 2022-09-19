@@ -8,7 +8,7 @@ const passwordInput = document.getElementById("inpPassword");
 const passTestInput = document.getElementById("inpTestPassword");
 const passwordStrength = document.getElementById("password-strength");
 const feedback = document.getElementById("feedback");
-const feedbackPass = document.getElementById("feedbackPass");
+const feedbackTest = document.getElementById("feedbackTest");
 
 const eye = document.getElementById("eye");
 const eyeShown = document.getElementById("eyeShown");
@@ -19,8 +19,17 @@ let pw1Shown = false;
 
 passwordInput.addEventListener("input", function(){
     const val = passwordInput.value;
+    const valT = passTestInput.value;
     let result = zxcvbn(val);
     passwordStrength.className = "strength-" + result.score;
+
+    if (val === valT) {
+        feedback.style.display = "none";
+        feedbackTest.style.display = "block";
+    } else {
+        feedback.style.display = "block";
+        feedbackTest.style.display = "none";
+    }
 });
 
 passTestInput.addEventListener("input", function(){
@@ -29,10 +38,10 @@ passTestInput.addEventListener("input", function(){
 
     if (val === valT) {
         feedback.style.display = "none";
-        feedbackPass.style.display = "block";
+        feedbackTest.style.display = "block";
     } else {
         feedback.style.display = "block";
-        feedbackPass.style.display = "none";
+        feedbackTest.style.display = "none";
     }
 })
 

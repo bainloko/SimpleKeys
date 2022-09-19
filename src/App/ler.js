@@ -16,7 +16,7 @@ const eyeShown = document.getElementById("eyeShown");
 let pwShown = false;
 
 eye.addEventListener("click", () => {
-    if (pwShown === false){
+    if (pwShown == false){
         eye.style.display = "none";
         eyeShown.style.display = "block";
         passwordInput.setAttribute("type", "text");
@@ -32,7 +32,7 @@ eye.addEventListener("click", () => {
 });
 
 eyeShown.addEventListener("click", () => {
-    if (pwShown === false){
+    if (pwShown == false){
         eye.style.display = "none";
         eyeShown.style.display = "block";
         passwordInput.setAttribute("type", "text");
@@ -82,7 +82,7 @@ ipc.on('arquivo:ler:pathArquivo', (e, path) => {
 function setar(path, senha){
     if ((path && senha) != ("" || null || undefined || [])) {
         localChaveiroCheckbox.checked = true;
-        store.set("senhaArquivo", senha);
+        store.set("senhaArquivo", senha); //runasadminshortcutshashsignfullreview
     } else {
         ipc.send('mensagem:local:erro3');
     }

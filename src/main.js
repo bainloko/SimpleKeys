@@ -5,9 +5,9 @@
 */
 
 // Módulos para controlar o ciclo de vida da aplicação e criar a janela nativa do Browser
-const { app, BrowserWindow, Menu, Notification, Tray, dialog } = require('electron');
+const { app, BrowserWindow, Menu, dialog, shell } = require('electron');
 const { ipcMain: ipc } = require('electron-better-ipc');
-const contextMenu = require('electron-context-menu'); //
+const contextMenu = require('electron-context-menu');
 const { showAboutWindow } = require('electron-util');
 
 const Store = require('electron-store');
@@ -15,8 +15,65 @@ const store = new Store();
 
 const log = require('electron-log');
 
-const lock = app.requestSingleInstanceLock(); //
-(!lock) ? () => { dialog.showErrorBox("Erro!", "O App já está aberto!"); setTimeout(app.quit(), 5000); } : (require('electron-squirrel-startup')) ? () => { let handleStartupEvent = () => { let squirrelCommand = process.argv[1]; switch (squirrelCommand) { case '--squirrel-install': case '--squirrel-updated': /* */ app.quit(); return true; case '--squirrel-uninstall': /* */ app.quit(); return true; case '--squirrel-obsolete': /* */ app.quit(); return true; default: /* */ break; } }; if (handleStartupEvent()) { return; } } : log.info("Aplicativo inicializando!");
+const lock = app.requestSingleInstanceLock();
+if (!lock) {
+    dialog.showErrorBox("Erro!", "O App já está aberto!");
+    setTimeout(app.quit(), 5000);
+} else if (require('electron-squirrel-startup')) {
+    const ChildProcess = require('child_process');
+    const path = require('path');
+
+    const appFolder = path.resolve(process.execPath, '..');
+    const rootAtomFolder = path.resolve(appFolder, '..');
+    const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
+    const exeName = path.basename(process.execPath);
+    const spawn = function(command, args) {
+      let spawnedProcess, error;
+
+      try {
+        spawnedProcess = ChildProcess.spawn(command, args, {detached: true});
+      } catch (error) {}
+
+      return spawnedProcess;
+    };
+
+    const spawnUpdate = function(args) {
+      return spawn(updateDotExe, args);
+    };
+
+    function handleStartupEvent(){
+        let squirrelCommand = process.argv[1];
+        switch (squirrelCommand) {
+            case '--squirrel-install':
+            case '--squirrel-updated':
+                spawnUpdate(['--createShortcut'], exeName);
+                //regKey requireelevation
+
+                setTimeout(app.quit(), 1000);
+                return true;
+            case '--squirrel-uninstall':
+                spawnUpdate(['--removeShortcut'], exeName);
+                //regKey requireelevation
+
+                setTimeout(app.quit(), 1000);
+                return true;
+            case '--squirrel-obsolete':
+                /* update? */
+
+                setTimeout(app.quit(), 1000);
+                return true;
+            default:
+                log.error("Comando inválido!");
+
+                setTimeout(app.quit(), 1000);
+                return false; 
+        }
+    }
+
+    if (handleStartupEvent()) return;
+} else {
+    log.info("Aplicativo inicializando!");
+}
 
 let telaInicial = null;
 let lerArquivo = null;
@@ -35,11 +92,36 @@ function criarTelaInicial(){
         webPreferences: {
             devTools: !app.isPackaged,
             contextIsolation: false,
-            nodeIntegration: true
+            nodeIntegration: true,
+            spellcheck: false
         }
     });
     
     Menu.setApplicationMenu(null);
+
+    contextMenu({
+        menu: (params, telaInicial) => [
+            {
+                role: "cut",
+                label: "Recortar"
+            },
+            {
+                role: "copy",
+                label: "Copiar",
+            },
+            {
+                role: "paste",
+                label: "Colar",
+            },
+            {
+                role: "selectAll",
+                label: "Selecionar Tudo",
+            },
+            // {
+            //     role: "toggleDevTools",
+            // },
+        ], showLearnSpelling: false, showLookUpSelection: false, showSearchWithGoogle: false, showCopyImage: false, showSaveImage: false
+    });
 
     telaInicial.loadFile('src/views/index.html');
 
@@ -54,7 +136,7 @@ function criarTelaInicial(){
     });
 }
 
-function fecharERInicial(){
+function fecharEInicial(){
     try {
         Menu.setApplicationMenu(null);
         telaInicial.loadFile('src/views/index.html');
@@ -65,7 +147,7 @@ function fecharERInicial(){
 }
 
 ipc.on('opcao:inicial', (e) => {
-    fecharERInicial();
+    fecharEInicial();
 });
 
 function criarListaEntradas(){
@@ -103,7 +185,7 @@ function criarListaEntradas(){
                     },
                     {
                         label: 'Trancar Arquivo',
-                        click(){ fecharERInicial(); }
+                        click(){ dialog.showErrorBox("Erro!", "Trancar pelo Menu de Contexto é uma Funcionalidade Futura! Clique no Cadeado para trancar o Chaveiro por enquanto!"); }
                     },
                     {
                         label: 'Sair',
@@ -117,11 +199,11 @@ function criarListaEntradas(){
                 submenu: [
                     {
                         label: 'Copiar Login',
-                        click(){ selecionada = store.get("selecaoAtual"); if(selecionada != (0 || null || undefined || [])){const idL = document.getElementById('idL' + selecionada); copiar(idL.innerText); log.info('Login copiado!'); dialog.showMessageBox(telaInicial, { message: "Login copiado!" });}else{dialog.showErrorBox("Erro!", "Selecione um Login para copiar!");} },
+                        click(){ dialog.showErrorBox("Erro!", "Trancar pelo Menu de Contexto é uma Funcionalidade Futura! Clique na Identidade para copiar o Login por enquanto!"); },
                     },
                     {
                         label: 'Copiar Senha',
-                        click(){ selecionada = store.get("selecaoAtual"); if(selecionada != (0 || null || undefined || [])){const idP = document.getElementById('idP' + selecionada); copiar(idP.value); log.info('Senha copiada!'); dialog.showMessageBox(telaInicial, { message: "Senha copiada!" });}else{dialog.showErrorBox("Erro!", "Selecione uma Senha para copiar!");} },
+                        click(){ dialog.showErrorBox("Erro!", "Trancar pelo Menu de Contexto é uma Funcionalidade Futura! Clique na Chave para copiar a Senha por enquanto!"); },
                     },
                     // { //FUNCIONALIDADE FUTURA
                     //     label: 'Copiar Campos',
@@ -142,11 +224,11 @@ function criarListaEntradas(){
                     },
                     {
                         label: 'Editar Entrada',
-                        click(){ selecionada = store.get("selecaoAtual"); if(selecionada != (0 || null || undefined || [])){criarEditarEntrada();}else{dialog.showErrorBox("Erro!", "Selecione uma Entrada para editar!");} },
+                        click(){ selecaoAtual = store.get("selecaoAtual"); if(selecaoAtual != (0 || null || undefined || [])){criarEditarEntrada();}else{dialog.showErrorBox("Erro!", "Selecione uma Entrada para editar!");} },
                     },
                     {
                         label: 'Deletar Entrada(s)',
-                        click(){ selecionada = store.get("selecaoAtual"); if(selecionada != (0 || null || undefined || [])){apagar();}else{dialog.showErrorBox("Erro!", "Selecione uma Entrada para apagar!");} },
+                        click(){ selecaoAtual = store.get("selecaoAtual"); if(selecaoAtual != (0 || null || undefined || [])){apagar(selecaoAtual);}else{dialog.showErrorBox("Erro!", "Selecione uma Entrada para apagar!");} },
                     },
                     // { //FUNCIONALIDADE FUTURA
                     //     label: 'Selecionar Tudo',
@@ -221,11 +303,11 @@ function criarListaEntradas(){
                 label: 'Ajuda',
                 submenu: [
                     {
-                        label: 'Verificar novas Atualizações',
-                        click(){ dialog.showErrorBox("Erro!", "Funcionalidade Futura! Desculpe!"); },
+                        label: 'Verificar novas Atualizações, Links e instruções',
+                        click(){ shell.openExternal("https://github.com/bainloko/SimpleKeys") },
                     },
                     {
-                        label: 'Sobre o SimpleKeys, Links de Ajuda',
+                        label: 'Sobre o SimpleKeys',
                         click(){ criarSobre(); },
                     },
                 ]
@@ -402,8 +484,8 @@ ipc.on('arquivo:editar', (e) => {
     criarEditarEntrada();
 });
 
-function apagar(){
-    dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada?', type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1}).then((resposta) => {
+function apagar(selecaoAtual){
+    dialog.showMessageBox(telaInicial, {message: 'Tem certeza que quer apagar Esta Entrada? ID: ' + selecaoAtual, type: 'question', buttons: ['Sim', 'Não'], defaultId: 1, cancelId: 1}).then((resposta) => {
         if (resposta.response == 0) {
             ipc.sendToRenderers('entrada:apagar');
         } else {
@@ -457,7 +539,7 @@ function criarSobre(){
         showAboutWindow({
             icon: __dirname + '../icon.ico',
             copyright: 'Copyright © 2022 Kauã Maia Cousillas',
-            text: 'Um gerenciador de senhas leve, versátil e seguro.\n\n𝘽𝙚𝙩𝙖 𝘼𝙗𝙚𝙧𝙩𝙤\n\nTestador Autorizado Durante o Beta Fechado: Lucas-Dutra-Pereira\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros. SimpleKeys foi inspirado em muitos outros 𝙨𝙤𝙛𝙩𝙬𝙖𝙧𝙚𝙨, mas que são muito complicados de usar ou que não têm ajuda para o Português!\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para k̲a̲u̲a̲.m̲a̲i̲a̲177@gm̲a̲i̲l̲.c̲o̲m̲, e no GitHub: @bainloko/SimpleKeys\n\nTrabalho de Conclusão de Curso de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé. Copyright (c) 2022 Kauã Maia Cousillas. Este s̲o̲f̲t̲w̲a̲r̲e̲ é livre, e poderá ser redistribuído sob os termos especificados no arquivo LICENSE.txt; também leia NOTICE.md para mais detalhes (em inglês)\n\n',
+            text: 'Um gerenciador de senhas leve, versátil e seguro.\n\n𝘽𝙚𝙩𝙖 𝘼𝙗𝙚𝙧𝙩𝙤\n\nTestador Autorizado Durante o Beta Fechado: Lucas-Dutra-Pereira\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros.\n\nSimpleKeys foi inspirado em muitos outros softwares, mas que são muito complicados de usar ou que não têm ajuda em Português!\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para\nk̲a̲u̲a̲.m̲a̲i̲a̲177@gm̲a̲i̲l̲.c̲o̲m̲, e no GitHub: @bainloko/SimpleKeys\n\nTrabalho de Conclusão de Curso de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé. Copyright (c) 2022 Kauã Maia Cousillas.\n\nEste s̲o̲f̲t̲w̲a̲r̲e̲ é livre, e poderá ser redistribuído sob os termos especificados no arquivo LICENSE.txt; também leia NOTICE.md para mais detalhes.\n\n',
             website: 'https://github.com/bainloko/SimpleKeys'
         });
     } catch (error){
@@ -501,7 +583,7 @@ ipc.on('mensagem:pesquisa:erro', (e) => {
 
 ipc.on('mensagem:edicao:sucesso', (e) => {
     dialog.showMessageBox(telaInicial, { message: "Entrada editada com sucesso!" });
-    store.set('selecaoAtual', 0);
+    store.delete("selecaoAtual");
     criarListaEntradas();
 });
 
@@ -558,6 +640,10 @@ ipc.on('mensagem:local:erro2', (e) => {
     dialog.showErrorBox("Erro!", "Selecione um Arquivo e/ou uma Chave para abrir clicando na pasta abaixo da senha!");
 });
 
+ipc.on('mensagem:senha:erro', (e) => {
+    dialog.showErrorBox("Erro!", "Digite a senha!");
+});
+
 ipc.on('mensagem:local:erro3', (e) => {
     dialog.showErrorBox("Erro!", "Selecione um Arquivo para abrir clicando na pasta abaixo da senha!");
 });
@@ -579,33 +665,28 @@ function erroAnalise(){
 }
 
 ipc.on('mensagem:analise:ppp', (e, m) => {
-    let msg = m;
-    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito fraca! Considere trocá-la imediatamente! Mensagens do zxcvbn, em inglês - " + msg }); }
+    if (m == ("" || [] || undefined)) { dialog.showMessageBox(telaInicial, { message: "Esta senha é muito fraca! Considere trocá-la imediatamente! Sem mensagens novas. (sk)" }); } else if (m == null) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito fraca! Considere trocá-la imediatamente!\nSugestões: " + m }); }
 });
 
 ipc.on('mensagem:analise:pp', (e, m) => {
-    let msg = m;
-    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é fraca! Considere trocá-la imediatamente! Mensagens do zxcvbn, em inglês - " + msg }); }
+    if (m == ("" || [] || undefined)) { dialog.showMessageBox(telaInicial, { message: "Esta senha é fraca! Considere trocá-la imediatamente! Sem mensagens novas. (sk)" }); } else if (m == null) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é fraca! Considere trocá-la imediatamente!\nSugestões: " + m }); }
 });
 
 ipc.on('mensagem:analise:r', (e, m) => {
-    let msg = m;
-    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é razoável! Considere trocá-la em no máximo 6 meses. Mensagens do zxcvbn, em inglês - " + msg }); }
+    if (m == ("" || [] || undefined)) { dialog.showMessageBox(telaInicial, { message: "Esta senha é razoável! Considere trocá-la em no máximo 6 meses. Sem mensagens novas. (sk)" }); } else if (m == null) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é razoável! Considere trocá-la em no máximo 6 meses.\nSugestões:" + m }); }
 });
 
 ipc.on('mensagem:analise:f', (e, m) => {
-    let msg = m;
-    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + msg }); }
+    if (m == ("" || [] || undefined)) { dialog.showMessageBox(telaInicial, { message: "Esta senha é forte! Troque-a quando julgar necessário. Sem mensagens novas. (sk)" }); } else if (m == null) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é forte! Troque-a quando julgar necessário.\nSugestões: " + m }); }
 });
 
 ipc.on('mensagem:analise:ff', (e, m) => {
-    let msg = m;
-    if (m == ("" || [])) {msg = "Sem mensagens novas. (sk)";} else if (m == (null || undefined)) { erroAnalise(); } else {
-    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito forte! Troque-a quando julgar necessário. Mensagens do zxcvbn, em inglês - " + msg }); }
+    if (m == ("" || [] || undefined)) { dialog.showMessageBox(telaInicial, { message: "Esta senha é muito forte! Troque-a quando julgar necessário. Sem mensagens novas. (sk)" }); } else if (m == null) { erroAnalise(); } else {
+    dialog.showMessageBox(telaInicial, { message: "Esta senha é muito forte! Troque-a quando julgar necessário.\nSugestões: " + m }); }
 });
 
 ipc.on('mensagem:analise:erro', (e) => {

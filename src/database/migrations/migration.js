@@ -36,8 +36,8 @@ module.exports = {
         expira: {
             type: Sequelize.INTEGER,
         },
-        grupoImg: Sequelize.BLOB,
-        grupoLista: Sequelize.TEXT
+        // grupoImg: Sequelize.BLOB,
+        // grupoLista: Sequelize.TEXT
       });
   },
 

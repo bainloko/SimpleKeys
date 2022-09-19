@@ -13,7 +13,7 @@ const Entradas = require('../../model/Entradas.js');
 
 const log = require('electron-log');
 
-async function cadastrarSeed(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+async function cadastrarSeed(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira){
     try {
         const resultadoSeed = await Entradas.create({
             nome: nomeEntradas,
@@ -35,7 +35,7 @@ async function cadastrarSeed(nomeEntradas, descEntradas, siteEntradas, loginEntr
     }
 }
 
-async function cadastrarEntrada(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+async function cadastrarEntrada(nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira){
     try {
         const entradaCadastro = await Entradas.create({
             nome: nomeEntradas,
@@ -108,9 +108,9 @@ async function pesquisarEntradas(pesquisa){
     }
 }
 
-async function editarEntrada(selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira, grupoImg, grupoLista){
+async function editarEntrada(selecaoAtual, nomeEntradas, descEntradas, siteEntradas, loginEntradas, senhaEntradas, expira){
     try {
-        await Entradas.findByPk(selecaoAtual).then((entrada) => {
+        await Entradas.findByPk(selecaoAtual).then( async (entrada) => {
             entrada.nome = nomeEntradas;
             entrada.descricao = descEntradas;
             entrada.site = siteEntradas;
@@ -118,11 +118,9 @@ async function editarEntrada(selecaoAtual, nomeEntradas, descEntradas, siteEntra
             entrada.senha = senhaEntradas;
             entrada.expira = expira;
             
-            entrada.save();
+            await entrada.save();
             log.info("Entrada editada com sucesso!");
             ipc.send('mensagem:edicao:sucesso');
-
-            return entrada;
         }).catch((error) => {
             log.error("Ocorreu um erro na edicao da Entrada, " + error + "!");
             ipc.send('mensagem:edicao:erro');
@@ -155,7 +153,7 @@ async function apagarEntrada(selecaoAtual){
 
 async function salvarBanco(){
     try {
-        await Entradas.sequelize.sync();
+        await Entradas.sync();
 
         log.info("Chaveiro salvo com sucesso!");
         ipc.send('mensagem:salvar:sucesso');

@@ -1,7 +1,7 @@
 # AVISOS E INFORMAÇÕES ÚTEIS / NOTICES AND INFORMATION
 
-POR: Este _software_ usa dependências de terceiros. Todos os direitos reservados. Veja as suas Licenças abaixo:
-ENG: This software uses dependencies from third parties. All rights Reserved. See their Licenses down below:
+POR: Este _software_ usa dependências de terceiros. Todos os direitos reservados. Por conta das dependências serem desenvolvidas em inglês, é convenção que os avisos e as Licenças não sejam traduzidas nem localizadas. Veja tais Licenças abaixo:
+ENG: This software uses dependencies from third parties. All rights reserved. Because dependencies are usually coded in English, it's convention that notices about, and Licenses of, aren't translated nor localized. See said Licenses down below:
 
 ---
 
@@ -578,7 +578,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Other Websites and Resources / Outros Sites e Recursos
+# Outros Sites e Recursos / Other Websites and Resources
 
 ## TeleportHQ
 

@@ -41,16 +41,6 @@ body {
   position: absolute;
   align-self: flex-start;
 }
-#imgCadeado {
-  width: 36px;
-  height: 44px;
-  left: var(--dl-space-space-sixunits);
-  bottom: -12px;
-  object-fit: cover;
-  position: absolute;
-  cursor: pointer;
-  display: none;
-}
 .listarEntradas-text2 {
   color: #000000;
   right: var(--dl-space-space-twounits);
@@ -61,9 +51,10 @@ body {
 #imgInfo {
   width: 36px;
   height: 36px;
-  right: 125px;
-  bottom: 30px;
+  left: var(--dl-space-space-sixunits);
+  bottom: -12px;
   position: absolute;
+  display: none;
 }
 .listarEntradas-container1 {
   flex: 0 auto;
@@ -147,7 +138,7 @@ td {
 }
 .listarEntradas-iconConfig {
   top: 50px;
-  left: 1163px;
+  left: 1110px;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
   position: absolute;
@@ -155,7 +146,7 @@ td {
 }
 .listarEntradas-iconSobre {
   top: 50px;
-  right: 1219px;
+  left: 1158px;
   width: var(--dl-size-size-small);
   height: var(--dl-size-size-small);
   position: absolute;

@@ -1,4 +1,8 @@
 language: node_js
 node_js:
   - 16
-os: windows
+addons:
+  sonarcloud:
+    organization: "bainloko"
+script:
+  - sonar-scanner
