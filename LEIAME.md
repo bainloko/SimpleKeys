@@ -20,7 +20,7 @@ _projetoPDF_
 
 # Futuras adições
 
-_import, export, translations, autotype, settings, backups and printing, *bug report template*_ implementar _key, expiration, sorting, change master password, groups, warn the user of duplicate entries, guides, notifications, tray, TOTP, time support, show last file location MENU, check for updates, phase Node out, helpfile slideshow_
+_import, export, translations, autotype, settings, backups and printing, *bug report template*_ implementar _key, expiration, sorting, change master password, groups, warn the user of duplicate entries, guides, autoclose, notifications, tray, TOTP, time support, show last file location MENU, check for updates, phase Node out, helpfile slideshow_
 
 # Projeto de Software
 
