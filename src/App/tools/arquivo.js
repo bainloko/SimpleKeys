@@ -90,11 +90,13 @@ async function pesquisarEntradas(pesquisa){
             where: {
                 [Op.or]: [
                     {id: pesquisa},
+                    {expira: pesquisa}
+                ],
+                [Op.substring]: [
                     {nome: pesquisa},
                     {descricao: pesquisa},
                     {site: pesquisa},
-                    {login: pesquisa},
-                    {expira: pesquisa}
+                    {login: pesquisa}
                 ]
             }
         });

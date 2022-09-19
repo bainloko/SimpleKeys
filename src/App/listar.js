@@ -15,14 +15,14 @@ const store = new Store();
 
 const log = require('electron-log');
 
-function listar(){
+async function listar(){
     try {
         let path = store.get("pathArquivo");
         let nomeArq = store.get("nomeArquivo");
         let descArq = store.get("descArquivo");
         let expiraArq = store.get("expiraArquivo");
         let chaveReserva = store.get("chaveReserva");
-        let senha = store.get("senhaArquivo");
+        let senha = localStorage.getItem('senha');
 
         return (conectar(path, nomeArq, descArq, expiraArq, chaveReserva, senha) != null) ? log.info("A conexao ao Banco de Dados foi estabelecida com sucesso!") : () => { log.error("Erro ao conectar ao Banco de Dados! Sera que a senha esta incorreta?"); ipc.send('mensagem:listagem:erro'); }
     } catch (error){
@@ -39,7 +39,7 @@ async function seed(){
     busca = await Arquivo.lerEntradas();
     if (busca.length == 0) {
         Arquivo.cadastrarSeed('Google', 'Exemplo', 'https://google.com', 'fulanodetal@gmail', '123456', 0, '', '');
-        log.info("Foi preciso SEED! Apos seedado com sucesso, o programa ira carregar normalmente.");
+        log.info("Foi preciso SEED! Apos seedado com sucesso, o App ira carregar normalmente.");
         busca = "";
     } else {
         log.info("Nao foi preciso SEED! Carregando normalmente...");
@@ -178,6 +178,7 @@ function verF(senha){
 ipc.on('entrada:apagar', async (e) => {
     selecaoAtual = store.get("selecaoAtual");
     await Arquivo.apagarEntrada(selecaoAtual);
+    store.delete("selecaoAtual");
 });
 
 ipc.on('repopular', (e) => {

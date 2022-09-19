@@ -33,10 +33,10 @@ function generate(size){
             (numbers.checked) ? n = numbersChr[randomInt((numbersChr.length))] : log.info("Numero NAO foi usado!");
             (symbols.checked) ? s = symbolsChr[randomInt((symbolsChr.length))] : log.info("Simbolo NAO foi usado!");
 
-            ((size > r.length)) ? r += l : r.slice(0, size - 2);
-            ((size > r.length)) ? r += u : r.slice(0, size - 2);
-            ((size > r.length)) ? r += n : r.slice(0, size - 2);
-            ((size > r.length)) ? r += s : r.slice(0, size - 2);
+            (size > r.length) ? r += l : r.slice(0, size - 2);
+            (size > r.length) ? r += u : r.slice(0, size - 2);
+            (size > r.length) ? r += n : r.slice(0, size - 2);
+            (size > r.length) ? r += s : r.slice(0, size - 2);
         }
     }
 

@@ -30,5 +30,5 @@ criarButton.addEventListener("click", () => {
     store.set("descArquivo", inputDescArq.value);
     store.set("expiraArquivo", expira.value);
     store.set("chaveReserva", chaveReserva.checked);
-    store.set("senhaArquivo", inpPassword.value);
+    localStorage.setItem('senha', senha);
 });

@@ -10,6 +10,9 @@ const { ipcMain: ipc } = require('electron-better-ipc');
 const contextMenu = require('electron-context-menu');
 const { showAboutWindow } = require('electron-util');
 
+const path = require('path');
+const fse = require('fs-extra');
+
 const Store = require('electron-store');
 const store = new Store();
 
@@ -21,7 +24,6 @@ if (!lock) {
     setTimeout(app.quit(), 5000);
 } else if (require('electron-squirrel-startup')) {
     const ChildProcess = require('child_process');
-    const path = require('path');
 
     const appFolder = path.resolve(process.execPath, '..');
     const rootAtomFolder = path.resolve(appFolder, '..');
@@ -41,19 +43,17 @@ if (!lock) {
       return spawn(updateDotExe, args);
     };
 
-    function handleStartupEvent(){
+    function handleStartupEvent(){ //manual elevation exe after build, THEN, setup
         let squirrelCommand = process.argv[1];
         switch (squirrelCommand) {
             case '--squirrel-install':
             case '--squirrel-updated':
-                spawnUpdate(['--createShortcut'], exeName);
-                //regKey requireelevation
+                spawnUpdate(['--createShortcut', exeName]);
 
                 setTimeout(app.quit(), 1000);
                 return true;
             case '--squirrel-uninstall':
-                spawnUpdate(['--removeShortcut'], exeName);
-                //regKey requireelevation
+                spawnUpdate(['--removeShortcut', exeName]);
 
                 setTimeout(app.quit(), 1000);
                 return true;
@@ -123,7 +123,7 @@ function criarTelaInicial(){
         ], showLearnSpelling: false, showLookUpSelection: false, showSearchWithGoogle: false, showCopyImage: false, showSaveImage: false
     });
 
-    telaInicial.loadFile('src/views/index.html');
+    telaInicial.loadFile('src/views/index.html', {"extraHeaders" : "pragma: no-cache\n"});
 
     telaInicial.on('ready-to-show', () => {
         telaInicial.show();
@@ -148,6 +148,8 @@ function fecharEInicial(){
 
 ipc.on('opcao:inicial', (e) => {
     fecharEInicial();
+    store.clear();
+    localStorage.clear();
 });
 
 function criarListaEntradas(){
@@ -315,7 +317,7 @@ function criarListaEntradas(){
         ]; const menu = Menu.buildFromTemplate(opcoesMenu);
 
         // Abre a tela
-        telaInicial.loadFile('src/views/listarEntradas.html');
+        telaInicial.loadFile('src/views/listarEntradas.html', {"extraHeaders" : "pragma: no-cache\n"});
 
         setTimeout(() => {
             // Insere o menu
@@ -329,7 +331,7 @@ function criarListaEntradas(){
 
 function criarNovoArquivo(){
     try {
-        telaInicial.loadFile('src/views/novoArquivo.html');
+        telaInicial.loadFile('src/views/novoArquivo.html', {"extraHeaders" : "pragma: no-cache\n"});
     } catch (error){
         log.error("Houve um erro no carregamento da tela novoArquivo, " + error);
         dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela novoArquivo, " + error);
@@ -383,7 +385,7 @@ function criarLerArquivo(){
             }
         });
 
-        lerArquivo.loadFile('src/views/lerArquivo.html');
+        lerArquivo.loadFile('src/views/lerArquivo.html', {"extraHeaders" : "pragma: no-cache\n"});
         
         lerArquivo.on('ready-to-show', () => {
             lerArquivo.show();
@@ -453,14 +455,14 @@ ipc.on('arquivo:ler:cancelar', (e) => {
     lerArquivo.close();
 });
 
-ipc.on('arquivo:ler', (e) => {
+ipc.on('arquivo:ler', (e, inpPassword) => {
     lerArquivo.close();
-    criarListaEntradas();
+    criarListaEntradas(inpPassword);
 });
 
 function cadastrarNovaEntrada(){
     try {
-        telaInicial.loadFile('src/views/novaEntrada.html');
+        telaInicial.loadFile('src/views/novaEntrada.html', {"extraHeaders" : "pragma: no-cache\n"});
     } catch (error){
         log.error("Houve um erro no carregamento da tela novaEntrada, " + error);
         dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela novaEntrada, " + error);
@@ -473,7 +475,7 @@ ipc.on('arquivo:nova', (e) => {
 
 function criarEditarEntrada(){
     try {
-        telaInicial.loadFile('src/views/editarEntrada.html');
+        telaInicial.loadFile('src/views/editarEntrada.html', {"extraHeaders" : "pragma: no-cache\n"});
     } catch (error){
         log.error("Houve um erro no carregamento da tela editarEntrada, " + error);
         dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela editarEntrada, " + error);
@@ -495,13 +497,13 @@ function apagar(selecaoAtual){
     });
 }
 
-ipc.on('arquivo:entrada:apagar', (e) => {
-    apagar();
+ipc.on('arquivo:entrada:apagar', (e, selecaoAtual) => {
+    apagar(selecaoAtual);
 });
 
 function criarGerador(){
     try {
-        telaInicial.loadFile('src/views/gerador.html');
+        telaInicial.loadFile('src/views/gerador.html', {"extraHeaders" : "pragma: no-cache\n"});
     } catch (error){
         log.error("Houve um erro no carregamento da tela gerador, " + error);
         dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela gerador, " + error);
@@ -514,7 +516,7 @@ ipc.on('arquivo:gerador', (e) => {
 
 function criarBackup(){
     try {
-        telaInicial.loadFile('src/views/backup.html');
+        telaInicial.loadFile('src/views/backup.html', {"extraHeaders" : "pragma: no-cache\n"});
     } catch (error){
         log.error("Houve um erro no carregamento da tela backup, " + error);
         dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela backup, " + error);
@@ -527,7 +529,7 @@ ipc.on('arquivo:backup', (e) => {
 
 function criarConfiguracoes(){
     try {
-        telaInicial.loadFile('src/views/configuracoes.html');
+        telaInicial.loadFile('src/views/configuracoes.html', {"extraHeaders" : "pragma: no-cache\n"});
     } catch (error){
         log.error("Houve um erro no carregamento da tela configuracoes, " + error);
         dialog.showErrorBox("Erro!", "Houve um erro no carregamento da tela configurações, " + error);
@@ -570,15 +572,15 @@ ipc.on('mensagem:entrada:sucesso', (e) => {
 });
 
 ipc.on('mensagem:entrada:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Ocorreu um erro no cadastro da nova Entrada, ");
+    dialog.showErrorBox("Erro!", "Ocorreu um erro no cadastro da nova Entrada!");
 });
 
 ipc.on('mensagem:leitura:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Ocorreu um erro na leitura das Entradas, ");
+    dialog.showErrorBox("Erro!", "Ocorreu um erro na leitura das Entradas!");
 });
 
 ipc.on('mensagem:pesquisa:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Ocorreu um erro na pesquisa das Entradas, ");
+    dialog.showErrorBox("Erro!", "Ocorreu um erro na pesquisa das Entradas!");
 });
 
 ipc.on('mensagem:edicao:sucesso', (e) => {
@@ -588,11 +590,11 @@ ipc.on('mensagem:edicao:sucesso', (e) => {
 });
 
 ipc.on('mensagem:edicao:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Ocorreu um erro na edição da Entrada, ");
+    dialog.showErrorBox("Erro!", "Ocorreu um erro na edição da Entrada!");
 });
 
 ipc.on('mensagem:apagar:sucesso', (e) => {
-    dialog.showMessageBox(telaInicial, { message: "Entrada apagada com sucesso, " });
+    dialog.showMessageBox(telaInicial, { message: "Entrada apagada com sucesso!" });
     ipc.sendToRenderers('repopular');
 });
 
@@ -605,7 +607,7 @@ ipc.on('mensagem:salvar:sucesso', (e) => {
 });
 
 ipc.on('mensagem:salvar:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Erro no salvamento do Chaveiro (Salvar|Senha incorreta?), ");
+    dialog.showErrorBox("Erro!", "A Senha Informada está errada!");
 });
 
 ipc.on('mensagem:fecharConexao:sucesso', (e) => {
@@ -613,7 +615,7 @@ ipc.on('mensagem:fecharConexao:sucesso', (e) => {
 });
 
 ipc.on('mensagem:fecharConexao:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Ocorreu um erro no fechamento do Chaveiro, ");
+    dialog.showErrorBox("Erro!", "Ocorreu um erro no fechamento do Chaveiro!");
 });
 
 ipc.on('mensagem:consulta:erro', (e) => {
@@ -621,7 +623,7 @@ ipc.on('mensagem:consulta:erro', (e) => {
 });
 
 ipc.on('mensagem:consulta:erro2', (e) => {
-    dialog.showErrorBox("Erro!", "Ocorreu um erro aqui! Talvez este Chaveiro ainda não exista, ");
+    dialog.showErrorBox("Erro!", "Ocorreu um erro aqui! Talvez este Chaveiro ainda não exista...");
 });
 
 ipc.on('mensagem:gerador:erro', (e) => {
@@ -629,7 +631,7 @@ ipc.on('mensagem:gerador:erro', (e) => {
 });
 
 ipc.on('mensagem:gerador:erro2', (e) => {
-    dialog.showErrorBox("Erro!", "Ocorreu um erro inesperado na geração das senhas, ");
+    dialog.showErrorBox("Erro!", "Ocorreu um erro inesperado na geração das senhas!");
 });
 
 ipc.on('mensagem:local:erro', (e) => {
@@ -657,7 +659,7 @@ ipc.on('mensagem:listagem:erro2', (e) => {
 });
 
 ipc.on('mensagem:copia:erro', (e) => {
-    dialog.showErrorBox("Erro!", "A cópia falhou! Tente novamente, ");
+    dialog.showErrorBox("Erro!", "A cópia falhou! Tente novamente!");
 });
 
 function erroAnalise(){
@@ -698,7 +700,7 @@ ipc.on('mensagem:conexao:erro', (e) => {
 });
 
 ipc.on('mensagem:banco:erro', (e) => {
-    dialog.showErrorBox("Erro!", "Erro ao criar um Chaveiro, ");
+    dialog.showErrorBox("Erro!", "Erro ao criar um Chaveiro!");
 });
 
 ipc.on('mensagem:paridade:erro', (e) => {
@@ -745,9 +747,9 @@ ipc.on('mensagem:selecao:pesqerr', (e) => {
     dialog.showErrorBox("Erro!", "Digite algum termo para realizar a pesquisa!");
 });
 
-ipc.on('error', (e) => {
-    dialog.showErrorBox("Erro!", "Erro Não Identificado " + e);
-    throw e;
+ipc.on('error', (e, error) => {
+    dialog.showErrorBox("Erro!", "Erro Não Identificado " + e + "\n" + error);
+    throw error;
 });
 
 app.on('ready', (e) => {
@@ -755,10 +757,16 @@ app.on('ready', (e) => {
 });
 
 app.on('window-all-closed', (e) => {
-    navigator.clipboard.write(' ');
-    log.info(navigator.clipboard.read());
-    store.clear();
+    try {
+        navigator.clipboard.write(' ');
+        store.clear();
+        fse.removeSync(app.getPath("userData"));
+        log.info("Fechado com sucesso!");
 
-    // Fecha o App
-    app.quit();
+        // Fecha o App
+        app.quit();
+    } catch (error){
+        dialog.showErrorBox("Erro!", "Erro ao Fechar o App! " + error);
+        throw error;
+    }
 });

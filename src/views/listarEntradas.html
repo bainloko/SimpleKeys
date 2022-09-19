@@ -59,7 +59,7 @@
           </span>
         </div>
         <div>
-          <table alt="Lista das Entradas">
+          <table>
             <span class="listarEntradas-container2">
               <tr id="textosTH">
                 <th>ID</th>
@@ -168,7 +168,7 @@
             ></path>
           </svg>
         </span>
-        <span class="listarEntradas-icon10" title="Apagar Entrada" onclick="if(selecaoAtual != (0 || null || undefined || [])){ipc.send('arquivo:entrada:apagar');}else{ipc.send('mensagem:selecao:aerr');}">
+        <span class="listarEntradas-icon10" title="Apagar Entrada" onclick="if(selecaoAtual != (0 || null || undefined || [])){ipc.send('arquivo:entrada:apagar', selecaoAtual);}else{ipc.send('mensagem:selecao:aerr');}">
           <svg viewBox="0 0 1024 1024" id="imgApagarEntradas">
             <path
               d="M810 170v86h-596v-86h148l44-42h212l44 42h148zM256 810v-512h512v512q0 34-26 60t-60 26h-340q-34 0-60-26t-26-60z"
@@ -212,8 +212,8 @@
       </article>
     </div>
     <script>
-      const $ = require('../App/tools/jquery-3.6.1.min.js');
-      
+      const $ = require("../App/tools/jquery-3.6.1.min.js");
+
       let frames = ["-", "\\", "|", "/", "-"], i = 0;
 
       window.timer = window.setInterval(function(){
@@ -226,16 +226,17 @@
         setTimeout(() => {
           seed().then(() => {
             popular();
+            window.clearInterval(window.timer);
+            legendaTxt.innerText = "";
             imgInfo.title = "Chaveiro em " + store.get("refArquivo");
             imgInfo.style = "display: block;";
-            window.clearInterval(window.timer);
             legendaTxt.innerText = "Disponível.";
             log.info("Populacao dos Dados feita com sucesso!");
           }).catch((error) => {
             log.error("Erro na Populacao dos Dados! " + error);
             ipc.send('mensagem:populacao:erro');
           });
-        }, 5000)
+        }, 2500)
       );
     </script>
   </body>

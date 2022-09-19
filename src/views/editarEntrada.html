@@ -41,17 +41,17 @@
   </head>
   <body>
     <div>
-      <link href="./editarEntrada.css" rel="stylesheet" />
+      <link rel="stylesheet" href="./editarEntrada.css" />
       <noscript>
         <h1>SimpleKeys</h1>
         <p lang="pt-BR">
           SimpleKeys é um gerenciador de senhas desenvolvido em JavaScript.
-          Por favor, instale ou ative o JavaScript para usar o programa.
+          Por favor, instale ou ative o JavaScript para usar o App.
         </p>
   
         <p lang="en">
           SimpleKeys is a password manager coded in JavaScript.
-          Please, install or enable JavaScript to run this software.
+          Please, install or enable JavaScript to run this App.
         </p>
       </noscript>
       <article class="editar-entrada-container">
@@ -134,8 +134,8 @@
                     class="editar-entrada-textinput4 input"
                     value=""
                 />
-                <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
-                <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
+                <img id="eye" alt="olhoFechado" src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" />
+                <img id="eyeShown" alt="olhoAberto" src="./public/playground_assets/openEyelid.png" width="26px" height="26px" />
                 <div id="password-strength" title="Esse é o marcador de segurança desta senha.">
                   <span></span>
                 </div>
@@ -152,8 +152,8 @@
                     class="editar-entrada-textinput4 input"
                     value=""
                 />
-                <i id="eye1"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
-                <i id="eye1Shown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
+                <img id="eye1" alt="olhoFechado" src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" />
+                <img id="eye1Shown" alt="olhoAberto" src="./public/playground_assets/openEyelid.png" width="26px" height="26px" />
                 <div class="password-feedback">
                   <span>
                     <svg viewBox="0 0 1024 1024" id="feedback" class="component-icon">
@@ -192,7 +192,7 @@
         </div>
       </article>
     </div>
-    <script src="../App/tools/strength.js"></script>
+    <script src="../App/tools/força.js"></script>
     <script>
       const $ = require('../App/tools/jquery-3.6.1.min.js');
 

@@ -580,6 +580,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Outros Sites e Recursos / Other Websites and Resources
 
+## SonarCloud
+
+https://sonarcloud.io
+
 ## TeleportHQ
 
 https://teleporthq.io

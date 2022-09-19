@@ -1,14 +1,13 @@
 # SimpleKeys (English)
 
-A lightweight, versatile, safe password manager.
-
-WIP!
+A (project of a) lightweight, versatile, safe password manager.
 
 ...
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=alert_status)](https://sonarcloud.io/dashboard?id=bainloko_SimpleKeys)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
 
 # Quick Start
@@ -21,7 +20,7 @@ _projetoPDF_
 
 # Feature Wishlist (For Future Additions)
 
-_import, export, translations, autotype, settings, backups and printing, *bug report template* implement key, expiration, iLike, sorting, change master password, groups, warn the user of duplicate entries, guides, *autolock without user, tray*, notifications, TOTP, time support, show last file location MENU, check for updates, phase Node out, helpfile slideshow_
+_import, export, translations, autotype, settings, backups and printing, *bug report template* implement key, expiration, sorting, change master password, groups, warn the user of duplicate entries, guides, autoclose, notifications, tray, TOTP, time support, show last file location MENU, check for updates, phase Node out, helpfile slideshow_
 
 # Project Schematics
 
@@ -51,7 +50,7 @@ Undergrad Final Project to the _Sul-rio-grandense_ Federal Institute of Technolo
 
 You guys rock!!!
 
-@journeyapps/sqlcipher, electron-better-ipc, electron-context-menu, electron-log, electron-squirrel-startup, electron-store, electron-util, fs-extra, sequelize, Node.js, zxcvbn, jQuery, cli-loading-animation, electron, electron-installer-windows, electron-packager, @doyensec/electronegativity, TeleportHQ - https://teleporthq.io, SonarCloud - https://sonarcloud.io, Travis-CI - https://travis-ci.com, Icons by Icons8 - https://icons8.com, Loading GIF and other Images by Giphy - https://giphy.com
+@journeyapps/sqlcipher, electron-better-ipc, electron-context-menu, electron-log, electron-squirrel-startup, electron-store, electron-util, fs-extra, sequelize, Node.js, zxcvbn, jQuery, cli-loading-animation, electron, electron-installer-windows, electron-packager, @doyensec/electronegativity, TeleportHQ - https://teleporthq.io, SonarCloud - https://sonarcloud.io, Icons by Icons8 - https://icons8.com, Loading GIF and other Images by Giphy - https://giphy.com
 
 # License
 

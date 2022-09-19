@@ -1,6 +1,6 @@
 /*
 * SimpleKeys
-* strength.js
+* força.js
 * 26/ago/2022
 */
 

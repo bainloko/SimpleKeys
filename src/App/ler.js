@@ -82,7 +82,7 @@ ipc.on('arquivo:ler:pathArquivo', (e, path) => {
 function setar(path, senha){
     if ((path && senha) != ("" || null || undefined || [])) {
         localChaveiroCheckbox.checked = true;
-        store.set("senhaArquivo", senha); //runasadminshortcutshashsignfullreview
+        localStorage.setItem('senha', senha);
     } else {
         ipc.send('mensagem:local:erro3');
     }

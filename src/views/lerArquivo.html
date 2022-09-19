@@ -56,10 +56,12 @@
             </span>
           </button>
           <img
+            alt="favicon"
             src="public/playground_assets/favicon-48x48-200h.png"
             class="ler-arquivo-image"
           />
           <img
+            alt="file"
             src="public/playground_assets/file-200h.png"
             class="ler-arquivo-image1"
           />
@@ -73,7 +75,7 @@
                 placeholder="..."
                 autocomplete="off"
                 class="ler-arquivo-textinput input"
-                onchange="store.set('senhaArquivo', inpPassword.value);"
+                onchange="localStorage.setItem('senha', inpPassword.value);"
               />
               <input 
                 id="localChaveiroCheckbox"
@@ -81,12 +83,13 @@
                 required
                 style="display: none;"
               />
-              <i id="eye"><img src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" /></i>
-              <i id="eyeShown"><img src="./public/playground_assets/openEyelid.png" width="26px" height="26px" /></i>
+              <img id="eye" alt="olhoFechado" src="./public/playground_assets/closedEyelid.png" width="26px" height="26px" />
+              <img id="eyeShown" alt="olhoAberto" src="./public/playground_assets/openEyelid.png" width="26px" height="26px" />
               <span class="ler-arquivo-text13">
                 Chave Reserva (se houver)&ensp;&ensp;&nbsp; --&gt;&ensp;
               </span>
               <img
+                alt="folderKey"
                 src="public/playground_assets/folder-200h.png"
                 class="ler-arquivo-image2"
                 onclick="ipc.send('arquivo:ler:chaveReserva');"
@@ -96,6 +99,7 @@
                 Selecionar outro arquivo&ensp;&ensp;&ensp;&ensp;&ensp; --&gt;&ensp;
               </span>
               <img
+                alt="folder"
                 src="public/playground_assets/folder-200h.png"
                 class="ler-arquivo-image3"
                 onclick="ipc.send('arquivo:ler:path');"

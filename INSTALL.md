@@ -1,3 +1,3 @@
 # Baixar e Instalar o SimpleKeys / Download and Install SimpleKeys
-POR: Baixe o SimpleKeys na seção _Releases_ e aguarde. O programa se instalará automaticamente e criará um atalho na Área de Trabalho do Usuário. Para qualquer dúvida, consulte a seção SOBRE. SimpleKeys é compatível com Windows e Linux (wine).
+POR: Baixe o SimpleKeys na seção _Releases_ e aguarde. O App se instalará automaticamente e criará um atalho na Área de Trabalho do Usuário. Para qualquer dúvida, consulte a seção SOBRE. SimpleKeys é compatível com Windows e Linux (wine).
 ENG: Download SimpleKeys on _Releases_ and wait. The software will install itself automatically and will create a shortcut on your Desktop. If you have any questions, go to the ABOUT section. SimpleKeys is compatible with Windows and Linux (wine).
