@@ -455,9 +455,9 @@ ipc.on('arquivo:ler:cancelar', (e) => {
     lerArquivo.close();
 });
 
-ipc.on('arquivo:ler', (e, inpPassword) => {
+ipc.on('arquivo:ler', (e) => {
     lerArquivo.close();
-    criarListaEntradas(inpPassword);
+    criarListaEntradas();
 });
 
 function cadastrarNovaEntrada(){
