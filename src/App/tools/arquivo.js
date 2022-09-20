@@ -90,9 +90,7 @@ async function pesquisarEntradas(pesquisa){
             where: {
                 [Op.or]: [
                     {id: pesquisa},
-                    {expira: pesquisa}
-                ],
-                [Op.substring]: [
+                    {expira: pesquisa},
                     {nome: pesquisa},
                     {descricao: pesquisa},
                     {site: pesquisa},

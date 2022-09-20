@@ -47,8 +47,12 @@ if (!lock) {
         let squirrelCommand = process.argv[1];
         switch (squirrelCommand) {
             case '--squirrel-install':
-            case '--squirrel-updated':
                 spawnUpdate(['--createShortcut', exeName]);
+
+                setTimeout(app.quit(), 1000);
+                return true;
+            case '--squirrel-updated':
+                /* update? */
 
                 setTimeout(app.quit(), 1000);
                 return true;
@@ -451,8 +455,8 @@ ipc.on('arquivo:ler:cancelar', (e) => {
 });
 
 ipc.on('arquivo:ler', (e) => {
-    lerArquivo.close();
     criarListaEntradas();
+    lerArquivo.close();
 });
 
 function cadastrarNovaEntrada(){

@@ -7,7 +7,7 @@
   "scripts": {
     "test": "npx electron .",
     "build": "npx electron-packager . --platform=win32 --arch=x64 --icon icon.ico --out out/ --overwrite --win32metadata.ProductName='SimpleKeys' --win32metadata.requested-execution-level='requireAdministrator'",
-    "setup": "npx electron-installer-windows --src out/SimpleKeys-win32-x64/ --dest out/installer"
+    "setup": "npx electron-installer-windows --src out/SimpleKeys-win32-x64/ --dest out/installer --animation animation.gif --icon icon.ico --iconNuget icon.png --noMsi true --remoteReleases https://github.com/bainloko/SimpleKeys/releases/latest --certificateFile cert.pfx --certificatePassword ..."
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   ],
   "author": "Kauã Maia Cousillas",
   "license": "BSD-3-Clause-Clear",
-  "copyright": "Copyright (c) 2022 Kauã Maia Cousillas.",
+  "copyright": "Copyright (c) 2022 Kauã Maia Cousillas",
   "bugs": {
     "url": "https://github.com/bainloko/SimpleKeys/issues",
     "email": "kaua.maia177@gmail.com"
