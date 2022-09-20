@@ -54,4 +54,4 @@ You guys rock!!!
 
 # License
 
-Copyright (c) 2022 Kauã Maia Cousillas. This is free software and may be redistributed under the terms specified in the LICENSE![](./LICENSE.txt); also see the NOTICE![](./NOTICE.md) for more details.
+Copyright (c) 2022 Kauã Maia Cousillas. This is free software and may be redistributed under the terms specified in the ![LICENSE](./LICENSE); also see the ![NOTICE](./NOTICE.md) for more details.

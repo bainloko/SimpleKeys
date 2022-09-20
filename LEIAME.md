@@ -1,4 +1,4 @@
-# SimpleKeys (Portuguese)
+# SimpleKeys
 
 Um (projeto de) gerenciador de senhas leve, versátil e seguro.
 
@@ -54,4 +54,4 @@ Vocês são fera!!!
 
 # Licença
 
-Copyright (c) 2022 Kauã Maia Cousillas. Este _software_ é livre, e poderá ser redistribuído sob os termos especificados ![aqui](./LICENSE.txt); também leia ![NOTICE.md](./NOTICE.md) para mais detalhes.
+Copyright (c) 2022 Kauã Maia Cousillas. Este _software_ é livre, e poderá ser redistribuído sob os termos especificados ![aqui](./LICENSE); também leia ![NOTICE.md](./NOTICE.md) para mais detalhes.

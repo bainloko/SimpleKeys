@@ -43,7 +43,7 @@ if (!lock) {
       return spawn(updateDotExe, args);
     };
 
-    function handleStartupEvent(){ //manual elevation exe after build, THEN, setup
+    function handleStartupEvent(){
         let squirrelCommand = process.argv[1];
         switch (squirrelCommand) {
             case '--squirrel-install':
@@ -117,9 +117,6 @@ function criarTelaInicial(){
                 role: "selectAll",
                 label: "Selecionar Tudo",
             },
-            // {
-            //     role: "toggleDevTools",
-            // },
         ], showLearnSpelling: false, showLookUpSelection: false, showSearchWithGoogle: false, showCopyImage: false, showSaveImage: false
     });
 
@@ -148,8 +145,6 @@ function fecharEInicial(){
 
 ipc.on('opcao:inicial', (e) => {
     fecharEInicial();
-    store.clear();
-    localStorage.clear();
 });
 
 function criarListaEntradas(){
@@ -171,7 +166,7 @@ function criarListaEntradas(){
                     },
                     {
                         label: 'Alterar Senha Mestra',
-                        click(){ dialog.showErrorBox("Erro!", "Funcionalidade Futura! Desculpe!"); /* limpar área de transferência + Wizard ipc.send('opcao:alterarSenha') criptografar banco ipc.send('opcao:inicial'); */ },
+                        click(){ dialog.showErrorBox("Erro!", "Alterar a Senha Mestra é uma Funcionalidade Futura! Desculpe!"); /* limpar área de transferência + Wizard ipc.send('opcao:alterarSenha') criptografar banco ipc.send('opcao:inicial'); */ },
                     },
                     // { //FUNCIONALIDADE FUTURA
                     //     label: 'Importar',
@@ -201,11 +196,11 @@ function criarListaEntradas(){
                 submenu: [
                     {
                         label: 'Copiar Login',
-                        click(){ dialog.showErrorBox("Erro!", "Trancar pelo Menu de Contexto é uma Funcionalidade Futura! Clique na Identidade para copiar o Login por enquanto!"); },
+                        click(){ dialog.showErrorBox("Erro!", "Copiar pelo Menu de Contexto é uma Funcionalidade Futura! Clique na Identidade para copiar o Login por enquanto!"); },
                     },
                     {
                         label: 'Copiar Senha',
-                        click(){ dialog.showErrorBox("Erro!", "Trancar pelo Menu de Contexto é uma Funcionalidade Futura! Clique na Chave para copiar a Senha por enquanto!"); },
+                        click(){ dialog.showErrorBox("Erro!", "Copiar pelo Menu de Contexto é uma Funcionalidade Futura! Clique na Chave para copiar a Senha por enquanto!"); },
                     },
                     // { //FUNCIONALIDADE FUTURA
                     //     label: 'Copiar Campos',

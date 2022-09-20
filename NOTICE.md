@@ -1,7 +1,7 @@
 # AVISOS E INFORMAÇÕES ÚTEIS / NOTICES AND INFORMATION
 
 POR: Este _software_ usa dependências de terceiros. Todos os direitos reservados. Por conta das dependências serem desenvolvidas em inglês, é convenção que os avisos e as Licenças não sejam traduzidas nem localizadas. Veja tais Licenças abaixo:
-ENG: This software uses dependencies from third parties. All rights reserved. Because dependencies are usually coded in English, it's convention that notices about, and Licenses of, aren't translated nor localized. See said Licenses down below:
+ENG: This software uses dependencies from third parties. All rights reserved. Because dependencies are usually coded in English, it's convention that notices about, and Licenses of, aren't translated or localized. See said Licenses down below:
 
 ---
 
