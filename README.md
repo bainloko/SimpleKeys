@@ -40,7 +40,7 @@ All code and logic behind them are proprietary, except when explicitly mentioned
 
 SimpleKeys was inspired on many other softwares, but that are too difficult to set-up and use, or don't have any support in Portuguese!
 
-To see usage logs from SimpleKeys, head to "%AppData%/simplekeys/logs" on Windows and "~/.config/simplekeys/logs/" on Linux.
+To see usage logs from SimpleKeys, head to _%AppData%/simplekeys/logs_ on Windows and _~/.config/simplekeys/logs/_ on Linux.
 
 In case of bugs or questions, send an e-mail to kaua.maia177@gmail.com
 
@@ -54,4 +54,4 @@ You guys rock!!!
 
 # License
 
-Copyright (c) 2022 Kauã Maia Cousillas. This is free software and may be redistributed under the terms specified in the ![LICENSE](./LICENSE); also see the ![NOTICE](./NOTICE.md) for more details.
+Copyright (c) 2022 Kauã Maia Cousillas. This is free software and may be redistributed under the terms specified in the <a href="./LICENSE">License;</a> also see the <a href="./NOTICE.md">Notice</a> for more details.

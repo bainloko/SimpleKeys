@@ -40,7 +40,7 @@ Todos os códigos e lógica são proprietários, exceto em menções explícitas
 
 SimpleKeys foi inspirado em muitos outros softwares, mas que são muito complicados de usar ou que não têm ajuda em Português!
 
-Para ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.
+Para ver o histórico de uso do SimpleKeys, veja os registros na pasta _%AppData%/simplekeys/logs_ no Windows e _~/.config/simplekeys/logs_ no Linux.
 
 Em caso de _bugs_ ou dúvidas, envie um e-mail para kaua.maia177@gmail.com
 
@@ -54,4 +54,4 @@ Vocês são fera!!!
 
 # Licença
 
-Copyright (c) 2022 Kauã Maia Cousillas. Este _software_ é livre, e poderá ser redistribuído sob os termos especificados ![aqui](./LICENSE); também leia ![NOTICE.md](./NOTICE.md) para mais detalhes.
+Copyright (c) 2022 Kauã Maia Cousillas. Este _software_ é livre, e poderá ser redistribuído sob os termos especificados na <a href="./LICENSE">Licença;</a> também leia os <a href="./NOTICE.md">avisos</a> para mais detalhes.

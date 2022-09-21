@@ -46,15 +46,16 @@ if (!lock) {
     function handleStartupEvent(){
         let squirrelCommand = process.argv[1];
         switch (squirrelCommand) {
-            case '--squirrel-install':
+            case '--squirrel-firstrun':
                 spawnUpdate(['--createShortcut', exeName]);
 
-                setTimeout(app.quit(), 1000);
                 return true;
-            case '--squirrel-updated':
-                /* update? */
+            case '--squirrel-install':
+                log.info("Instalado com sucesso!");
+                case '--squirrel-updated':
+                    spawnUpdate(['--createShortcut', exeName]);
 
-                setTimeout(app.quit(), 1000);
+                    setTimeout(app.quit(), 1000);
                 return true;
             case '--squirrel-uninstall':
                 spawnUpdate(['--removeShortcut', exeName]);
@@ -540,7 +541,7 @@ function criarSobre(){
         showAboutWindow({
             icon: __dirname + '../icon.ico',
             copyright: 'Copyright © 2022 Kauã Maia Cousillas',
-            text: 'Um gerenciador de senhas leve, versátil e seguro.\n\n𝘽𝙚𝙩𝙖 𝘼𝙗𝙚𝙧𝙩𝙤\n\nTestador Autorizado Durante o Beta Fechado: Lucas-Dutra-Pereira\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros.\n\nSimpleKeys foi inspirado em muitos outros softwares, mas que são muito complicados de usar ou que não têm ajuda em Português!\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para\nk̲a̲u̲a̲.m̲a̲i̲a̲177@gm̲a̲i̲l̲.c̲o̲m̲, e no GitHub: @bainloko/SimpleKeys\n\nTrabalho de Conclusão de Curso de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé. Copyright (c) 2022 Kauã Maia Cousillas.\n\nEste s̲o̲f̲t̲w̲a̲r̲e̲ é livre, e poderá ser redistribuído sob os termos especificados no arquivo LICENSE.txt; também leia NOTICE.md para mais detalhes.\n\n',
+            text: 'Um gerenciador de senhas leve, versátil e seguro.\n\n𝘽𝙚𝙩𝙖 𝘼𝙗𝙚𝙧𝙩𝙤\n\nTestador Autorizado Durante o Beta Fechado: Lucas-Dutra-Pereira\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros.\n\nSimpleKeys foi inspirado em muitos outros softwares, mas que são muito complicados de usar ou que não têm ajuda em Português!\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para\nkaua.maia177@gmail.com, e no GitHub: @bainloko/SimpleKeys\n\nTrabalho de Conclusão de Curso de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé. Copyright (c) 2022 Kauã Maia Cousillas\n\nEste software é livre, e poderá ser redistribuído sob os termos especificados no arquivo LICENSE; também leia NOTICE.md para mais detalhes.\n\n',
             website: 'https://github.com/bainloko/SimpleKeys'
         });
     } catch (error){
