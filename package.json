@@ -38,7 +38,7 @@
     "electron-store": "^8.1.0",
     "electron-util": "^0.17.2",
     "fs-extra": "^10.1.0",
-    "sequelize": "^6.21.6"
+    "sequelize": "^6.28.2"
   },
   "devDependencies": {
     "cli-loading-animation": "^1.0.6",
