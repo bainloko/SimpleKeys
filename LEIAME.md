@@ -34,7 +34,7 @@ Ajuda, links e instruções: _other file_
 
 _Beta Aberto_
 
-Testador Autorizado Durante o Beta Fechado: Lucas-Dutra-Pereira
+Testador Autorizado Durante o Beta Fechado: Lucas Dutra Pereira
 
 Todos os códigos e lógica são proprietários, exceto em menções explícitas a outros.
 

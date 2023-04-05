@@ -34,7 +34,7 @@ Help, links and instructions: _other file_
 
 _Open Beta_
 
-Authorized Closed Beta Tester: Lucas-Dutra-Pereira
+Authorized Closed Beta Tester: Lucas Dutra Pereira
 
 All code and logic behind them are proprietary, except when explicitly mentioned otherwise.
 

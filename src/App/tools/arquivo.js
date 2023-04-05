@@ -169,6 +169,7 @@ async function salvarBanco(){
 
 async function fecharConexao(){
     try {
+        await Entradas.sync();
         await Entradas.sequelize.close();
 
         log.info("Chaveiro fechado com sucesso!");

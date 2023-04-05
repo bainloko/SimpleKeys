@@ -22,61 +22,66 @@ const lock = app.requestSingleInstanceLock();
 if (!lock) {
     dialog.showErrorBox("Erro!", "O App já está aberto!");
     setTimeout(app.quit(), 5000);
-} else if (require('electron-squirrel-startup')) {
-    const ChildProcess = require('child_process');
+} else {
+    require('electron-squirrel-startup');
+    
+    module.exports = {
+        handleSquirrelEvent: function(){
+            if (process.argv.length === 1){
+                return false;
+            }
 
-    const appFolder = path.resolve(process.execPath, '..');
-    const rootAtomFolder = path.resolve(appFolder, '..');
-    const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
-    const exeName = path.basename(process.execPath);
-    const spawn = function(command, args) {
-      let spawnedProcess, error;
+            const ChildProcess = require('child_process');
+            const appFolder = path.resolve(process.execPath, '..');
+            const rootAtomFolder = path.resolve(appFolder, '..');
+            const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
+            const exeName = path.basename(process.execPath);
+            const spawn = function(command, args) {
+                let spawnedProcess, error;
+          
+                try {
+                  spawnedProcess = ChildProcess.spawn(command, args, {detached: true});
+                } catch (error) {}
+          
+                return spawnedProcess;
+              };
 
-      try {
-        spawnedProcess = ChildProcess.spawn(command, args, {detached: true});
-      } catch (error) {}
+            const spawnUpdate = function(args) {
+            return spawn(updateDotExe, args);
+            };
 
-      return spawnedProcess;
-    };
-
-    const spawnUpdate = function(args) {
-      return spawn(updateDotExe, args);
-    };
-
-    function handleStartupEvent(){
-        let squirrelCommand = process.argv[1];
-        switch (squirrelCommand) {
-            case '--squirrel-firstrun':
-                spawnUpdate(['--createShortcut', exeName]);
-
-                return true;
-            case '--squirrel-install':
-                log.info("Instalado com sucesso!");
-                case '--squirrel-updated':
+            const squirrelEvent = process.argv[1];
+            switch (squirrelEvent) {
+                case '--squirrel-firstrun':
                     spawnUpdate(['--createShortcut', exeName]);
-
+    
+                    return true;
+                case '--squirrel-install':
+                    log.info("Instalado com sucesso!");
+                    case '--squirrel-updated':
+                        spawnUpdate(['--createShortcut', exeName]);
+    
+                        setTimeout(app.quit(), 1000);
+                    return true;
+                case '--squirrel-uninstall':
+                    spawnUpdate(['--removeShortcut', exeName]);
+    
                     setTimeout(app.quit(), 1000);
-                return true;
-            case '--squirrel-uninstall':
-                spawnUpdate(['--removeShortcut', exeName]);
-
-                setTimeout(app.quit(), 1000);
-                return true;
-            case '--squirrel-obsolete':
-                /* update? */
-
-                setTimeout(app.quit(), 1000);
-                return true;
-            default:
-                log.error("Comando inválido!");
-
-                setTimeout(app.quit(), 1000);
-                return false; 
+                    return true;
+                case '--squirrel-obsolete':
+                    /* update? */
+    
+                    setTimeout(app.quit(), 1000);
+                    return true;
+                default:
+                    log.error("Error!");
+    
+                    setTimeout(app.quit(), 1000);
+                    return false; 
+            }
         }
     }
 
-    if (handleStartupEvent()) return;
-} else {
     log.info("Aplicativo inicializando!");
 }
 
@@ -541,7 +546,7 @@ function criarSobre(){
         showAboutWindow({
             icon: __dirname + '../icon.ico',
             copyright: 'Copyright © 2022 Kauã Maia Cousillas',
-            text: 'Um gerenciador de senhas leve, versátil e seguro.\n\n𝘽𝙚𝙩𝙖 𝘼𝙗𝙚𝙧𝙩𝙤\n\nTestador Autorizado Durante o Beta Fechado: Lucas-Dutra-Pereira\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros.\n\nSimpleKeys foi inspirado em muitos outros softwares, mas que são muito complicados de usar ou que não têm ajuda em Português!\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para\nkaua.maia177@gmail.com, e no GitHub: @bainloko/SimpleKeys\n\nTrabalho de Conclusão de Curso de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé. Copyright (c) 2022 Kauã Maia Cousillas\n\nEste software é livre, e poderá ser redistribuído sob os termos especificados no arquivo LICENSE; também leia NOTICE.md para mais detalhes.\n\n',
+            text: 'Um gerenciador de senhas leve, versátil e seguro.\n\n𝘽𝙚𝙩𝙖 𝘼𝙗𝙚𝙧𝙩𝙤\n\nTestador Autorizado Durante o Beta Fechado: Lucas Dutra Pereira\n\nTodos os códigos e lógica são proprietários, exceto em menções explícitas a outros.\n\nSimpleKeys foi inspirado em muitos outros softwares, mas que são muito complicados de usar ou que não têm ajuda em Português!\n\nPara ver o histórico de uso do SimpleKeys, veja os registros na pasta "%AppData%/simplekeys/logs" no Windows e "~/.config/simplekeys/logs/" no Linux.\n\nEm caso de 𝙗𝙪𝙜𝙨 ou dúvidas, envie um e-mail para\nkaua.maia177@gmail.com, e no GitHub: @bainloko/SimpleKeys\n\nTrabalho de Conclusão de Curso de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense 𝘾𝙖𝙢𝙥𝙪𝙨 Bagé. Copyright (c) 2022 Kauã Maia Cousillas\n\nEste software é livre, e poderá ser redistribuído sob os termos especificados no arquivo LICENSE; também leia NOTICE.md para mais detalhes.\n\n',
             website: 'https://github.com/bainloko/SimpleKeys'
         });
     } catch (error){
