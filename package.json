@@ -1,7 +1,7 @@
 {
   "name": "simplekeys",
   "productName": "SimpleKeys",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Um gerenciador de senhas leve, versátil e seguro.",
   "main": "src/main.js",
   "scripts": {
