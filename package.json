@@ -7,7 +7,7 @@
   "scripts": {
     "TEST": "npx electron .",
     "BUILD": "npx electron-packager ./ SimpleKeys --overwrite --platform=win32 --arch=x64 --icon=icon.ico --prune=true --out=out/ --version-string.ProductName='SimpleKeys' --win32metadata.requested-execution-level='requireAdministrator'",
-    "SETUP": "npx electron-installer-windows --src=out/SimpleKeys-win32-x64/ --dest=out/installer --animation=animation.gif --icon=icon.ico --iconNuget=icon.png --noMsi=false --remoteReleases=https://github.com/bainloko/SimpleKeys/releases/latest"
+    "SETUP": "npx electron-installer-windows --src=out/SimpleKeys-win32-x64/ --dest=out/installer --animation=animation.gif --icon=icon.ico --iconNuget=icon.png --noMsi=false --remoteReleases=https://github.com/bainloko/SimpleKeys"
   },
   "commentScripts": {
     "comment": "If desired, one can sign one's final executable program appending this code to the SETUP script: '--certificateFile cert.pfx --certificatePassword ...'"
