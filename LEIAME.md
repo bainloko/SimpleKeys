@@ -42,7 +42,7 @@ SimpleKeys foi inspirado em muitos outros softwares, mas que são muito complica
 
 Para ver o histórico de uso do SimpleKeys, veja os registros na pasta _%AppData%/simplekeys/logs_ no Windows e _~/.config/simplekeys/logs_ no Linux.
 
-Em caso de _bugs_ ou dúvidas, envie um e-mail para kaua.maia177@gmail.com
+Em caso de _bugs_ ou dúvidas, envie um e-mail para dev.timid509@passmail.net
 
 Trabalho de Conclusão de Curso de Kauã Maia Cousillas para o Instituto Federal Sul-rio-grandense _Campus_ Bagé
 
