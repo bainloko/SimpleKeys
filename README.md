@@ -42,7 +42,7 @@ SimpleKeys was inspired on many other softwares, but that are too difficult to s
 
 To see usage logs from SimpleKeys, head to _%AppData%/simplekeys/logs_ on Windows and _~/.config/simplekeys/logs/_ on Linux.
 
-In case of bugs or questions, send an e-mail to kaua.maia177@gmail.com
+In case of bugs or questions, send an e-mail to dev.timid509@passmail.net
 
 Undergrad Final Project to the _Sul-rio-grandense_ Federal Institute of Technology _Campus_ Bagé
 
