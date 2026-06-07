@@ -33,20 +33,20 @@
   },
   "homepage": "https://github.com/bainloko/SimpleKeys#readme",
   "dependencies": {
-    "@journeyapps/sqlcipher": "^5.3.1",
+    "@journeyapps/sqlcipher": "^6.0.0",
     "electron-better-ipc": "^2.0.1",
-    "electron-context-menu": "^3.5.0",
-    "electron-log": "^4.4.8",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^8.1.0",
-    "electron-util": "^0.17.2",
-    "fs-extra": "^10.1.0",
+    "electron-context-menu": "^4.1.2",
+    "electron-log": "^5.4.4",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^11.0.2",
+    "electron-util": "^1.0.0",
+    "fs-extra": "^11.3.5",
     "sequelize": "^6.37.8"
   },
   "devDependencies": {
     "cli-loading-animation": "^1.0.6",
-    "electron": "^39.8.5",
+    "electron": "^42.3.3",
     "electron-installer-windows": "^3.0.0",
-    "electron-packager": "^16.0.0"
+    "electron-packager": "^17.1.2"
   }
 }
