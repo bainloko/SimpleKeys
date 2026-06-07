@@ -4,7 +4,7 @@
   <!--
         * SimpleKeys
         * lerArquivo.html
-        * 29/ago/2022
+        * 29/ago/2022, 7/jun/2026
   -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -75,7 +75,6 @@
                 placeholder="..."
                 autocomplete="off"
                 class="ler-arquivo-textinput input"
-                onchange="localStorage.setItem('senha', inpPassword.value);"
               />
               <input 
                 id="localChaveiroCheckbox"
@@ -105,7 +104,7 @@
                 onclick="ipc.send('arquivo:ler:path');"
               />
             </div>
-            <button type="submit" id="okButton" class="ler-arquivo-o-k button" onclick="((localChaveiro.innerText && inpPassword.value) != ('' || null || undefined || [])) ? ipc.send('arquivo:ler') : () => ((localChaveiro.innerText != ('' || null || undefined || []))) ? ipc.send('mensagem:local:erro3') : ipc.send('mensagem:senha:erro');">OK</button>
+            <button type="submit" id="okButton" class="ler-arquivo-o-k button" onclick="(localChaveiro.innerText && inpPassword.value) ? ipc.send('arquivo:ler') : () => (localChaveiro.innerText) ? ipc.send('mensagem:local:erro3') : ipc.send('mensagem:senha:erro');">OK</button>
             <button type="button" class="ler-arquivo-cancelar button" onclick="ipc.send('arquivo:ler:cancelar');">
               <span>
                 <span>Cancelar</span>

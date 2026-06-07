@@ -1,7 +1,7 @@
 /*
 * SimpleKeys
 * ler.js
-* 07/set/2022
+* 07/set/2022, 7/jun/2026
 */
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
@@ -55,7 +55,7 @@ const localChaveiroCheckbox = document.getElementById("localChaveiroCheckbox");
 ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
     let chavePath = path.toString().replace("[\\]", "&#92;");
 
-    if (chavePath != ("" || null || undefined || [])) {
+    if (chavePath) {
         store.set("pathChaveReserva", chavePath);
         localChave.innerText = chavePath;
         localChave.title = chavePath;
@@ -67,7 +67,7 @@ ipc.on('arquivo:ler:receiveChaveReserva', (e, path) => {
 ipc.on('arquivo:ler:pathArquivo', (e, path) => {
     let lerPath = path.toString().replace("[\\]", "&#92;");
 
-    if (lerPath != ("" || null || undefined || [])) {
+    if (lerPath) {
         store.set("pathArquivo", lerPath);
         store.set("nomeArquivo", lerPath.slice(0, (lerPath.length - 3)).substring((lerPath.lastIndexOf("\\") + 1)));
         store.set("refArquivo", lerPath);
@@ -79,10 +79,19 @@ ipc.on('arquivo:ler:pathArquivo', (e, path) => {
     }
 });
 
-function setar(path, senha){
-    if ((path && senha) != ("" || null || undefined || [])) {
+let sessionMasterPassword = null;
+
+async function setar(path, senha){
+    if (path && senha) {
         localChaveiroCheckbox.checked = true;
-        localStorage.setItem('senha', senha);
+
+        try {
+            await ipc.callMain('database:unlock', { path: path, password: senha });
+            sessionMasterPassword = senha;
+            passwordInput.value = '';
+        } catch (error) {
+            log.error("Falha ao criar banco de dados seguro: ", error);
+        }
     } else {
         ipc.send('mensagem:local:erro3');
     }
@@ -92,5 +101,5 @@ okButton.addEventListener("click", () => {
     let lerPath = store.get("pathArquivo");
     let senha = passwordInput.value;
 
-    (lerPath != ("" || null || undefined || [])) ? setar(lerPath, senha) : ipc.send('mensagem:local:erro3');
+    (lerPath) ? setar(lerPath, senha) : ipc.send('mensagem:local:erro3');
 });

@@ -1,7 +1,7 @@
 /*
 * SimpleKeys
 * criar.js
-* 07/set/2022
+* 07/set/2022, 7/jun/2026
 */
 
 const { ipcRenderer: ipc } = require('electron-better-ipc');
@@ -25,10 +25,20 @@ ipc.on('arquivo:novo:pathArquivo', (e, path) => {
 
 const criarButton = document.getElementById("criarButton");
 
-criarButton.addEventListener("click", () => {
+criarButton.addEventListener("click", async () => {
     store.set("nomeArquivo", inputNomeArq.value);
     store.set("descArquivo", inputDescArq.value);
     store.set("expiraArquivo", expira.value);
     store.set("chaveReserva", chaveReserva.checked);
-    localStorage.setItem('senha', inpPassword.value);
+    const masterPassword = inpPassword.value;
+
+    try {
+        await ipc.callMain('database:create', {
+            password: masterPassword,
+        });
+
+        inpPassword.value = '';
+    } catch (error) {
+        log.error("Falha ao criar banco de dados seguro: ", error);
+    }
 });
