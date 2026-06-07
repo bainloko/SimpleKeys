@@ -4,12 +4,6 @@ A (sketch of a) lightweight, versatile, safe password manager.
 
 ...
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=alert_status)](https://sonarcloud.io/dashboard?id=bainloko_SimpleKeys)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=bainloko_SimpleKeys&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=bainloko_SimpleKeys)
-
 # Quick Start
 
 _guiaDeUso_
