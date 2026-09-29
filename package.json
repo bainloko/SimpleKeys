@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "cli-loading-animation": "^1.0.6",
-    "electron": "^42.3.3",
+    "electron": "^42.10.0",
     "electron-installer-windows": "^3.0.0",
     "electron-packager": "^17.1.2"
   }
